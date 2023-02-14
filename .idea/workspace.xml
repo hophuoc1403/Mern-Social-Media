@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1676361038" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1676361037" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LiijnBuKCoKfKnrNriJBTasIUg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="" />
+      <created>1676360442294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676360442294</updated>
+      <workItem from="1676360443955" duration="254000" />
+      <workItem from="1676360751407" duration="453000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/client/src/state/index.js" />
+        <option value="$PROJECT_DIR$/client/src/theme.js" />
+        <option value="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" />
+        <option value="$PROJECT_DIR$/client/src/App.js" />
+        <option value="$PROJECT_DIR$/client/src/components/FlexBetween.jsx" />
+        <option value="$PROJECT_DIR$/client/src/components/Friend.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/navbar/index.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/profilePage/index.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/loginPage/index.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.jsx" />
+        <option value="$PROJECT_DIR$/client/src/scenes/homePage/index.jsx" />
+        <option value="$PROJECT_DIR$/client/src/components/UserImage.jsx" />
+        <option value="$PROJECT_DIR$/client/src/index.js" />
+        <option value="$PROJECT_DIR$/client/src/components/WidgetWrapper.jsx" />
+      </list>
+    </option>
+  </component>
+</project>
