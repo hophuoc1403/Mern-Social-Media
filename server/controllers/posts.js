@@ -1,5 +1,7 @@
 import Post from "../models/Post.js"
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
+import user from "../models/User.js";
 
 // Create
 
@@ -39,7 +41,24 @@ export const getFreePosts = async (req, res) => {
     const pagination =await apiPagination(pageNumber,limit)
 
     let posts = await Post.find({}).skip(pagination.offset).limit(limit).exec()
-    res.status(200).json({posts,pagination})
+     let comment =await Comment.find({}).exec()
+
+    let postWithComment = posts.map((post) =>{
+      const currentComment = comment.filter(cmt => {
+      if(cmt.postId === post.id) {
+        console.log("trung")
+      }
+       return  cmt.postId === post.id
+      })
+      console.log({currentComment})
+      // post.comment = currentComment.map(cmt => {
+      //   return {message : cmt.message,userId:cmt.userId}
+      // })
+
+      let newPost = {...post._doc,comment:currentComment}
+      return newPost
+    })
+    res.status(200).json({posts:postWithComment,pagination})
   } catch (e) {
     res.status(408).json({error: e.message})
   }
@@ -83,14 +102,21 @@ export const likePost = async (req, res) => {
   }
 }
 
+// export
+
 export const addComment = async (req, res) => {
   try {
     const {id} = req.params
-    const {comment, save} = await Post.findById(id)
-    const {userId, content} = req.body
-    comment.push({userId, content})
-    await save()
-    res.status(200).json({message: "updated success"})
+    const {message} = req.body
+   let userId = req.userId
+    const commentAdded = new Comment({
+      message,
+      userId,
+      postId:id,
+      commentRoot:req.body.commentRoot ? req.body.commentRoot : null
+    })
+    await commentAdded.save()
+    res.status(200).json({message: "added success"})
   } catch (e) {
     res.status(408).json({error: e.message})
   }
@@ -98,12 +124,10 @@ export const addComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
   try {
-    const {id, postId} = req.params
-    const currentPost = await Post.findById(postId)
-    const {content} = res.body
-    let currentComment = currentPost.comment.filter(comment => comment.id === id)[0]
-    currentComment.content = content
-    await currentComment.save()
+    const {id} = req.params
+    const {message} = req.body
+   const currentComment = await  Comment.findByIdAndUpdate(id,{message},{returnDocument:"after"})
+    return res.json({message:"updated success",currentComment})
   } catch (e) {
     res.status(408).json({error: e.message})
   }

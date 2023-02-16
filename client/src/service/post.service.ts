@@ -7,6 +7,7 @@ export const sendPost = async (post: FormData) => {
 
 export const getFreePosts = async (page: number) => {
   const {data} = await getMethodAPI(`/posts?page=${page}&limit=5`)
+  console.log(data)
   return data
 }
 
@@ -27,5 +28,10 @@ export const deletePost = async (id: string) => {
 
 export const updatePost = async (id: string, data: FormData) => {
   const response = await patchMethod(`/posts/${id}`, data, true)
+  return response
+}
+
+export const addComment = async ({postId,message,commentRoot}:{postId:string,message:string,commentRoot?:string}) => {
+  const response = await postMethodAPI(`/posts/${postId}/comment`,{message,commentRoot})
   return response
 }

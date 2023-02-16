@@ -1,6 +1,6 @@
 import {Box, Button, Divider, IconButton, InputBase, Typography, useMediaQuery, useTheme} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../App";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {sendPost} from "../../service/post.service";
 import {setPosts} from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -74,6 +74,7 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
     }
   }
 
+
   return <WidgetWrapper>
     <FlexBetween gap={"1.5rem"}>
       <UserImage image={picturePath} size={30}/>
@@ -106,7 +107,7 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
                 {!image ? (
                   <p>Add image here</p>
                 ) : (<FlexBetween>
-                  <Typography>
+                  <Typography >
                     {image.name}
                     <EditOutlined/>
                   </Typography>

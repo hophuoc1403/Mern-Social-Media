@@ -22,6 +22,6 @@ interface IPost {
   picturePath:string,
   userPicturePath:string,
   likes: { [key: string]: boolean }
-  comment:string[],
+  comment:any[],
   createdAt:string
 }

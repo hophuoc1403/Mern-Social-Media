@@ -2,7 +2,7 @@ import {useDispatch} from "react-redux";
 import {useAppDispatch, useAppSelector} from "../../App";
 import {getFreePosts, getUserPosts} from "../../service/post.service";
 import {setPosts} from "../../state";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import PostWidget from "./PostWidget";
 import {useScroll} from "../../hooks/useScroll";
 import InfiniteScroll from "react-infinite-scroll-component"
@@ -16,28 +16,16 @@ interface PostWidgetProps {
 const PostsWidget = ({isProfile = false, userId}: PostWidgetProps) => {
   const dispatch = useAppDispatch()
   const posts = useAppSelector(state => state.posts)
-  const {data, error, status, hasNextPage, fetchNextPage, characters,refetch} = useScroll()
+  const { status, hasNextPage, fetchNextPage, characters,refetch} = useScroll()
+  const [currentPage,setCurrentPage] = useState<number>(1)
 
-  console.log({characters})
+  // const handleGetFreePost =async () => {
+  //   try{
+  //     const response = await getFreePosts(currentPage)
+  //
+  //   }
+  // }
 
-  useEffect(()=>{
-    // console.log(characters)
-    // dispatch(setPosts({posts:characters.posts}))
-    // refetch()
-  },[posts])
-  const handleGetPosts = async () => {
-    try {
-      // const response = await getFreePosts()
-      // const posts: IPost[] = response.data.posts
-
-      // console.log(response)
-      // dispatch(setPosts({posts: characters.posts}))
-    await  refetch()
-      console.log(refetch())
-    } catch (e) {
-      console.error(e)
-    }
-  }
   const handleGetUserPosts = async () => {
     try {
       const response = await getUserPosts(userId)
@@ -50,17 +38,17 @@ const PostsWidget = ({isProfile = false, userId}: PostWidgetProps) => {
   }
 
   useEffect(() => {
-    if (isProfile) {
-      handleGetUserPosts()
-    } else {
-      handleGetPosts()
-    }
-  }, [data])
+    console.log("change")
+        if(characters){
+          dispatch(setPosts({posts:characters.posts}))
+        }
+  }, [characters])
 
+  console.log({posts})
   return <>
-    <PostWidget  {...posts[0]} />
     <InfiniteScroll
        next={async () => {
+         setCurrentPage(prevState => prevState+1)
          setTimeout(_ => fetchNextPage(), 1500)
        }} hasMore={!!hasNextPage} loader={"loading"}  endMessage={
       <p style={{ textAlign: "center" }}>
@@ -68,7 +56,7 @@ const PostsWidget = ({isProfile = false, userId}: PostWidgetProps) => {
       </p>
     }
                     dataLength={characters ? characters.posts.length-1 : 0}>
-      {status == "success" && characters.posts.map((post: IPost) => (<PostWidget key={post._id} {...post}/>))}
+      {status == "success" && posts.map((post: IPost) => (<PostWidget key={post._id} {...post}/>))}
     </InfiniteScroll>
   </>
 }

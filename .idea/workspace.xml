@@ -4,13 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="" />
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="add modal post">
+      <change afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/Comment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/@types/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/@types/type.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/FlexBetween.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserImage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/WidgetWrapper.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/post.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/state/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/state/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/state/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/posts.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
     <option name="recentBranches">
       <RecentBranches>
         <option name="branchesForRepo">
@@ -67,34 +106,42 @@
       <updated>1676360442294</updated>
       <workItem from="1676360443955" duration="254000" />
       <workItem from="1676360751407" duration="453000" />
-      <workItem from="1676361264565" duration="338000" />
+      <workItem from="1676361264565" duration="921000" />
+      <workItem from="1676362228677" duration="7966000" />
+      <workItem from="1676383343403" duration="277000" />
+      <workItem from="1676392918183" duration="4940000" />
+      <workItem from="1676432175560" duration="4650000" />
+      <workItem from="1676439771499" duration="4666000" />
+      <workItem from="1676446796604" duration="9036000" />
+      <workItem from="1676467905995" duration="3931000" />
+      <workItem from="1676478264805" duration="897000" />
     </task>
+    <task id="LOCAL-00001" summary="add modal post">
+      <created>1676361930107</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676361930107</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/client/src/state/index.js" />
-        <option value="$PROJECT_DIR$/client/src/theme.js" />
-        <option value="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" />
-        <option value="$PROJECT_DIR$/client/src/App.js" />
-        <option value="$PROJECT_DIR$/client/src/components/FlexBetween.jsx" />
-        <option value="$PROJECT_DIR$/client/src/components/Friend.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/navbar/index.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/profilePage/index.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/loginPage/index.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.jsx" />
-        <option value="$PROJECT_DIR$/client/src/scenes/homePage/index.jsx" />
-        <option value="$PROJECT_DIR$/client/src/components/UserImage.jsx" />
-        <option value="$PROJECT_DIR$/client/src/index.js" />
-        <option value="$PROJECT_DIR$/client/src/components/WidgetWrapper.jsx" />
-      </list>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add modal post" />
+    <option name="LAST_COMMIT_MESSAGE" value="add modal post" />
   </component>
 </project>

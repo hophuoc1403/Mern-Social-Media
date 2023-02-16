@@ -35,7 +35,6 @@ export const authSlice = createSlice({
       state.mode = state.mode === "light" ? "dark" : "light"
     },
     setLogin: (state, action) => {
-      console.log(action.payload)
       state.user = {...action.payload.user};
       state.token = action.payload.token
     },
@@ -51,7 +50,7 @@ export const authSlice = createSlice({
       }
     },
     setPosts: (state, action: { payload: { posts: IPost[] } }) => {
-      state.posts = action.payload.posts.reverse()
+      state.posts = action.payload.posts
     },
     setPost: (state, action: { payload: { post_id: string, post: IPost } }) => {
       const updatedPost = state.posts.map(post => {

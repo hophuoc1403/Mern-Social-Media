@@ -40,7 +40,7 @@ const FriendListWidget = () => {
       const res = await addOrRemoveFriend(userId, friendId)
       const friends = res.data
       dispatch(setFriends({friends}))
-      await setTimeout((_) => {
+       setTimeout((_) => {
         toast.update(id, {
           render: "remove friend successfully",
           type: toast.TYPE.SUCCESS,
@@ -56,11 +56,11 @@ const FriendListWidget = () => {
 
   return <WidgetWrapper>
     {friends.map(friend => (
-      <FlexBetween>
+      <FlexBetween sx={{marginBottom:"10px"}}>
         <FlexBetween sx={{}}>
-          <UserImage image={`${friend.picturePath}`} size={55}/>
-          <Typography>
-            {friend.firstName + friend.lastName}
+          <UserImage image={`${friend.picturePath}`} size={55} />
+          <Typography sx={{marginLeft:"10px"}}>
+            {friend.firstName + ' ' + friend.lastName}
           </Typography>
         </FlexBetween>
         <IconButton sx={{cursor: "pointer"}} onClick={()=>removeFriend(friend._id)}>

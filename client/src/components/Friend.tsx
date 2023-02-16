@@ -65,7 +65,7 @@ const Friend = ({postId, friendId, userPicturePath, subtitle, name,description,p
       const friends: IUser[] = response.data
       // @ts-ignore
       const isFriend = friends.find(friend => friend._id === friendId)
-      await setTimeout((_) => {
+       setTimeout((_) => {
         toast.update(id, {
           render: isFriend ? "add friend successfully" : "remove friend successfully",
           type: toast.TYPE.SUCCESS,
@@ -87,7 +87,7 @@ const Friend = ({postId, friendId, userPicturePath, subtitle, name,description,p
       const response = await deletePost(postId)
       // const posts:IPost[] = response.data
       dispatch(setPosts({posts: response.data}))
-      await setTimeout((_) => {
+       setTimeout((_) => {
         toast.update(id, {
           render: "remove post successfully",
           type: toast.TYPE.SUCCESS,

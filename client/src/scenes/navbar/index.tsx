@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../App";
 import {light} from "@mui/material/styles/createPalette";
 import {setLogout, setMode} from "../../state";
+import UserImage from "../../components/UserImage";
 
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false)
@@ -68,18 +69,22 @@ const NavbarPage = () => {
       <Notifications sx={{fontSize: "25px"}}/>
       <Help sx={{fontSize: "25px"}}/>
       <FormControl variant={"standard"}>
-        <Select value={fullName} sx={{
-          backgroundColor: neutralLight, width: "150px", borderRadius: ".25rem", p: ".25rem .1rem",
-          "& .MuiSvgIcon-root": {
-            backgroundColor: neutralLight
-          }
-        }}
-                input={<InputBase/>}>
-          <MenuItem value={fullName}>
-            <Typography>{fullName}</Typography>
-          </MenuItem>
-          <MenuItem onClick={() => dispatch(setLogout())}>Logout</MenuItem>
-        </Select>
+        <FlexBetween>
+          <UserImage image={user.user.picturePath} size={45} />
+          <Select value={fullName} sx={{
+            backgroundColor: neutralLight, width: "150px", borderRadius: ".25rem", p: ".25rem .1rem",
+            "& .MuiSvgIcon-root": {
+              backgroundColor: neutralLight
+            },
+            marginLeft:"5px"
+          }}
+                  input={<InputBase/>}>
+            <MenuItem value={fullName}>
+              <Typography>{fullName}</Typography>
+            </MenuItem>
+            <MenuItem onClick={() => dispatch(setLogout())}>Logout</MenuItem>
+          </Select>
+        </FlexBetween>
       </FormControl>
     </FlexBetween> : <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}><Menu/></IconButton>}
 

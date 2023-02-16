@@ -14,7 +14,7 @@ export const useScroll = (userId: string = "") => {
     ,
     {
       getNextPageParam: (lastPage: any) => {
-        console.log(lastPage.pagination)
+        // console.log(lastPage.pagination)
         return lastPage.pagination.hasNextPage ? +lastPage.pagination.currentPage + 1 : false
       }
     }
@@ -34,7 +34,9 @@ export const useScroll = (userId: string = "") => {
   // }
   // )
 
-  const characters = useMemo(() => data?.pages.reduce((prev, page) => {
+  let characters = []
+
+   characters = useMemo(() => data?.pages.reduce((prev, page) => {
     return {
       info: page.pagination,
       posts: [...prev.posts, ...page.posts.reverse()]
