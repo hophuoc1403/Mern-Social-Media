@@ -13,7 +13,7 @@ router.get("/:userId/posts",verifyToken,getUserPosts)
 router.delete("/:id",verifyToken,deletePost)
 router.patch("/:id/like",verifyToken,likePost)
 
-// router.get("/:id/comment",verifyToken,)
+router.get("/:id/comment",verifyToken,)
 router.post("/:id/comment",verifyToken,addComment)
 router.patch("/:id/comment",verifyToken,editComment)
 

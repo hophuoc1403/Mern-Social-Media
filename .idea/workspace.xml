@@ -4,42 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="add modal post">
-      <change afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/models/Comment.js" afterDir="false" />
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="add feature">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/jsconfig.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/@types/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/@types/type.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/FlexBetween.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserImage.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/WidgetWrapper.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/index.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/AdvertWidget.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/post.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/state/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/state/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/state/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/posts.js" afterDir="false" />
     </list>
@@ -115,6 +90,12 @@
       <workItem from="1676446796604" duration="9036000" />
       <workItem from="1676467905995" duration="3931000" />
       <workItem from="1676478264805" duration="897000" />
+      <workItem from="1676527087686" duration="721000" />
+      <workItem from="1676529771023" duration="54000" />
+      <workItem from="1676529918593" duration="1344000" />
+      <workItem from="1676555143545" duration="10083000" />
+      <workItem from="1676616054567" duration="957000" />
+      <workItem from="1676623928139" duration="854000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>
@@ -123,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676361930107</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add feature">
+      <created>1676527442081</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676527442081</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +130,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add modal post" />
-    <option name="LAST_COMMIT_MESSAGE" value="add modal post" />
+    <MESSAGE value="add feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="add feature" />
   </component>
 </project>

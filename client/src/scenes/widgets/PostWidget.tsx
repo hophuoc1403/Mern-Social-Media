@@ -2,7 +2,7 @@ import {Box, Divider, IconButton, Typography, useTheme} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../App";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {deletePost, likePost} from "../../service/post.service";
 import {setPost} from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -23,17 +23,21 @@ const PostWidget = ({
                       userId: postUserId,
                       likes,
                       description,
-                      comment,
+                      comment:postComment,
                       createdAt
                     }: IPost) => {
 
   const [isComment, setIsComment] = useState<boolean>(false)
   const userName = firstName + " " + lastName
-
+const [comment,setComment] = useState<any>(postComment)
   const dispatch = useDispatch()
   const loggedInUserId: string = useAppSelector(state => state.user._id)
   const isLiked = loggedInUserId ? Boolean(likes[loggedInUserId] !== undefined ? likes[loggedInUserId] : null) : false
   const likeCount = Object.keys(likes).length
+
+  useEffect(()=>{
+    setComment(postComment)
+  },[postComment])
 
   const {palette} = useTheme()
   // @ts-ignore
@@ -51,11 +55,9 @@ const PostWidget = ({
   }
 
   const commentLevel: any = useMemo(() => {
-    return comment.filter(cmt => cmt.commentRoot)
+    return comment ?  comment.filter((cmt:any) => cmt.commentRoot) : []
   }, [comment])
 
-  // @ts-ignore
-  // @ts-ignore
   return <WidgetWrapper mt={"2rem"}>
     <Friend postId={postId} description={description} postPicturePath={picturePath} friendId={postUserId}
             name={userName} subtitle={createdAt} userPicturePath={userPicturePath}/>
@@ -100,10 +102,10 @@ const PostWidget = ({
 
     {isComment &&
         <>
-            <InputReply postId={postId}/>
-          {comment && comment.map((comment: any) => {
+            <InputReply setComments={setComment} postId={postId}/>
+          {comment && comment.map((comment: any,index:number) => {
               if (!comment.commentRoot) {
-                return <Comment commentLevel={commentLevel} key={comment._id} comment={comment}/>
+                return <Comment setComments={setComment} commentLevel={commentLevel} key={index} comment={comment}/>
               }
             }
           )}

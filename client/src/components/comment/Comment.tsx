@@ -4,7 +4,14 @@ import {getUser} from "../../service/user.service";
 import UserImage from "../UserImage";
 import InputReply from "./InputReply";
 
-const Comment = ({comment, commentLevel}: { comment: any, commentLevel?: any }) => {
+interface IComment {
+  comment: any,
+  commentLevel?: any
+
+  setComments?: any
+}
+
+const Comment = ({comment, commentLevel, setComments}: IComment) => {
   const [user, setUser] = useState<IUser>({
     _id: "",
     firstName: "",
@@ -19,6 +26,10 @@ const Comment = ({comment, commentLevel}: { comment: any, commentLevel?: any }) 
   })
   const [isReply, setIsReply] = useState<boolean>(false)
   const [userReply, setUserReply] = useState<string>(user._id)
+  const [commentLevels, setCommentLevels] = useState<any>(() => {
+    const cmt =commentLevel && commentLevel.filter((cmt: any) => cmt.commentRoot === comment._id)
+    return cmt ? cmt : []
+  })
 
 
   const {palette} = useTheme()
@@ -32,9 +43,10 @@ const Comment = ({comment, commentLevel}: { comment: any, commentLevel?: any }) 
   }, [])
 
 
+
   return (<Box mt={"0.5rem"}>
 
-    <Box key={comment._id}  pl={!commentLevel ? "50px" : undefined}>
+    <Box key={comment._id} pl={!commentLevel ? "50px" : undefined} my={2}>
       <Box display={"flex"} justifyContent={"left"}>
         <UserImage image={user.picturePath} size={50}/>
         <Paper sx={{borderTopLeftRadius: "50px", px: "20px"}}>
@@ -45,7 +57,7 @@ const Comment = ({comment, commentLevel}: { comment: any, commentLevel?: any }) 
           <Typography sx={{m: "0.1rem 0", pl: "1rem"}}>
             {comment.message}
           </Typography>
-          {!comment.commentRoot && <Box display={"flex"} justifyContent={"left"} alignItems={"center"}>
+          {commentLevel && <Box display={"flex"} justifyContent={"left"} alignItems={"center"}>
               <Button sx={{fontSize: "0.7rem"}}>
                   Like
               </Button>
@@ -60,8 +72,12 @@ const Comment = ({comment, commentLevel}: { comment: any, commentLevel?: any }) 
         </Paper>
       </Box>
       {isReply && <>
-          <InputReply commentRoot={comment._id} userReplyId={userReply} userReply={user} postId={comment.postId}/>
-        {commentLevel.map((comment: any) => <Comment comment={comment}/>)}
+          <InputReply setCommentLevel={setCommentLevels} commentRoot={comment._id} userReplyId={userReply}
+                      userReply={user} postId={comment.postId}/>
+        {commentLevels.map((cmt: any) => {
+          return <Comment key={cmt._id} comment={cmt}/>
+
+        })}
       </>}
     </Box>
     <Divider/>

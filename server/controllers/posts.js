@@ -8,7 +8,6 @@ import user from "../models/User.js";
 export const createPosts = async (req, res) => {
   try {
     const {userId, description, picturePath} = req.body
-    console.log(req.body)
 
     const user = await User.findById(userId)
     const newPost = new Post({
@@ -46,11 +45,9 @@ export const getFreePosts = async (req, res) => {
     let postWithComment = posts.map((post) =>{
       const currentComment = comment.filter(cmt => {
       if(cmt.postId === post.id) {
-        console.log("trung")
       }
        return  cmt.postId === post.id
       })
-      console.log({currentComment})
       // post.comment = currentComment.map(cmt => {
       //   return {message : cmt.message,userId:cmt.userId}
       // })
@@ -102,7 +99,16 @@ export const likePost = async (req, res) => {
   }
 }
 
-// export
+export const getComment = async (req,res) => {
+  try{
+    const {id} = req.params
+    const comment = Comment.find({postId:id})
+    res.status(200).json(comment)
+  }
+  catch (e) {
+    res.status(408).json({error: e.message})
+  }
+}
 
 export const addComment = async (req, res) => {
   try {
@@ -146,7 +152,6 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
-    console.log(req.body)
     const {id} = req.params
     const {description} = req.body
     if (req.body.picturePath === undefined) {

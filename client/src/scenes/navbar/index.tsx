@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem
 } from "@mui/material";
-import {Search, Notifications, Help, Message, Menu, DarkMode, LightMode, Close} from "@mui/icons-material";
+import {Search, Notifications, Help, Message, DarkMode, LightMode, Close} from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween"
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -17,7 +17,7 @@ import {useAppDispatch, useAppSelector} from "../../App";
 import {light} from "@mui/material/styles/createPalette";
 import {setLogout, setMode} from "../../state";
 import UserImage from "../../components/UserImage";
-
+import Menu from '@mui/material/Menu';
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -25,6 +25,7 @@ const NavbarPage = () => {
   const user = useAppSelector(state => state)
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)")
   const theme = useTheme()
+  const [isOpenAccountMenu,setIsOpenAccountMenu] = useState<null | HTMLElement>(null)
 
   // @ts-ignore
   const neutralLight = theme.palette.neutral.light
@@ -71,22 +72,25 @@ const NavbarPage = () => {
       <FormControl variant={"standard"}>
         <FlexBetween>
           <UserImage image={user.user.picturePath} size={45} />
-          <Select value={fullName} sx={{
+          <Typography onClick={(e)=>setIsOpenAccountMenu(e.currentTarget)}>
+            {user.user.firstName + " " + user.user.lastName}
+          </Typography>
+          <Menu anchorEl={isOpenAccountMenu} open={isOpenAccountMenu ? true : false} onClose={()=>setIsOpenAccountMenu(null)} sx={{
             backgroundColor: neutralLight, width: "150px", borderRadius: ".25rem", p: ".25rem .1rem",
             "& .MuiSvgIcon-root": {
               backgroundColor: neutralLight
             },
             marginLeft:"5px"
           }}
-                  input={<InputBase/>}>
+          >
             <MenuItem value={fullName}>
               <Typography>{fullName}</Typography>
             </MenuItem>
             <MenuItem onClick={() => dispatch(setLogout())}>Logout</MenuItem>
-          </Select>
+          </Menu>
         </FlexBetween>
       </FormControl>
-    </FlexBetween> : <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}><Menu/></IconButton>}
+    </FlexBetween> : <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}></IconButton>}
 
 
     {/*Mobile Nav*/}

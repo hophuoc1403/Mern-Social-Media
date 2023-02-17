@@ -8,31 +8,43 @@ interface IInputReply {
   userReply?: IUser,
   postId: string,
   commentRoot?: string
-  userReplyId?: string
+  userReplyId?: string,
+
+  setComments?: any
+  setCommentLevel?: any
 }
 
-const InputReply = ({userReply, postId, userReplyId, commentRoot}: IInputReply) => {
+const InputReply = ({userReply, postId, userReplyId, commentRoot, setComments, setCommentLevel}: IInputReply) => {
 
   const {user} = useAppSelector(state => state)
+
 
   const handleSendComment = async (e: any) => {
     let dataSend: any = {
       postId,
       message: e.target.value,
     }
-
-    if (commentRoot) {
+    if (userReplyId) {
+      console.log({reply:e.target.value})
       dataSend.commentRoot = commentRoot
+      setCommentLevel((prevState: any) => ([{
+        postId,
+        userId: user._id,
+        message: e.target.value,
+        commentRoot
+      }, ...prevState]))
+    } else {
+      setComments((prev: any) => ([{postId, userId: user._id, message: e.target.value}, ...prev]))
     }
 
     e.target.value = ""
 
     const response = await addComment(dataSend)
-    console.log(response)
   }
 
+
   return <>
-    {userReplyId === userReply?._id &&
+    {userReplyId === userReply?._id ?
         <FlexBetween sx={{marginTop: "10px", marginLeft: userReply ? "50px" : undefined}} alignItems={"flex-start"}>
             <UserImage image={user.picturePath} size={50}/>
             <TextField autoFocus sx={{width: "92%", height: "1em !important", marginTop: "-25px", marginLeft: "10px"}}
@@ -42,7 +54,7 @@ const InputReply = ({userReply, postId, userReplyId, commentRoot}: IInputReply) 
                 handleSendComment(e)
               }
             }}/>
-        </FlexBetween>}
+        </FlexBetween> : null}
   </>
 }
 
