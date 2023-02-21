@@ -10,7 +10,7 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  mode: "light",
+  mode: "dark",
   user: {
     _id:"1",
     lastName:"admin",
@@ -31,6 +31,11 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setUSer:(state,action) =>{
+      state.user = {...state.user,...action.payload.user,friends:state.user.friends}
+      // console.log(sta);
+      
+    },
     setMode: state => {
       state.mode = state.mode === "light" ? "dark" : "light"
     },
@@ -52,6 +57,9 @@ export const authSlice = createSlice({
     setPosts: (state, action: { payload: { posts: IPost[] } }) => {
       state.posts = action.payload.posts
     },
+    setAvatar:(state, action:{payload:{avatar:string}}) => {
+        state.user.picturePath = action.payload.avatar
+    },
     setPost: (state, action: { payload: { post_id: string, post: IPost } }) => {
       const updatedPost = state.posts.map(post => {
         if (post._id === action.payload.post_id) {
@@ -65,7 +73,7 @@ export const authSlice = createSlice({
   }
 })
 
-export const {setMode, setLogin, setLogout, setPosts, setPost, setFriends}
+export const {setMode, setLogin, setLogout, setPosts, setPost, setFriends,setAvatar,setUSer}
   = authSlice.actions
 
 export default authSlice.reducer

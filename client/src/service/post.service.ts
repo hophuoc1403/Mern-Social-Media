@@ -1,4 +1,4 @@
-import {deleteMethodAPI, getMethodAPI, patchMethod, postMethodAPI} from "./base.service";
+import { deleteMethodAPI, getMethodAPI, patchMethod, postMethodAPI } from "./base.service";
 
 export const sendPost = async (post: FormData) => {
   const response = await postMethodAPI("/posts", post, true)
@@ -6,18 +6,17 @@ export const sendPost = async (post: FormData) => {
 }
 
 export const getFreePosts = async (page: number) => {
-  const {data} = await getMethodAPI(`/posts?page=${page}&limit=5`)
-  console.log(data)
+  const { data } = await getMethodAPI(`/posts?page=${page}&limit=5`)
   return data
 }
 
-export const getUserPosts = async (id: string) => {
-  const response = await getMethodAPI(`/posts/${id}/posts`)
-  return response
+export const getUserPosts = async (id: string, page: number) => {
+  const { data } = await getMethodAPI(`/posts/${id}/posts?page=${page}&limit=5`)
+  return data
 }
 
 export const likePost = async (id: string, userId: string) => {
-  const response = await patchMethod(`/posts/${id}/like`, {userId})
+  const response = await patchMethod(`/posts/${id}/like`, { userId })
   return response
 }
 
@@ -31,7 +30,13 @@ export const updatePost = async (id: string, data: FormData) => {
   return response
 }
 
-export const addComment = async ({postId,message,commentRoot}:{postId:string,message:string,commentRoot?:string}) => {
-  const response = await postMethodAPI(`/posts/${postId}/comment`,{message,commentRoot})
+export const addComment = async ({ postId, message, commentRoot }: { postId: string, message: string, commentRoot?: string }) => {
+  const response = await postMethodAPI(`/posts/${postId}/comment`, { message, commentRoot })
+  return response
+}
+
+export const getNotifications = async ({userId}:{userId:string}) => {
+  const response = await getMethodAPI(`/posts/${userId}/notifications`)
+
   return response
 }

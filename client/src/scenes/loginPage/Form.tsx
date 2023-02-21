@@ -78,7 +78,7 @@ const Form = () => {
         localStorage.setItem("accessToken",savedLoginResponse.data.token)
         localStorage.setItem("refreshToken",savedLoginResponse.data.refreshToken)
         navigate("/home")
-        await setTimeout((_) => {
+        await setTimeout((_:any) => {
           toast.update(id, {
             render: "login successfully",
             type: toast.TYPE.SUCCESS,

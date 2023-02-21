@@ -29,5 +29,6 @@
     "src/**/*", //if it happend in inside src
     "components/**/*", //if it happend inside components
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "extends": "./tsconfig.paths.json"
 }

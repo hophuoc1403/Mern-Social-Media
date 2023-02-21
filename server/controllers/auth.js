@@ -66,7 +66,7 @@ export const refresh = async (req, res) => {
     const {refreshToken} = req.body
     try {
         const decoded = await jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
-        const accessToken = await jwt.sign({id: decoded._id}, process.env.JWT_SECRET)
+        const accessToken = await jwt.sign({id: decoded.id}, process.env.JWT_SECRET)
 
         return res.status(200).json({accessToken})
     } catch (e) {

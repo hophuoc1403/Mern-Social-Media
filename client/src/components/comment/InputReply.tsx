@@ -1,5 +1,5 @@
 import {Box, TextField} from "@mui/material";
-import {useAppSelector} from "../../App";
+import {useAppSelector} from "index";
 import UserImage from "../UserImage";
 import FlexBetween from "../FlexBetween";
 import {addComment} from "../../service/post.service";

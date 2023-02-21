@@ -4,19 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="add feature">
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="add feature comment post">
+      <change afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/@types/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/@types/type.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/InputReply.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserImage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserImage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/post.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/state/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/state/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/users.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +80,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\MERN\\mern-social-media\\client\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -95,7 +108,14 @@
       <workItem from="1676529918593" duration="1344000" />
       <workItem from="1676555143545" duration="10083000" />
       <workItem from="1676616054567" duration="957000" />
-      <workItem from="1676623928139" duration="854000" />
+      <workItem from="1676623928139" duration="5975000" />
+      <workItem from="1676641448499" duration="7952000" />
+      <workItem from="1676684874380" duration="981000" />
+      <workItem from="1676688309642" duration="593000" />
+      <workItem from="1676701954886" duration="142000" />
+      <workItem from="1676715036937" duration="1339000" />
+      <workItem from="1676801557951" duration="15000" />
+      <workItem from="1676879237780" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>
@@ -111,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676527442081</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add feature comment post">
+      <created>1676625046132</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676625046132</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,6 +158,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add modal post" />
     <MESSAGE value="add feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="add feature" />
+    <MESSAGE value="add feature comment post" />
+    <option name="LAST_COMMIT_MESSAGE" value="add feature comment post" />
   </component>
 </project>

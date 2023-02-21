@@ -1,5 +1,5 @@
 import express from "express";
-import {addComment, deletePost, editComment, getFreePosts, getUserPosts, likePost} from "../controllers/posts.js"
+import {addComment, deletePost, editComment, getFreePosts, getNotifications, getUserPosts, likePost} from "../controllers/posts.js"
 import {verifyToken} from "../middleware/auth.js";
 
 const router = express.Router()
@@ -16,5 +16,7 @@ router.patch("/:id/like",verifyToken,likePost)
 router.get("/:id/comment",verifyToken,)
 router.post("/:id/comment",verifyToken,addComment)
 router.patch("/:id/comment",verifyToken,editComment)
+
+router.get('/:receiverId/notifications',verifyToken,getNotifications)
 
 export default router

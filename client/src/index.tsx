@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {configureStore} from "@reduxjs/toolkit"
 import authReducer from "./state"
-import {Provider} from "react-redux"
+import {Provider, TypedUseSelectorHook, useDispatch, useSelector} from "react-redux"
 import {
   persistStore,
   persistReducer,
@@ -35,6 +35,9 @@ export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
+type DispatchFunc = () => AppDispatch
+export const useAppDispatch: DispatchFunc = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(
@@ -43,11 +46,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistStore(store)} loading={null}>
+      {/* <PersistGate persistor={persistStore(store)} loading={null}> */}
         <QueryClientProvider client={queryClient}>
           <App/>
         </QueryClientProvider>
-      </PersistGate>
+      {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
 );

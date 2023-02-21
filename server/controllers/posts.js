@@ -2,6 +2,7 @@ import Post from "../models/Post.js"
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import user from "../models/User.js";
+import Notification from "../models/Notification.js";
 
 // Create
 
@@ -39,7 +40,7 @@ export const getFreePosts = async (req, res) => {
 
     const pagination =await apiPagination(pageNumber,limit)
 
-    let posts = await Post.find({}).skip(pagination.offset).limit(limit).exec()
+    let posts = await Post.find({}).skip(pagination.offset).sort({createdAt:-1}).limit(limit).exec()
      let comment =await Comment.find({}).exec()
 
     let postWithComment = posts.map((post) =>{
@@ -63,9 +64,27 @@ export const getFreePosts = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
   try {
-    const {userId} = req.params
-    const post = await Post.find({userId})
-    res.status(200).json(post)
+    const pageNumber = +req.query.page || 1
+    const limit = req.query.limit || 5
+
+    
+    const {userId} = req
+    const pagination =await apiPagination(pageNumber,limit,userId)
+    console.log({userId});
+    const posts = await Post.find({userId}).skip(pagination.offset).limit(limit).exec()
+    let comment =await Comment.find({}).exec()
+
+    let postWithComment = posts.map((post) =>{
+      const currentComment = comment.filter(cmt => {
+        if(cmt.postId === post.id) {
+        }
+        return  cmt.postId === post.id
+      })
+
+      let newPost = {...post._doc,comment:currentComment}
+      return newPost
+    })
+    res.status(200).json({posts:postWithComment,pagination})
   } catch (e) {
     res.status(408).json({error: e.message})
   }
@@ -168,8 +187,17 @@ export const editPost = async (req, res) => {
   }
 }
 
-const apiPagination = async (pageNumber, limit) => {
-  const totalPost = await Post.countDocuments().exec()
+const apiPagination = async (pageNumber, limit,userId  = '' ) => {
+  let totalPost = 0
+  if(userId !== ''){
+     totalPost = await Post.find({userId}).countDocuments().exec()
+    console.log({totalPost})
+
+  }else {
+    totalPost = await Post.find({}).countDocuments().exec()
+    console.log({totalPost})
+
+  }
   let startIndex = (pageNumber - 1) * limit
   let endIndex = pageNumber * limit
   let apiPagination = {
@@ -187,4 +215,15 @@ const apiPagination = async (pageNumber, limit) => {
   }
 
   return apiPagination
+}
+
+export const getNotifications = async (req,res) => {
+  try{ 
+    const {receiverId} = req.params
+    const noti = await Notification.find({receiverId})
+    res.status(200).json(noti)
+  }catch
+  (e) {
+  res.status(408).json({error: e.message})
+}
 }

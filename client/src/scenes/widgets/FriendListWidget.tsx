@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {Box, IconButton, Typography, useTheme} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {useAppSelector} from "../../App";
+import {useAppSelector} from "index";
 import {addOrRemoveFriend, getFriends} from "../../service/user.service";
 import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
@@ -22,9 +22,10 @@ const FriendListWidget = () => {
 
   const handleGetFriends = async () => {
     try {
-      const res = await getFriends(userId)
+      const res = await getFriends()
       const friendList: IUser[] = res.data
       dispatch(setFriends({friends:friendList}))
+      
     } catch (e) {
       console.log({error: e})
     }

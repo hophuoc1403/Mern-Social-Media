@@ -1,7 +1,6 @@
 import {Box, Button, ButtonBase, Divider, IconButton, Popover, Typography, useTheme} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {useAppSelector} from "../App";
 import {addOrRemoveFriend} from "../service/user.service";
 import {setFriends, setPosts} from "../state";
 import FlexBetween from "./FlexBetween";
@@ -14,6 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {deletePost} from "../service/post.service";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import EditPostModal from "./EditPostModal";
+import { useAppSelector } from "index";
 
 interface FriendPops {
   friendId: string,
@@ -65,7 +65,7 @@ const Friend = ({postId, friendId, userPicturePath, subtitle, name,description,p
       const friends: IUser[] = response.data
       // @ts-ignore
       const isFriend = friends.find(friend => friend._id === friendId)
-       setTimeout((_) => {
+       setTimeout((_):any => {
         toast.update(id, {
           render: isFriend ? "add friend successfully" : "remove friend successfully",
           type: toast.TYPE.SUCCESS,

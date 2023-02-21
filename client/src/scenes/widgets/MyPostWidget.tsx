@@ -1,5 +1,5 @@
 import {Box, Button, Divider, IconButton, InputBase, Typography, useMediaQuery, useTheme} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../App";
+import {useAppDispatch, useAppSelector} from "index";
 import {useEffect, useState} from "react";
 import {sendPost} from "../../service/post.service";
 import {setPosts} from "../../state";
@@ -30,8 +30,8 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
   const [image, setImage] = useState<File | null>(null)
   const [post, setPost] = useState("")
   const {palette} = useTheme()
-  const {_id} = useAppSelector(state => state.user)
-  const token = useAppSelector(state => state.token)
+  const {_id} = useAppSelector((state) => state.user)
+  const token = useAppSelector((state) => state.token)
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)")
   // @ts-ignore
   const mediumMain = palette.neutral.mediumMain
@@ -50,8 +50,7 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
         formData.append("picturePath", image.name)
       }
       const postResponse = await sendPost(formData)
-      console.log(postResponse)
-      const posts: IPost[] = postResponse.data
+      const posts: IPost[] = postResponse.data.reverse()
       dispatch(setPosts({posts}))
       setImage(null)
       setPost("")
@@ -101,9 +100,9 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
                   }}>
           {({getRootProps, getInputProps}) => (
             <FlexBetween>
-              <Box {...getRootProps()} border={`2px dashed ${palette.primary.main}`}
+              <Box width={'100%'} textAlign='center' {...getRootProps()} border={`2px dashed ${palette.primary.main}`}
                    p={"1rem"} sx={{"&:hover": {cursor: "pointer"}}}>
-                <input {...getInputProps()}/>
+                <input width={'100%'} {...getInputProps()}/>
                 {!image ? (
                   <p>Add image here</p>
                 ) : (<FlexBetween>
@@ -157,7 +156,8 @@ const MyPostWidget = ({picturePath}: MyPostWidgetProps) => {
       </FlexBetween>}
       <LoadingButton disabled={!post}
               onClick={handlePost}
-              sx={{color: palette.background.default, backgroundColor: palette.primary.main,marginLeft:"20px"}}
+              sx={{ }}
+              variant='contained'
 
       >
         POST
