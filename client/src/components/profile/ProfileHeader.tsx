@@ -22,6 +22,7 @@ import { changeAvatar } from "../../service/user.service";
 import { setAvatar } from "../../state";
 import { toast } from "react-toastify";
 import useProfileStore from "hooks/stateProfile";
+import { useTheme } from "@emotion/react";
 
 const ModalStyle = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -44,7 +45,7 @@ const ProfileHeader = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { handleOpenModal } = useProfileStore();
-  console.log({ user });
+  const theme = useTheme()
 
   const handleUploadAvatar = async (avatar: any) => {
     const file = avatar.target.files[0];
@@ -84,7 +85,7 @@ const ProfileHeader = () => {
   };
 
   return (
-    <Box sx={{ backgroundImage: "linear-gradient(to bottom,#0b4a55,#242526)" }}>
+    <Box sx={{ backgroundImage:theme.palette.mode === "dark" ? "linear-gradient(to bottom,#0b4a55,#242526)" : "linear-gradient(to bottom,gray,#fff)" }}>
       <Box className={classes.background}>
         <img
           style={{
@@ -93,6 +94,7 @@ const ProfileHeader = () => {
             objectFit: "cover",
             height: "20rem",
             borderRadius: ".5rem",
+            boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px;'
           }}
           src={`http://localhost:3001/assets/${user.picturePath}`}
           alt=""

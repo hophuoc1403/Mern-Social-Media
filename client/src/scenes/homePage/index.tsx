@@ -5,9 +5,7 @@ import MyPostWidget from "../widgets/MyPostWidget";
 import PostsWidget from "../widgets/PostsWidget";
 import AdvertWidget from "../widgets/AdvertWidget";
 import FriendListWidget from "../widgets/FriendListWidget";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { Socket } from "socket.io-client/build/esm/socket";
+import { useEffect } from "react";
 import useAppStore from "hooks/stateApp";
 import { useAppSelector } from "index";
 
@@ -37,6 +35,7 @@ const HomePage = () => {
         </Box>
       </Box>
       <Box flexBasis={isNonMobileScreens ? "50%" : undefined}
+      overflow={'hidden'}
            mt={isNonMobileScreens ? undefined : "2rem"}>
         <MyPostWidget picturePath={picturePath}/>
         <PostsWidget userId={_id}/>

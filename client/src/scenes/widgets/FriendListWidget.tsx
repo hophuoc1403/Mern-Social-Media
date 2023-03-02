@@ -16,14 +16,13 @@ const FriendListWidget = () => {
   const {palette} = useTheme()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {_id: userId, friends} = useAppSelector(state => state.user)
-  const primaryLight = palette.primary.light
-  const primaryDark = palette.primary.dark
+  const {_id: userId, friends} = useAppSelector((state) => state.user)
 
   const handleGetFriends = async () => {
     try {
       const res = await getFriends()
       const friendList: IUser[] = res.data
+      console.log({friendList});
       dispatch(setFriends({friends:friendList}))
       
     } catch (e) {
@@ -32,8 +31,14 @@ const FriendListWidget = () => {
   }
 
   useEffect(() => {
-    handleGetFriends().then(r => r)
+    const token = localStorage.getItem("accessToken")
+    console.log(token);
+    
+    if(token){
+      handleGetFriends()
+    }
   }, [])
+
 
   const removeFriend = async (friendId: string) => {
     const id = toast.info("loading ....", {autoClose: false, className: 'rotateY animated',})
@@ -41,7 +46,7 @@ const FriendListWidget = () => {
       const res = await addOrRemoveFriend(userId, friendId)
       const friends = res.data
       dispatch(setFriends({friends}))
-       setTimeout((_) => {
+       setTimeout((_:any) => {
         toast.update(id, {
           render: "remove friend successfully",
           type: toast.TYPE.SUCCESS,
@@ -54,9 +59,10 @@ const FriendListWidget = () => {
     }
 
   }
+  
 
   return <WidgetWrapper>
-    {friends.map(friend => (
+    { friends.length > 0 && friends.map(friend => (
       <FlexBetween sx={{marginBottom:"10px"}}>
         <FlexBetween sx={{}}>
           <UserImage image={`${friend.picturePath}`} size={55} />

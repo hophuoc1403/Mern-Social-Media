@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "index";
 import { getFreePosts, getUserPosts } from "../../service/post.service";
 import { setPosts } from "../../state";
@@ -24,32 +23,15 @@ const PostsWidget = ({ isProfile = false, userId }: PostWidgetProps) => {
 
   useEffect(() => {
     refetch()
-    const initialMount = setTimeout(() => setInitialLoading(false), 800);
+    const initialMount = setTimeout(() => setInitialLoading(false), 500);
     return () => {
       clearTimeout(initialMount);
     };
   }, []);
 
-  // const handleGetFreePost =async () => {
-  //   try{
-  //     const response = await getFreePosts(currentPage)
-  //
-  //   }
-  // }
 
-  const handleGetUserPosts = async () => {
-    try {
-      // const response = await getUserPosts(userId)
-      // const posts: IPost[] = response.data
-      // console.log(response)
-      dispatch(setPosts({ posts: posts }));
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   useEffect(() => {
-    console.log("change");
     if (characters) {
       dispatch(setPosts({ posts: [...characters.posts] }));
     }

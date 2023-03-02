@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Divider, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../service/user.service";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import FlexBetween from "../../components/FlexBetween";
@@ -13,8 +13,9 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import axios from "axios";
-import { useAppSelector } from "index";
+import { useAppDispatch, useAppSelector } from "index";
 import useAppStore from "hooks/stateApp";
+import { setUSer } from "state";
 
 interface UserWidgetProps {
   userId: string;
@@ -22,10 +23,11 @@ interface UserWidgetProps {
 }
 
 const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const rootUser = useAppSelector((state) => state.user);
   const { palette } = useTheme();
+  const [user, setUser] = useState<IUser>(rootUser);
   const navigate = useNavigate();
-  const token = useAppSelector((state) => state.token);
+  const dispatch = useAppDispatch()
   // @ts-ignore
   const dark = palette.neutral.dark;
   // @ts-ignore
@@ -33,22 +35,23 @@ const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
   // @ts-ignore
   const main = palette.neutral.main;
   const {setIsAppLoading} = useAppStore()
+  const {userId:id} = useParams()
 
-  const handleGetUser = async () => {
-    const user = await getUser();
-    // const user = await axios.get(`http://localhost:3001/users/${userId}`,{
-    //   headers:{
-    //     Authorization:`Bearer ${token}`
-    //   }
-    // })
-    if (user) {
-      setUser(user.data as IUser);
-    }
-  };
-
+  const userId1 = localStorage.getItem('userId')
   useEffect(() => {
-    handleGetUser().then();
-  }, []);
+    console.log(id);
+    
+    const handleGetUser = async () => {
+      const res = await getUser(id ?? userId1);
+      console.log(res);
+      
+      dispatch(setUSer({ user: res.data }));
+      setUser(res.data as IUser)
+    };
+    handleGetUser();
+  }, [id]);
+
+
 
   if (!user) {
     return null;

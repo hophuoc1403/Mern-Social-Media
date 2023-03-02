@@ -9,6 +9,8 @@ import {
   Select,
   MenuItem,
   ButtonBase,
+  Badge,
+  Divider,
 } from "@mui/material";
 import {
   Search,
@@ -23,14 +25,17 @@ import {
 import FlexBetween from "components/FlexBetween";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { light } from "@mui/material/styles/createPalette";
-import { setLogout, setMode } from "../../state";
+import { setLogout, setMode, setPostsSearched } from "../../state";
 import UserImage from "../../components/UserImage";
 import Menu from "@mui/material/Menu";
 import useAppStore from "hooks/stateApp";
 import { useAppDispatch, useAppSelector } from "index";
-import axios from "axios";
-import { getNotifications } from "service/post.service";
+import { findPost, getNotifications } from "service/post.service";
+import useDebounce from "hooks/useDebounce";
+import ModalSearch from "components/ModalSearch";
+import { LoadingButton } from "@mui/lab";
+import { motion } from "framer-motion";
+
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -40,6 +45,20 @@ const NavbarPage = () => {
   const theme = useTheme();
   const { socket, setIsAppLoading } = useAppStore();
   const [notifications, setNotifications] = useState<{ content: string }[]>([]);
+  const [searchVal, setSearchVal] = useState<string>("");
+
+  const [searchDebounced, status] = useDebounce(searchVal);
+  const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
+  useEffect(() => {
+    const handleSearch = async () => {
+      const res = await findPost({ key: searchDebounced });
+      dispatch(setPostsSearched({ posts: res.data }));
+      setIsOpenSearchModal(true);
+    };
+    if (searchVal !== "") {
+      handleSearch();
+    }
+  }, [searchDebounced]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -66,14 +85,12 @@ const NavbarPage = () => {
           { content: `${data.senderName} ${data.type} your post` },
           ...prev,
         ]);
-        console.log(data);
       });
   }, [socket]);
 
   useEffect(() => {
     const handleGetNotifications = async () => {
       const res = await getNotifications({ userId: user.user._id });
-      console.log(res);
       setNotifications(res.data);
     };
     handleGetNotifications();
@@ -98,8 +115,8 @@ const NavbarPage = () => {
           fontWeight={"bold"}
           fontSize={"clamp(1rem,2rem,2.25rem)"}
           color={"primary"}
-          onClick={async () => {
-            await setIsAppLoading();
+          onClick={() => {
+            setIsAppLoading();
             navigate("/home");
           }}
           sx={{
@@ -113,13 +130,29 @@ const NavbarPage = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
-            sx={{ backgroundColor: neutralLight, borderRadius: "9px" }}
-            padding={"0.1rem 1.5rem"}
+            sx={{
+              backgroundColor: neutralLight,
+              borderRadius: "50px",
+              position: "relative",
+            }}
+            padding={"0.2rem 0.1rem"}
           >
-            <InputBase placeholder={"search ..."} />
-            <IconButton>
+            <InputBase
+              id="search"
+              value={searchVal}
+              onChange={(e) => {
+                setSearchVal(e.target.value);
+              }}
+              placeholder={"search ..."}
+              sx={{ paddingInline: "0.5rem" }}
+            />
+            <LoadingButton loading={status === "pending" ? true : false}>
+              {" "}
               <Search />
-            </IconButton>
+            </LoadingButton>
+            {isOpenSearchModal && (
+              <ModalSearch onClose={() => setIsOpenSearchModal(false)} />
+            )}
           </FlexBetween>
         )}
       </FlexBetween>
@@ -138,7 +171,9 @@ const NavbarPage = () => {
             aria-expanded={open2 ? "true" : undefined}
             onClick={handleClick2}
           >
-            <Notifications sx={{ fontSize: "25px" }} />
+            <Badge badgeContent={notifications.length} color="secondary">
+              <Notifications sx={{ fontSize: "25px" }} />
+            </Badge>
           </IconButton>
           <Help sx={{ fontSize: "25px" }} />
           <FlexBetween>
@@ -196,83 +231,92 @@ const NavbarPage = () => {
                 "aria-labelledby": "basic-button2",
               }}
             >
-              <Box p={"5px 6px"}>
+              <Box borderRadius={5} p={"5px 10px"}>
                 {notifications.length > 0
-                  ? notifications.map((noti: any) => <p>{noti.content}</p>)
+                  ? notifications.map((noti: any) => (
+                      <>
+                        <p>{noti.content}</p>
+                        <Divider />
+                      </>
+                    ))
                   : "you don't have any notification"}
               </Box>
             </Menu>
           </FlexBetween>
         </FlexBetween>
       ) : (
-        <IconButton
-          onClick={() => setIsMobileToggled(!isMobileToggled)}
-        >
+        <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}>
           <MenuOpenOutlined />
         </IconButton>
       )}
 
       {/*Mobile Nav*/}
       {!isNonMobileScreens && isMobileToggled && (
-        <Box
-          position={"fixed"}
-          right={0}
-          bottom={0}
-          height={"100%"}
-          maxWidth={"500px"}
-          minWidth={"300px"}
-          sx={{ backgroundColor: background }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-          {/*Close Icon*/}
-          <Box display={"flex"} justifyContent={"center"} p={"1rem"}>
-            <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}>
-              <Close />
-            </IconButton>
-          </Box>
-
-          {/*menu item*/}
-          <FlexBetween
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent="center"
-            gap={"2rem"}
+          <Box
+            position={"fixed"}
+            right={0}
+            bottom={0}
+            height={"100%"}
+            maxWidth={"500px"}
+            minWidth={"300px"}
+            sx={{ backgroundColor: background }}
           >
-            <IconButton onClick={() => dispatch(setMode())}>
-              {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
-            </IconButton>
-            <Message sx={{ fontSize: "25px" }} />
-            <Notifications sx={{ fontSize: "25px" }} />
-            <Help sx={{ fontSize: "25px" }} />
-            <FormControl variant={"standard"}>
-              <Select
-                value={fullName}
-                sx={{
-                  backgroundColor: neutralLight,
-                  width: "150px",
-                  borderRadius: ".25rem",
-                  p: ".25rem .1rem",
-                  "& .MuiSvgIcon-root": {
+            {/*Close Icon*/}
+            <Box display={"flex"} justifyContent={"center"} p={"1rem"}>
+              <IconButton onClick={() => setIsMobileToggled(!isMobileToggled)}>
+                <Close />
+              </IconButton>
+            </Box>
+
+            {/*menu item*/}
+            <FlexBetween
+              display={"flex"}
+              flexDirection={"column"}
+              justifyContent="center"
+              gap={"2rem"}
+            >
+              <IconButton onClick={() => dispatch(setMode())}>
+                {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
+              </IconButton>
+              <Message sx={{ fontSize: "25px" }} />
+              <Notifications sx={{ fontSize: "25px" }} />
+              <Help sx={{ fontSize: "25px" }} />
+              <FormControl variant={"standard"}>
+                <Select
+                  value={fullName}
+                  sx={{
                     backgroundColor: neutralLight,
-                  },
-                }}
-                input={<InputBase />}
-              >
-                <MenuItem value={fullName}>
-                  <Typography>{fullName}</Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/login");
-                    localStorage.removeItem("accessToken");
-                    dispatch(setLogout());
+                    width: "150px",
+                    borderRadius: ".25rem",
+                    p: ".25rem .1rem",
+                    "& .MuiSvgIcon-root": {
+                      backgroundColor: neutralLight,
+                    },
                   }}
+                  input={<InputBase />}
                 >
-                  Logout
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </FlexBetween>
-        </Box>
+                  <MenuItem value={fullName}>
+                    <Typography>{fullName}</Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/login");
+                      localStorage.removeItem("accessToken");
+                      dispatch(setLogout());
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </FlexBetween>
+          </Box>
+        </motion.div>
       )}
     </FlexBetween>
   );

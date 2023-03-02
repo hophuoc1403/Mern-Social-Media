@@ -53,7 +53,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({message: "invalid credentials"})
         }
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: process.env.TOKEN_LIFE})
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"})
         const refreshToken = jwt.sign({id: user._id}, process.env.JWT_REFRESH_SECRET, {expiresIn: process.env.REFRESH_LIFE})
         delete user.password;
         res.status(201).json({refreshToken, token, user})
@@ -65,8 +65,8 @@ export const login = async (req, res) => {
 export const refresh = async (req, res) => {
     const {refreshToken} = req.body
     try {
-        const decoded = await jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
-        const accessToken = await jwt.sign({id: decoded.id}, process.env.JWT_SECRET)
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
+        const accessToken = jwt.sign({id: decoded.id}, process.env.JWT_SECRET)
 
         return res.status(200).json({accessToken})
     } catch (e) {

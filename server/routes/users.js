@@ -1,9 +1,9 @@
 import express from "express";
 import {
   getUser,
-  getUserFriends,
   addRemoveFriend,
-  editProfile
+  editProfile,
+  getFriend
 } from "../controllers/users.js"
 
 import {verifyToken} from  "../middleware/auth.js"
@@ -12,8 +12,8 @@ const router = express.Router()
 
 // Read routes
 
-router.get("/",verifyToken,getUser)
-router.get("/friends",verifyToken,getUserFriends)
+router.get("/fiends",verifyToken,getFriend)
+router.get("/:id",verifyToken,getUser)
 
 // update
 router.patch("/:id/:friendId",verifyToken,addRemoveFriend)

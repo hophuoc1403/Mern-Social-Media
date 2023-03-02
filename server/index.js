@@ -84,6 +84,7 @@ mongoose.connect('mongodb://0.0.0.0:27017/social-media',(err)=>{
 let onlineUsers = [];
 
 const addNewUser = (username, socketId) => {
+  debugger
   !onlineUsers.some((user) => user.username === username) &&
   onlineUsers.push({ username, socketId });
 };

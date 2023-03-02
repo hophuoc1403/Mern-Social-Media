@@ -13,6 +13,7 @@ if (typeof window !== 'undefined') {
 
 const handleRefreshToken = async () => {
   const response= await axios.post(`${API_BASE_URL}/auth/refresh`, {refreshToken: refresh_token})
+  localStorage.setItem('accessToken',response.data.accessToken)
   return response
 }
 
@@ -29,6 +30,7 @@ axiosInstance.interceptors.request.use(async config => {
 
   if (refresh_token) {
     const user: JwtPayload = jwt_decode(refresh_token);
+    
     const isExpiredRefresh = dayjs.unix(user.exp as number).diff(dayjs()) < 1;
     if (isExpiredRefresh) {
       alert('Out of login version, please login again');
@@ -37,13 +39,14 @@ axiosInstance.interceptors.request.use(async config => {
       window.location.href = '/account/login';
     }
   }
-
+  
   if (!access_token) {
     return _config;
   }
   const user: JwtPayload = jwt_decode(access_token);
   const isExpired = dayjs.unix(user.exp as number).diff(dayjs()) < 1;
-
+  
+  
   if (!isExpired) {
     return {
       ..._config,

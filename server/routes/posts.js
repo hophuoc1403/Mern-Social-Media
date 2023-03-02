@@ -1,5 +1,5 @@
 import express from "express";
-import {addComment, deletePost, editComment, getFreePosts, getNotifications, getUserPosts, likePost} from "../controllers/posts.js"
+import {addComment, deletePost, editComment, findPost, getFreePosts, getNotifications, getUserPosts, likePost, sharePost} from "../controllers/posts.js"
 import {verifyToken} from "../middleware/auth.js";
 
 const router = express.Router()
@@ -8,15 +8,20 @@ const router = express.Router()
 router.get("/",getFreePosts)
 router.get("/:userId/posts",verifyToken,getUserPosts)
 
-
 // Update
 router.delete("/:id",verifyToken,deletePost)
 router.patch("/:id/like",verifyToken,likePost)
 
-router.get("/:id/comment",verifyToken,)
+router.post("/share",verifyToken,sharePost)
+
+// router.get("/:id/comment",verifyToken,)
+// id : post id
 router.post("/:id/comment",verifyToken,addComment)
+// id : comment id
 router.patch("/:id/comment",verifyToken,editComment)
 
 router.get('/:receiverId/notifications',verifyToken,getNotifications)
+
+router.get("/query",verifyToken,findPost)
 
 export default router

@@ -77,6 +77,7 @@ const Form = () => {
         dispatch(setLogin({user:savedLoginResponse.data.user,token:savedLoginResponse.data.token}))
         localStorage.setItem("accessToken",savedLoginResponse.data.token)
         localStorage.setItem("refreshToken",savedLoginResponse.data.refreshToken)
+        localStorage.setItem("userId",savedLoginResponse.data.user._id)
         navigate("/home")
         await setTimeout((_:any) => {
           toast.update(id, {
