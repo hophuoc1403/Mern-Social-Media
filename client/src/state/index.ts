@@ -73,6 +73,19 @@ export const authSlice = createSlice({
     addNewestPost: (state, action: { payload: { post: IPost } }) => {
       state.posts = [action.payload.post, ...state.posts];
     },
+    patchLikePost: (
+      state,
+      action: { payload: { postId: string; likedId: string } }
+    ) => {
+      let postInndex = state.posts.findIndex(
+        (post) => post._id == action.payload.postId
+      );
+      if (state.posts[postInndex].likes[action.payload.likedId]) {
+        delete state.posts[postInndex].likes[action.payload.likedId];
+      } else {
+        state.posts[postInndex].likes[action.payload.likedId] = true;
+      }
+    },
   },
 });
 
@@ -86,7 +99,7 @@ export const {
   setAvatar,
   setUSer,
   setPostsSearched,
-  addNewestPost
+  addNewestPost,
 } = authSlice.actions;
 
 export default authSlice.reducer;
