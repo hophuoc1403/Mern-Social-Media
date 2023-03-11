@@ -7,6 +7,7 @@ interface profileState {
   isAppLoading: boolean;
   setSocket: (socket: Socket) => void;
   setIsAppLoading: () => void;
+
 }
 
 const useAppStore = create<profileState>()((set) => ({

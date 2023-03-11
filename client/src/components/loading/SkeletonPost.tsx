@@ -1,5 +1,5 @@
 import {Box, Skeleton, Stack} from "@mui/material";
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "../FlexBetween";
 
 const SkeletonPost = () => {
     return <Stack spacing={1} my={2}>

@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 import { style } from "components/EditPostModal";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PostWidget = ({
   _id: postId,
@@ -55,6 +56,9 @@ const PostWidget = ({
   const [isShare, setIsShare] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [valueSharedContent, setValueSharedContent] = useState<string>("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(userRoot);
 
   const isLiked = loggedInUserId
     ? Boolean(
@@ -98,7 +102,9 @@ const PostWidget = ({
         postId,
         sharedContent: valueSharedContent,
       });
-      dispatch(addNewestPost({ post: res.data}));
+      console.log(res.data);
+
+      dispatch(addNewestPost({ post: res.data }));
       await new Promise((_) => setTimeout(_, 1000));
       toast.success("Share post successfully <3");
       setIsLoading(true);
@@ -107,6 +113,10 @@ const PostWidget = ({
       console.log(e);
     }
   };
+
+  // useEffect(() => {
+  //   // refec
+  // });
 
   const commentLevel: any = useMemo(() => {
     return comment ? comment.filter((cmt: any) => cmt.commentRoot) : [];
@@ -135,7 +145,7 @@ const PostWidget = ({
               name={userName}
               subtitle={createdAt}
               userPicturePath={
-                userIdRoot ? userRoot.picturePath : userPicturePath
+                userIdRoot ? userPicturePath : userRoot.picturePath
               }
             />
             <Typography
@@ -168,73 +178,83 @@ const PostWidget = ({
             userPicturePath={
               userIdRoot ? userRoot.picturePath : userPicturePath
             }
-            isSharePost={userIdRoot ? true : false}
+            isSharePost={!!userIdRoot}
           />
-          <Typography color={main} sx={{ mt: "1rem", wordBreak: "break-word" }}>
-            {description}
-          </Typography>
-          {picturePath && (
-            <img
-              width={"100%"}
-              height={"500px"}
-              alt={"post"}
-              style={{
-                borderRadius: "0.75rem",
-                marginTop: "0.75rem",
-                objectFit: "cover",
-              }}
-              src={`http://localhost:3001/assets/${picturePath}`}
-            />
-          )}
-        </Box>
 
           <Box
-            mt={"1rem"}
-            display={"flex"}
-            sx={{ justifyContent: "space-between" }}
+            onClick={() => {
+              location.pathname.includes("home") && navigate(`/post/${postId}`);
+            }}
           >
-            <FlexBetween gap={"1rem"}>
-              <FlexBetween gap={"0.3rem"}>
-                <IconButton onClick={patchLike}>
-                  {isLiked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
-                </IconButton>
-                <Typography>{likeCount}</Typography>
-              </FlexBetween>
-
-              <FlexBetween gap={"0.3rem"}>
-                <IconButton onClick={() => setIsComment(!isComment)}>
-                  <ChatBubbleOutlineOutlined />
-                </IconButton>
-                <Typography>{comment ? comment.length : 0}</Typography>
-              </FlexBetween>
-            </FlexBetween>
-
-            {postUserId !== loggedInUserId && (
-              <IconButton onClick={() => setIsShare(true)}>
-                <ShareOutlined />
-              </IconButton>
+            <Typography
+              color={main}
+              sx={{ mt: "1rem", wordBreak: "break-word" }}
+            >
+              {description}
+            </Typography>
+            {picturePath && (
+              <img
+                width={"100%"}
+                height={"500px"}
+                alt={"post"}
+                style={{
+                  borderRadius: "0.75rem",
+                  marginTop: "0.75rem",
+                  objectFit: "cover",
+                }}
+                src={`http://localhost:3001/assets/${picturePath}`}
+              />
             )}
           </Box>
-          <Divider sx={{ my: 2 }} />
+        </Box>
 
-          {isComment && (
-            <>
-              <InputReply setComments={setComment} postId={postId} />
-              {comment &&
-                comment.map((comment: any, index: number) => {
-                  if (!comment.commentRoot) {
-                    return (
-                      <Comment
-                        setComments={setComment}
-                        commentLevel={commentLevel}
-                        key={index}
-                        comment={comment}
-                      />
-                    );
-                  }
-                })}
-            </>
+        <Box
+          mt={"1rem"}
+          display={"flex"}
+          sx={{ justifyContent: "space-between" }}
+        >
+          <FlexBetween gap={"1rem"}>
+            <FlexBetween gap={"0.3rem"}>
+              <IconButton onClick={patchLike}>
+                {isLiked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
+              </IconButton>
+              <Typography>{likeCount}</Typography>
+            </FlexBetween>
+
+            <FlexBetween gap={"0.3rem"}>
+              <IconButton onClick={() => setIsComment(!isComment)}>
+                <ChatBubbleOutlineOutlined />
+              </IconButton>
+              <Typography>{comment ? comment.length : 0}</Typography>
+            </FlexBetween>
+          </FlexBetween>
+
+          {postUserId !== loggedInUserId && (
+            <IconButton onClick={() => setIsShare(true)}>
+              <ShareOutlined />
+            </IconButton>
           )}
+        </Box>
+        <Divider sx={{ my: 2 }} />
+
+        {isComment && (
+          <>
+            <InputReply setComments={setComment} postId={postId} />
+            {comment &&
+              comment.map((comment: any, index: number) => {
+                if (!comment.commentRoot) {
+                  return (
+                    <Comment
+                      setComments={setComment}
+                      commentLevel={commentLevel}
+                      key={index}
+                      comment={comment}
+                    />
+                  );
+                }
+              })}
+          </>
+        )}
       </WidgetWrapper>
 
       <Modal
@@ -255,7 +275,10 @@ const PostWidget = ({
           />
 
           <FlexBetween sx={{ marginInline: "3rem", marginTop: "1rem" }}>
-            <LoadingButton loading={isLoading} onClick={() => handleSharePost()}>
+            <LoadingButton
+              loading={isLoading}
+              onClick={() => handleSharePost()}
+            >
               Save
             </LoadingButton>
             <Button color={"error"} onClick={() => setIsShare(false)}>

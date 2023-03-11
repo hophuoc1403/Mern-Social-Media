@@ -86,35 +86,67 @@ export const getUserPosts = async (req, res) => {
   try {
     const pageNumber = +req.query.page || 1;
     const limit = req.query.limit || 5;
-
-    const { userId } = req;
+    const { userId } = req.params;
     const pagination = await apiPagination(pageNumber, limit, userId);
     const posts = await Post.find({ userId })
       .skip(pagination.offset)
       .limit(limit)
       .exec();
     let comment = await Comment.find({}).exec();
-
+    console.log(posts);
     const userInfor = await User.findById(userId);
-    let postWithComment = posts.map((post) => {
-      const currentComment = comment.filter((cmt) => {
-        if (cmt.postId === post.id) {
+    let postWithComment = await Promise.all(
+      posts.map(async (post) => {
+        let userIdRootInfor = {};
+        if (post.userIdRoot) {
+          userIdRootInfor = await User.findById(post.userIdRoot);
         }
-        return cmt.postId === post.id;
-      });
 
-      let newPost = {
-        ...post._doc,
-        firstName: userInfor.firstName,
-        lastName: userInfor.lastName,
-        location: userInfor.location,
-        occupation: userInfor.occupation,
-        userPicturePath: userInfor.picturePath,
-        comment: currentComment,
-      };
-      return newPost;
-    });
+        const currentComment = comment.filter((cmt) => {
+          if (cmt.postId === post.id) {
+          }
+          return cmt.postId === post.id;
+        });
+
+        let newPost = {
+          userRoot: userIdRootInfor,
+          ...post._doc,
+          firstName: userInfor.firstName,
+          lastName: userInfor.lastName,
+          location: userInfor.location,
+          occupation: userInfor.occupation,
+          userPicturePath: userInfor.picturePath,
+          comment: currentComment,
+        };
+        return newPost;
+      })
+    );
     res.status(200).json({ posts: postWithComment, pagination });
+  } catch (e) {
+    res.status(408).json({ error: e.message });
+  }
+};
+
+export const getSpecificPost = async (req, res) => {
+  try {
+    const { userId } = req;
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    const userInfor = await User.findById(userId);
+
+    let userRoot = post.userIdRoot
+      ? await User.findById(post.userIdRoot)
+      : null;
+
+    return res.status(200).json({
+      ...post._doc,
+      userRoot,
+      firstName: userInfor.firstName,
+      lastName: userInfor.lastName,
+      location: userInfor.location,
+      occupation: userInfor.occupation,
+      userPicturePath: userInfor.picturePath,
+    });
   } catch (e) {
     res.status(408).json({ error: e.message });
   }
@@ -127,7 +159,6 @@ export const likePost = async (req, res) => {
     const { id } = req.params;
     const { userId } = req.body;
     const post = await Post.findById(id);
-    const userPost = await User.findById(post.userId);
     let isLiked = false;
     for (let i of post.likes) {
       if (i[0] === userId) {
@@ -232,7 +263,6 @@ const apiPagination = async (pageNumber, limit, userId = "") => {
     console.log({ totalPost });
   } else {
     totalPost = await Post.find({}).countDocuments().exec();
-    console.log({ totalPost });
   }
   let startIndex = (pageNumber - 1) * limit;
   let endIndex = pageNumber * limit;
@@ -268,7 +298,7 @@ export const findPost = async (req, res) => {
     const { key } = req.query;
     console.log(key);
     const result = await Post.find({ description: { $regex: `${key}` } });
-
+    console.log(result);
     return res.status(200).json(result);
   } catch (e) {
     res.status(408).json({ error: e.message });
@@ -279,6 +309,7 @@ export const sharePost = async (req, res) => {
   try {
     const userId = req.userId;
     const { postId, sharedContent } = req.body;
+    const userInfor = await User.findById(userId);
 
     const currentPost = await Post.findById(postId);
     const newSharedPost = new Post({
@@ -294,7 +325,15 @@ export const sharePost = async (req, res) => {
     await newSharedPost.save();
     const userRoot = await User.findById(currentPost.userId);
 
-    return res.status(200).json({ ...newSharedPost._doc, userRoot });
+    return res.status(200).json({
+      ...newSharedPost._doc,
+      userRoot,
+      firstName: userInfor.firstName,
+      lastName: userInfor.lastName,
+      location: userInfor.location,
+      occupation: userInfor.occupation,
+      userPicturePath: userInfor.picturePath,
+    });
   } catch (e) {
     res.status(408).json({ error: e.message });
   }

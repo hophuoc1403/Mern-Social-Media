@@ -22,6 +22,11 @@ export const getUserPosts = async (id: string, page: number) => {
   return data;
 };
 
+export const getSpecificPost = async  (id:string) => {
+  const {data} = await  getMethodAPI(`/posts/${id}`)
+  return data
+}
+
 export const likePost = async (id: string, userId: string) => {
   const response = await patchMethod(`/posts/${id}/like`, { userId });
   return response;

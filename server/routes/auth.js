@@ -1,9 +1,10 @@
 import express from "express";
-import {login,refresh} from "../controllers/auth.js"
+import { login, refresh, verifyEmail } from "../controllers/auth.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/login",login)
-router.post("/refresh",refresh)
+router.post("/login", login);
+router.post("/refresh", refresh);
+router.post("/email/send", verifyEmail);
 
-export default router
+export default router;

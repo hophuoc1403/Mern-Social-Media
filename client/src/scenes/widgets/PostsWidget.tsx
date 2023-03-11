@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import PostWidget from "./PostWidget";
 import { useScroll } from "../../hooks/useScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
-import SkeletonPost from "components/SkeletonPost";
+import SkeletonPost from "components/loading/SkeletonPost";
+import { Link } from "react-router-dom";
 
 interface PostWidgetProps {
   userId: string;
@@ -16,20 +17,19 @@ const PostsWidget = ({ isProfile = false, userId }: PostWidgetProps) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  console.log(userId);
 
   const { status, hasNextPage, fetchNextPage, characters, refetch } = useScroll(
     isProfile ? (page: number) => getUserPosts(userId, page) : getFreePosts
   );
 
   useEffect(() => {
-    refetch()
+    refetch();
     const initialMount = setTimeout(() => setInitialLoading(false), 500);
     return () => {
       clearTimeout(initialMount);
     };
   }, []);
-
-
 
   useEffect(() => {
     if (characters) {

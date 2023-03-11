@@ -35,6 +35,7 @@ import useDebounce from "hooks/useDebounce";
 import ModalSearch from "components/ModalSearch";
 import { LoadingButton } from "@mui/lab";
 import { motion } from "framer-motion";
+import ChatBox from "components/chat/ChatBox";
 
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
@@ -60,6 +61,7 @@ const NavbarPage = () => {
     }
   }, [searchDebounced]);
 
+  const [chatRef, setChatRef] = useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -144,9 +146,13 @@ const NavbarPage = () => {
                 setSearchVal(e.target.value);
               }}
               placeholder={"search ..."}
-              sx={{ paddingInline: "0.5rem" }}
+              sx={{ paddingInline: "1rem" }}
             />
-            <LoadingButton loading={status === "pending" ? true : false}>
+            <LoadingButton
+              className="p-0"
+              sx={{ padding: ".3rem", minWidth: "max-content" }}
+              loading={status === "pending" ? true : false}
+            >
               {" "}
               <Search />
             </LoadingButton>
@@ -163,7 +169,15 @@ const NavbarPage = () => {
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
           </IconButton>
-          <Message sx={{ fontSize: "25px" }} />
+          <IconButton
+            id="chat-box"
+            onClick={(e) => setChatRef(e.currentTarget)}
+            aria-controls={!!chatRef ? "chat-box" : undefined}
+            aria-haspopup="true"
+            aria-expanded={!!chatRef ? "true" : undefined}
+          >
+            <Message sx={{ fontSize: "25px" }} />
+          </IconButton>
           <IconButton
             id="basic-button2"
             aria-controls={open2 ? "basic-menu2" : undefined}
@@ -194,6 +208,7 @@ const NavbarPage = () => {
                 {user.user.firstName + " " + user.user.lastName}
               </Typography>
             </ButtonBase>
+            {/* menu items */}
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -214,7 +229,7 @@ const NavbarPage = () => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  navigate("/login");
+                  navigate("/account/login");
                   localStorage.removeItem("accessToken");
                   dispatch(setLogout());
                 }}
@@ -227,9 +242,9 @@ const NavbarPage = () => {
               anchorEl={anchorEl2}
               open={open2}
               onClose={handleClose2}
-              MenuListProps={{
-                "aria-labelledby": "basic-button2",
-              }}
+              // MenuListProps={{
+              //   "aria-labelledby": "basic-button2",
+              // }}
             >
               <Box borderRadius={5} p={"5px 10px"}>
                 {notifications.length > 0
@@ -242,6 +257,11 @@ const NavbarPage = () => {
                   : "you don't have any notification"}
               </Box>
             </Menu>
+            <ChatBox
+              id="chat-box"
+              onClose={() => setChatRef(null)}
+              chatRef={chatRef}
+            />
           </FlexBetween>
         </FlexBetween>
       ) : (
@@ -305,7 +325,7 @@ const NavbarPage = () => {
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
-                      navigate("/login");
+                      navigate("/account/login");
                       localStorage.removeItem("accessToken");
                       dispatch(setLogout());
                     }}

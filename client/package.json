@@ -34,6 +34,7 @@
     "socket.io-client": "^4.6.0",
     "tss-react": "^4.6.0",
     "typescript": "^4.9.5",
+    "usehooks-ts": "^2.9.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11",
     "zod": "^3.20.6",
@@ -62,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
   }
 }

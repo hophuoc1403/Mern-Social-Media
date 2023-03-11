@@ -12,3 +12,7 @@ export const login =async ({email,password}:{email:string,password:string}) => {
   return response
 }
 
+export const verifyAccount = async (payload :{email:string}) => {
+  const response = await postMethodAPI('/auth/email/send',payload)
+}
+

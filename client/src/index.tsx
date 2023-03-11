@@ -19,6 +19,7 @@ import {
 import storage from "redux-persist/lib/storage"
 import {PersistGate} from "redux-persist/integration/react"
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {BrowserRouter} from "react-router-dom";
 
 const persistConfig = {key: "root", storage, version: 1}
 const persistedReducer = persistReducer(persistConfig, authReducer)
@@ -46,11 +47,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <BrowserRouter>
       {/* <PersistGate persistor={persistStore(store)} loading={null}> */}
         <QueryClientProvider client={queryClient}>
           <App/>
         </QueryClientProvider>
-      {/* </PersistGate> */}
+        {/* </PersistGate> */}
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

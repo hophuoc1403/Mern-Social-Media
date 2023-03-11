@@ -1,17 +1,27 @@
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 
 interface UserImageProps {
-  image:string,
-  size:number
-  style?:any
+  image: string;
+  size: number;
+  style?: any;
 }
 
-const UserImage = ({image,size,style}:UserImageProps) => {
-  return (<Box width={size} height={size}>
-    <img alt={"user image"} style={{objectFit:"cover",borderRadius:"50%",...style}}
-      width={size} height={size} src={`http://localhost:3001/assets/${image}`}
-    />
-  </Box>)
-}
+const UserImage = ({ image, size, style }: UserImageProps) => {
+  return (
+    <Box>
+      <img
+        alt={"user image"}
+        style={{
+          objectFit: "cover",
+          borderRadius: "50%",
+          ...style,
+          height: size,
+          width: size,
+        }}
+        src={`http://localhost:3001/assets/${image}`}
+      />
+    </Box>
+  );
+};
 
-export default UserImage
+export default UserImage;

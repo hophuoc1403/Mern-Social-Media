@@ -171,7 +171,7 @@ const Friend = ({
           </Typography>
           <Typography color={medium} fontSize={"0.75rem"}>
             {moment(subtitle).fromNow()}
-            <SyncLockRounded sx={{ transform: "translateY(7px)" }} />
+            <SyncLockRounded />
           </Typography>
         </Box>
       </FlexBetween>
