@@ -5,80 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="update redux like post and change router login">
-      <change afterPath="$PROJECT_DIR$/client/src/components/layouts/AccountLayout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/loading/ProgressLoading.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/scenes/account/ForgetPassword.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/scenes/account/Oauth.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/scenes/postDetails/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LoadingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/loading/LoadingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/SkeletonPost.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/loading/SkeletonPost.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserImage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserImage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateApp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateApp.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/post.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.env" beforeDir="false" afterPath="$PROJECT_DIR$/server/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/account/ForgetPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/account/ForgetPassword.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/account/ResetPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/account/ResetPassword.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/286983939_510159867553458_428677519039150658_n.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/314904241_884707122891291_6871675478349660600_n.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/chi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/childhood.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/codeEdit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/info1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/info2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/info3.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/info4.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/linkedin.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p10.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p11.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p12.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p13.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p3.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p4.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p5.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p6.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p7.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p8.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/p9.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post3.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post4.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post5.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post6.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post7.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/post8.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/projectTypeScript.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/twitter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/wallpaperflare.com_wallpaper (1).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/wallpaperflare.com_wallpaper (2).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/wallpaperflare.com_wallpaper (3).jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/wallpaperflare.com_wallpaper.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/public/assets/z3434494087386_422fe7d9d427dbf31d10fa004a59b21e.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/posts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/server/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +103,7 @@
       <workItem from="1678174411907" duration="8110000" />
       <workItem from="1678258529392" duration="18000" />
       <workItem from="1678462695001" duration="7898000" />
+      <workItem from="1678527192938" duration="54000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>

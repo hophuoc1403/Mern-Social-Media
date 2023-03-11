@@ -25,6 +25,7 @@ import PostDetails from "./scenes/postDetails";
 import AccountLayout from "./components/layouts/AccountLayout";
 import ForgetPassword from "./scenes/account/ForgetPassword";
 import Oauth from "./scenes/account/Oauth";
+import ResetPassword from "scenes/account/ResetPassword";
 
 // use lazy load so that route come with <Suspense />
 const HomePage = lazy(() => import("./scenes/homePage"));
@@ -94,6 +95,7 @@ function App() {
             <Route path={"/account/"} element={<AccountLayout />}>
               <Route index path={"login"} element={<LoginPage />} />
               <Route path={"forget-password"} element={<ForgetPassword />} />
+              <Route path={"new-password/:token"} element={<ResetPassword />} />
             </Route>
             <Route path={"/post/:id"} element={<PostDetails />} />
             <Route path={"oauth-verify"} element={<Oauth />} />

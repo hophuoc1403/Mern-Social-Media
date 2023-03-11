@@ -82,17 +82,39 @@ export const refresh = async (req, res) => {
   }
 };
 
-const myOAuth2Client = new OAuth2Client(
-  "1035405520449-737opod5dblop954gvltb6btkaqbut54.apps.googleusercontent.com",
-  "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"
-);
+export const resetPassword = async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    if (!token) {
+      return res.status(403).json({ message: "access denied" });
+    }
 
-myOAuth2Client.setCredentials({
-  refresh_token:
-    "1//048PeqMxQJYZ2CgYIARAAGAQSNwF-L9Ir5toMpC9UDe9777yV3EffFGikHykZak65m15aEYw5-ROZAFpv8E2UmNhZMwCuXTC4XEE",
-});
+    const verified = jwt.verify(token, process.env.VERIFY_TOKEN);
+    if (!verified) {
+      return res.status(403).json({ message: "access denied" });
+    }
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+    await User.findOneAndUpdate(
+      { email: verified.email },
+      { password: passwordHash }
+    );
+    return res.status(200).json({ message: "update password successfully" });
+  } catch (e) {
+    res.status(403).json({ error: e.message });
+  }
+};
 
 export const verifyEmail = async (req, res) => {
+  const myOAuth2Client = new OAuth2Client(
+    process.env.GOOGLE_MAILER_CLIENT_ID,
+    process.env.GOOGLE_MAILER_CLIENT_SECRET
+  );
+
+  myOAuth2Client.setCredentials({
+    refresh_token: process.env.GOOGLE_MAILER_REFRESH_TOKEN,
+  });
+
   try {
     const { email } = req.body;
     if (!email) {
@@ -115,8 +137,9 @@ export const verifyEmail = async (req, res) => {
       },
     });
 
-
-    const verifyToken = jwt.sign({email},"myveryhardstringtoverifyaccount",{expiresIn:"5m"})
+    const verifyToken = jwt.sign({ email }, process.env.VERIFY_TOKEN, {
+      expiresIn: "5m",
+    });
 
     // mailOption là những thông tin gửi từ phía client lên thông qua API
     const mailOptions = {
