@@ -52,7 +52,7 @@ function App() {
   const { isAppLoading } = useAppStore();
 
   return (
-    <div className="app">
+    <div className={mode === "dark" ? "App" : "app"}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ToastProvider>

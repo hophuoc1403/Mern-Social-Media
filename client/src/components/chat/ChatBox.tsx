@@ -1,4 +1,4 @@
-import { Menu, Typography } from "@mui/material";
+import { Divider, Menu, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import UserImage from "components/UserImage";
 import { useAppSelector } from "index";
@@ -29,6 +29,7 @@ const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
         "aria-labelledby": "basic-button2",
       }}
       anchorEl={chatRef}
+      className={classes.chatBox}
     >
       <Box className={""}>
         <ChatBoxEl />
@@ -43,15 +44,21 @@ const ChatBoxEl = () => {
   const chatElRef = useRef<HTMLDivElement | null>(null);
   const isHoverChat = useHover(chatElRef);
   const { user } = useAppSelector((state) => state);
-  const {} = useStyleEl({ chatBoxHover: isHoverChat });
+  const { classes } = useStyleEl({ chatBoxHover: isHoverChat });
   return (
-    <Box ref={chatElRef} className="flex gap-2 px-2 py-3 min-w-[150px]">
-      <UserImage image={user.picturePath} size={35} />
-      <Box>
-        <Typography variant="h6">{user.firstName}</Typography>
-        <Typography variant="body2">{user.firstName}</Typography>
+    <>
+      <Box
+        ref={chatElRef}
+        className={`flex gap-2 px-2 py-3 min-w-[150px] ${classes.chatBoxEl}`}
+      >
+        <UserImage image={user.picturePath} size={35} />
+        <Box>
+          <Typography variant="h6">{user.firstName}</Typography>
+          <Typography variant="body2">{user.firstName}</Typography>
+        </Box>
       </Box>
-    </Box>
+      <Divider />
+    </>
   );
 };
 
@@ -60,13 +67,19 @@ export default ChatBox;
 const useStyle = makeStyles()((theme) => ({
   chatBox: {
     "& .css-6hp17o-MuiList-root-MuiMenu-list": {
-      borderRadius: "20px",
+      background: theme.palette.background.default,
+      borderRadius: "5px !important",
     },
   },
 }));
 
 const useStyleEl = makeStyles<{ chatBoxHover: boolean }>()(
   (theme, { chatBoxHover }) => ({
-    chatBoxEl: {},
+    chatBoxEl: {
+      backgroundColor: chatBoxHover ? "#EEEEEE" : "inherit",
+      color: chatBoxHover ? "#000" : "",
+      cursor: "pointer",
+      minWidth: "200px",
+    },
   })
 );

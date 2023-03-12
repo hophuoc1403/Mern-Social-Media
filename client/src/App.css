@@ -1,5 +1,16 @@
 .App {
-  text-align: center;
+  background: #141e30; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #243b55,
+    #141e30
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #243b55,
+    #141e30
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -62,7 +73,9 @@ body {
   --cell-spacing: 1px;
   --border-width: 1px;
   --cells: 4;
-  --total-size: calc(var(--cells) * (var(--cell-size) + 2 * var(--cell-spacing)));
+  --total-size: calc(
+    var(--cells) * (var(--cell-size) + 2 * var(--cell-spacing))
+  );
   display: flex;
   flex-wrap: wrap;
   width: var(--total-size);
@@ -157,4 +170,31 @@ body {
   100% {
     background-color: transparent;
   }
+}
+
+.dark-navbar {
+  background: #141e30; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #243b55,
+    #141e30
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #243b55,
+    #141e30
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #282c34;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(-45deg, #6a5af9, #3e54ac);
+  border-radius: 50px;
 }

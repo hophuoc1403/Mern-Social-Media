@@ -41,7 +41,7 @@ const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state);
+  const { user, mode } = useAppSelector((state) => state);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const { socket, setIsAppLoading } = useAppStore();
@@ -83,6 +83,8 @@ const NavbarPage = () => {
   useEffect(() => {
     socket &&
       socket.on("getNotification", (data) => {
+        console.log({ data });
+
         setNotifications((prev) => [
           { content: `${data.senderName} ${data.type} your post` },
           ...prev,
@@ -92,11 +94,11 @@ const NavbarPage = () => {
 
   useEffect(() => {
     const handleGetNotifications = async () => {
-      const res = await getNotifications({ userId: user.user._id });
+      const res = await getNotifications({ userId: user._id });
       setNotifications(res.data);
     };
     handleGetNotifications();
-  }, [user.user]);
+  }, [user]);
 
   // @ts-ignore
   const neutralLight = theme.palette.neutral.light;
@@ -107,11 +109,19 @@ const NavbarPage = () => {
   // @ts-ignore
   const alt = theme.palette.background.alt;
 
-  const fullName = user.user.firstName + user.user.lastName;
+  const fullName = user.firstName + user.lastName;
 
   // @ts-ignore
   return (
-    <FlexBetween padding={"1rem 6%"} sx={{ backgroundColor: alt }}>
+    <FlexBetween
+      padding={"1rem 6%"}
+      sx={{
+        boxShadow:
+          "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+        backgroundColor: alt,
+      }}
+      className={mode === "dark" ? "dark-navbar" : ""}
+    >
       <FlexBetween gap={"1.75rem"}>
         <Typography
           fontWeight={"bold"}
@@ -150,7 +160,7 @@ const NavbarPage = () => {
             />
             <LoadingButton
               className="p-0"
-              sx={{ padding: ".3rem", minWidth: "max-content" }}
+              sx={{ paddingRight: "1rem", minWidth: "max-content" }}
               loading={status === "pending" ? true : false}
             >
               {" "}
@@ -165,7 +175,7 @@ const NavbarPage = () => {
 
       {/*Desktop nav*/}
       {isNonMobileScreens ? (
-        <FlexBetween gap={"2rem"}>
+        <FlexBetween gap={"1.5rem"}>
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
           </IconButton>
@@ -203,9 +213,9 @@ const NavbarPage = () => {
                 borderRadius: "50px",
               }}
             >
-              <UserImage image={user.user.picturePath} size={40} />
+              <UserImage image={user.picturePath} size={40} />
               <Typography ml={1}>
-                {user.user.firstName + " " + user.user.lastName}
+                {user.firstName + " " + user.lastName}
               </Typography>
             </ButtonBase>
             {/* menu items */}
@@ -222,7 +232,7 @@ const NavbarPage = () => {
                 value={fullName}
                 onClick={async () => {
                   await setIsAppLoading();
-                  navigate(`/profile/${user.user._id}`);
+                  navigate(`/profile/${user._id}`);
                 }}
               >
                 <Typography>{fullName}</Typography>
@@ -246,11 +256,17 @@ const NavbarPage = () => {
               //   "aria-labelledby": "basic-button2",
               // }}
             >
-              <Box borderRadius={5} p={"5px 10px"}>
+              <Box
+                // borderRadius={5}
+                p={"5px 10px"}
+                // bgcolor={theme.palette.background.default}
+              >
                 {notifications.length > 0
                   ? notifications.map((noti: any) => (
                       <>
-                        <p>{noti.content}</p>
+                        <Box my={1}>
+                          <p>{noti.content}</p>
+                        </Box>
                         <Divider />
                       </>
                     ))

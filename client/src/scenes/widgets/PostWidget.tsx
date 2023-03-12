@@ -58,7 +58,6 @@ const PostWidget = ({
   const [valueSharedContent, setValueSharedContent] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(userRoot);
 
   const isLiked = loggedInUserId
     ? Boolean(

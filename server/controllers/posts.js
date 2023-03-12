@@ -89,6 +89,7 @@ export const getUserPosts = async (req, res) => {
     const { userId } = req.params;
     const pagination = await apiPagination(pageNumber, limit, userId);
     const posts = await Post.find({ userId })
+      .sort({ createdAt: -1 })
       .skip(pagination.offset)
       .limit(limit)
       .exec();

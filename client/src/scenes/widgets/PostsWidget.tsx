@@ -6,25 +6,26 @@ import PostWidget from "./PostWidget";
 import { useScroll } from "../../hooks/useScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SkeletonPost from "components/loading/SkeletonPost";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface PostWidgetProps {
-  userId: string;
-  isProfile?: boolean;
+  status: "error" | "loading" | "success";
+  hasNextPage: boolean | undefined;
+  characters: any;
+  fetchNextPage: any;
 }
 
-const PostsWidget = ({ isProfile = false, userId }: PostWidgetProps) => {
+const PostsWidget = ({
+  characters,
+  hasNextPage,
+  status,
+  fetchNextPage,
+}: PostWidgetProps) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
-  console.log(userId);
-
-  const { status, hasNextPage, fetchNextPage, characters, refetch } = useScroll(
-    isProfile ? (page: number) => getUserPosts(userId, page) : getFreePosts
-  );
 
   useEffect(() => {
-    refetch();
     const initialMount = setTimeout(() => setInitialLoading(false), 500);
     return () => {
       clearTimeout(initialMount);

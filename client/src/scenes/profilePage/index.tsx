@@ -7,11 +7,23 @@ import { useAppSelector } from "index";
 import PostsWidget from "../widgets/PostsWidget";
 import ModalEdit from "components/profile/ModalEdit";
 import { useParams } from "react-router-dom";
+import { useScroll } from "hooks/useScroll";
+import { getUserPosts } from "service/post.service";
+import { useEffect } from "react";
 
 const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   const { user } = useAppSelector((state) => state);
+  const { userId } = useParams();
+
+  const { status, hasNextPage, fetchNextPage, characters, refetch } = useScroll(
+    (page: number) => getUserPosts(userId as string, page)
+  );
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div>
@@ -31,7 +43,12 @@ const ProfilePage = () => {
           </Box>
         </Box>
         <Box flexBasis={"68%"}>
-          <PostsWidget userId={user._id} isProfile={true} />
+          <PostsWidget
+            status={status}
+            characters={characters}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+          />
         </Box>
       </Box>
       <ModalEdit />
