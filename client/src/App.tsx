@@ -26,6 +26,7 @@ import AccountLayout from "./components/layouts/AccountLayout";
 import ForgetPassword from "./scenes/account/ForgetPassword";
 import Oauth from "./scenes/account/Oauth";
 import ResetPassword from "scenes/account/ResetPassword";
+import ChatExc from "components/chat/ChatExc";
 
 // use lazy load so that route come with <Suspense />
 const HomePage = lazy(() => import("./scenes/homePage"));
@@ -100,6 +101,7 @@ function App() {
             <Route path={"/post/:id"} element={<PostDetails />} />
             <Route path={"oauth-verify"} element={<Oauth />} />
           </Routes>
+          <ChatExc isShow={true} />
         </ToastProvider>
       </ThemeProvider>
     </div>

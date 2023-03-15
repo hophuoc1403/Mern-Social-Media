@@ -6,9 +6,7 @@ export const useScroll = (fetch: any) => {
     useInfiniteQuery(
       ["free-posts"],
       async ({ pageParam = 1 }) => {
-        console.log(fetch);
         const res = await fetch(pageParam);
-        console.log(res);
         return res;
       },
       {

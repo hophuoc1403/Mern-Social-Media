@@ -1,9 +1,10 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const postSchema = mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     sharedContent: {
@@ -18,7 +19,8 @@ const postSchema = mongoose.Schema(
       of: Boolean,
     },
     userIdRoot: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "User",
       default: null,
     },
     createdAtRoot: { type: Date, default: null },

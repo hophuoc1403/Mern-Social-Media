@@ -32,6 +32,7 @@ import { deletePost } from "../service/post.service";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
 import { useAppSelector } from "index";
+import useAppStore from "hooks/stateApp";
 
 interface FriendPops {
   friendId: string;
@@ -75,6 +76,7 @@ const Friend = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { socket } = useAppStore();
 
   const open = Boolean(anchorEl);
 
@@ -85,6 +87,7 @@ const Friend = ({
     // @ts-ignore
     return friends.find((friend) => friend._id === friendId);
   }, [friends]);
+
   const patchFriend = async () => {
     try {
       const id = toast.info("loading ....", {
@@ -95,6 +98,7 @@ const Friend = ({
       const friends: IUser[] = response.data;
       // @ts-ignore
       const isFriend = friends.find((friend) => friend._id === friendId);
+      isFriend && socket?.emit("createRoom", { members: [userId, friendId] });
       setTimeout((_: any): any => {
         toast.update(id, {
           render: isFriend

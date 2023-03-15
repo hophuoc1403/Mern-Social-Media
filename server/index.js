@@ -7,19 +7,23 @@ import multer from "multer";
 import morgan from "morgan";
 import helmet from "helmet";
 import path from "path";
+import { Server } from "socket.io";
+import http from "http";
+
 import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
 import { createPosts, editPost } from "./controllers/posts.js";
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
-import postRoutes from "./routes/posts.js";
 import { verifyToken } from "./middleware/auth.js";
 import { changeAvatar } from "./controllers/users.js";
-import { Server } from "socket.io";
-import http from "http";
+
 import Notification from "./models/Notification.js";
+import RoomChat from "./models/RoomChat.js";
 import Chat from "./models/Chat.js";
 
+import postRoutes from "./routes/posts.js";
+import userRoutes from "./routes/users.js";
+import authRoutes from "./routes/auth.js";
+import chatRoutes from "./routes/chat.js";
 // configuration
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -77,6 +81,7 @@ app.patch("/users/avatar", verifyToken, upload.single("picture"), changeAvatar);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+app.use("/chat", chatRoutes);
 
 // mongoose setup
 mongoose.set("strictQuery", false);
@@ -88,7 +93,6 @@ mongoose.connect("mongodb://0.0.0.0:27017/social-media", (err) => {
 let onlineUsers = [];
 
 const addNewUser = (username, socketId) => {
-  debugger;
   !onlineUsers.some((user) => user.username === username) &&
     onlineUsers.push({ username, socketId });
 };
@@ -134,16 +138,33 @@ io.on("connection", (socket) => {
 
   // chat
 
-  socket.on("createRoom", async ({ senderId, receiverId }) => {
-    const isHaveRoom = await Chat.find({ senderId, receiverId });
-    if (isHaveRoom) {
-      socket.join(isHaveRoom.roomId);
-    } else {
-      const randomRoomId = (Math.random() + 1).toString(36).substring(2);
+  socket.on("createRoom", async ({ members }) => {
+    const isExistRoom = await RoomChat.find({ members });
+
+    if (isExistRoom.length != 0) {
+      return;
     }
+
+    let newRoom = new RoomChat({
+      members,
+    });
+
+    await newRoom.save();
   });
 
-  socket.on("getMessage", ({ senderId, receiverId, message, room }) => {});
+  socket.on("getMessage", async ({ senderId, message, roomId }) => {
+    try {
+      socket.emit("sendMessage", { senderId, message, roomId });
+      let newChat = new Chat({
+        senderId,
+        roomId,
+        message,
+      });
+      await newChat.save();
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 server.listen(3001, () => {

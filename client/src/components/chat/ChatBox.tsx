@@ -2,7 +2,8 @@ import { Divider, Menu, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import UserImage from "components/UserImage";
 import { useAppSelector } from "index";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { getTitleMessage } from "service/chat.service";
 import { makeStyles, withStyles } from "tss-react/mui";
 import { useHover } from "usehooks-ts";
 
@@ -14,6 +15,19 @@ interface ChatBoxProps {
 
 const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
   const { classes } = useStyle();
+
+  useEffect(() => {
+    const handleGetTitleMessage = async () => {
+      try {
+        const titleMessage = await getTitleMessage();
+        console.log({ titleMessage });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    handleGetTitleMessage();
+  }, []);
+
   return (
     <Menu
       sx={{
