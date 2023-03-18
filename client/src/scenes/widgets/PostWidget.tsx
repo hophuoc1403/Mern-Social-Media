@@ -22,13 +22,14 @@ import {
 } from "@mui/icons-material";
 import Comment from "../../components/comment/Comment";
 import InputReply from "../../components/comment/InputReply";
-import useAppStore from "hooks/stateApp";
+import useAppStore from "hooks/stateApp.store";
 import { useAppDispatch, useAppSelector } from "index";
 import { motion } from "framer-motion";
 import { style } from "components/EditPostModal";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
+import {useTrackedStore} from "../../hooks";
 
 const PostWidget = ({
   _id: postId,
@@ -51,7 +52,7 @@ const PostWidget = ({
   const [comment, setComment] = useState<any>(postComment);
   const dispatch = useAppDispatch();
   const loggedInUserId: string = useAppSelector((state: any) => state.user._id);
-  const { socket } = useAppStore();
+  const socket  = useTrackedStore().socket.socket();
   const { user: currentUser } = useAppSelector((state: any) => state);
   const [isShare, setIsShare] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);

@@ -21,7 +21,7 @@ import { styled } from "@mui/system";
 import { changeAvatar } from "../../service/user.service";
 import { setAvatar } from "../../state";
 import { toast } from "react-toastify";
-import useProfileStore from "hooks/stateProfile";
+import useProfileStore from "hooks/stateProfile.store";
 import { useTheme } from "@emotion/react";
 
 const ModalStyle = styled(Box)(({ theme }) => ({

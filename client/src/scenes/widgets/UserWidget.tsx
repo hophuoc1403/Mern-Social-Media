@@ -12,10 +12,10 @@ import {
   ManageAccountsOutlined,
   WorkOutline,
 } from "@mui/icons-material";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "index";
-import useAppStore from "hooks/stateApp";
+import useAppStore from "hooks/stateApp.store";
 import { setUSer } from "state";
+import {actions} from "../../hooks";
 
 interface UserWidgetProps {
   userId: string;
@@ -34,7 +34,7 @@ const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
   const medium = palette.neutral.medium;
   // @ts-ignore
   const main = palette.neutral.main;
-  const {setIsAppLoading} = useAppStore()
+  const {setIsAppLoading} = actions().socket
   const {userId:id} = useParams()
 
   const userId1 = localStorage.getItem('userId')

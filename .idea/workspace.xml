@@ -5,10 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="update redux like post and change router login">
+      <change afterPath="$PROJECT_DIR$/client/src/components/partial/PartialsBackground.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/partial/partial.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/account/ForgetPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/account/ForgetPassword.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/account/ResetPassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/account/ResetPassword.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateApp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateApp.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateChat.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateProfile.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/chat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/chat.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/chat.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +85,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\MERN\mern-social-media\client\src\components\partial" />
       <recent name="E:\MERN\mern-social-media\client\src\components\loading" />
     </key>
   </component>
@@ -104,6 +125,9 @@
       <workItem from="1678258529392" duration="18000" />
       <workItem from="1678462695001" duration="7898000" />
       <workItem from="1678527192938" duration="54000" />
+      <workItem from="1678957242815" duration="2478000" />
+      <workItem from="1678959867631" duration="2260000" />
+      <workItem from="1679159559888" duration="4129000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>

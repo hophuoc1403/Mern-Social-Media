@@ -32,7 +32,8 @@ import { deletePost } from "../service/post.service";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
 import { useAppSelector } from "index";
-import useAppStore from "hooks/stateApp";
+import useAppStore from "hooks/stateApp.store";
+import {useTrackedStore} from "../hooks";
 
 interface FriendPops {
   friendId: string;
@@ -76,7 +77,7 @@ const Friend = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { socket } = useAppStore();
+  const socket = useTrackedStore().socket.socket();
 
   const open = Boolean(anchorEl);
 

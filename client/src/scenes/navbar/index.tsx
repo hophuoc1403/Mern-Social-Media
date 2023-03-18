@@ -28,7 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { setLogout, setMode, setPostsSearched } from "../../state";
 import UserImage from "../../components/UserImage";
 import Menu from "@mui/material/Menu";
-import useAppStore from "hooks/stateApp";
+import useAppStore from "hooks/stateApp.store";
 import { useAppDispatch, useAppSelector } from "index";
 import { findPost, getNotifications } from "service/post.service";
 import useDebounce from "hooks/useDebounce";
@@ -36,6 +36,7 @@ import ModalSearch from "components/ModalSearch";
 import { LoadingButton } from "@mui/lab";
 import { motion } from "framer-motion";
 import ChatBox from "components/chat/ChatBox";
+import {actions, useTrackedStore} from "../../hooks";
 
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
@@ -44,7 +45,8 @@ const NavbarPage = () => {
   const { user, mode } = useAppSelector((state) => state);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
-  const { socket, setIsAppLoading } = useAppStore();
+  const socket = useTrackedStore().socket.socket();
+  const {setIsAppLoading} = actions().socket
   const [notifications, setNotifications] = useState<{ content: string }[]>([]);
   const [searchVal, setSearchVal] = useState<string>("");
 
@@ -114,7 +116,7 @@ const NavbarPage = () => {
   // @ts-ignore
   return (
     <FlexBetween
-      padding={"1rem 6%"}
+      padding={".3rem 6%"}
       sx={{
         boxShadow:
           "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",

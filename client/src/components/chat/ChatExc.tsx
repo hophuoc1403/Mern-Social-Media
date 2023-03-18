@@ -16,9 +16,14 @@ import UserImage from "components/UserImage";
 import { useAppSelector } from "index";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 interface ChatExcProps {
   isShow: boolean;
+}
+interface Chat {
+  room: string;
+  chat: any;
 }
 
 const ChatExc = ({ isShow }: ChatExcProps) => {
@@ -63,24 +68,9 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
           </IconButton>
         </Box>
       </FlexBetween>
-      <Box className={classes.body}>
-        <ChatContent isSender={true} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-        <ChatContent isSender={false} />
-      </Box>
+      <ScrollToBottom className={classes.body}>
+          <ChatContent isSender={true} />
+      </ScrollToBottom>
       <Box className={classes.input}>
         <Divider sx={{ backgroundColor: theme.palette.primary.main, mb: 1 }} />
         <InputBase
@@ -128,30 +118,29 @@ const useStyles = makeStyles<{ isShow: boolean; isSmallSize: boolean }>()(
       height: isSmallSize ? "auto" : "max(50vh,300px)",
       backgroundColor: theme.palette.background.default,
       boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-      overflowY: isSmallSize ? "hidden" : "scroll",
+      overflowY: "hidden",
     },
     header: {
       background: `linear-gradient(
-      to top,
-      #243b55,
-      #141e30)`,
+        to top,
+        #243b55,
+        #141e30)`,
       padding: "5px",
-      position: isSmallSize ? "relative" : "fixed",
-      width: isSmallSize ? "100%" : "20vw",
     },
 
     body: {
       flexGrow: "1",
       display: isSmallSize ? "none" : "block",
-      paddingBlock: "50px",
+      overflowY: isSmallSize ? "hidden" : "scroll",
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
     },
     input: {
-      position: "fixed",
       marginBottom: "5px",
-      display: isSmallSize ? "none" : "block",
       bottom: "-4px",
-      width: "18.7vw",
       background: theme.palette.background.default,
+      display: isSmallSize ? "none" : "block",
     },
   })
 );

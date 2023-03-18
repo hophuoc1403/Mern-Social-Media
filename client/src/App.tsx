@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import {lazy, Suspense, useCallback, useEffect, useState} from "react";
 import "./App.css";
 import {
   BrowserRouter,
@@ -18,7 +18,6 @@ import { useAppSelector } from "./index";
 
 import ToastProvider from "./components/ToastProvider";
 import { io } from "socket.io-client";
-import useAppStore from "hooks/stateApp";
 import LoadingPage from "components/loading/LoadingPage";
 import ProgressLoading from "./components/loading/ProgressLoading";
 import PostDetails from "./scenes/postDetails";
@@ -27,6 +26,11 @@ import ForgetPassword from "./scenes/account/ForgetPassword";
 import Oauth from "./scenes/account/Oauth";
 import ResetPassword from "scenes/account/ResetPassword";
 import ChatExc from "components/chat/ChatExc";
+import {actions, useTrackedStore} from "./hooks";
+import Particles from "react-particles";
+import {loadFull} from "tsparticles";
+import {Container, Engine} from "tsparticles-engine";
+
 
 // use lazy load so that route come with <Suspense />
 const HomePage = lazy(() => import("./scenes/homePage"));
@@ -36,8 +40,11 @@ function App() {
   const [isNavigating, setIsNavigating] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user);
 
-  const { setSocket } = useAppStore();
+
+
+  const {setSocket} = actions().socket;
   useEffect(() => {
+    console.log(setSocket)
     setSocket(io("http://localhost:3001"));
   }, [user._id]);
 
@@ -50,61 +57,62 @@ function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = localStorage.getItem("accessToken");
-  const { isAppLoading } = useAppStore();
+  const isAppLoading  = useTrackedStore().socket.isAppLoading();
 
   return (
-    <div className={mode === "dark" ? "App" : "app"}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ToastProvider>
-          {isNavigating && <ProgressLoading />}
-          <Routes>
-            <Route
-              path={"/"}
-              element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
-            />
-            <Route
-              path={"/home"}
-              element={
-                isAuth ? (
-                  isAppLoading ? (
-                    <LoadingPage />
-                  ) : (
-                    <Suspense fallback={<LoadingPage />}>
-                      <HomePage />
-                    </Suspense>
-                  )
-                ) : (
-                  <Navigate to={"/"} />
-                )
-              }
-            />
-            <Route
-              path={"/profile/:userId"}
-              element={
-                isAuth ? (
-                  isAppLoading ? (
-                    <LoadingPage />
-                  ) : (
-                    <ProfilePage />
-                  )
-                ) : (
-                  <Navigate to={"/"} />
-                )
-              }
-            />
-            <Route path={"/account/"} element={<AccountLayout />}>
-              <Route index path={"login"} element={<LoginPage />} />
-              <Route path={"forget-password"} element={<ForgetPassword />} />
-              <Route path={"new-password/:token"} element={<ResetPassword />} />
-            </Route>
-            <Route path={"/post/:id"} element={<PostDetails />} />
-            <Route path={"oauth-verify"} element={<Oauth />} />
-          </Routes>
-          <ChatExc isShow={true} />
-        </ToastProvider>
-      </ThemeProvider>
-    </div>
+        <><Particles />
+          <div className={mode === "dark" ? "App" : "app"}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <ToastProvider>
+                {isNavigating && <ProgressLoading />}
+                <Routes>
+                  <Route
+                    path={"/"}
+                    element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
+                  />
+                  <Route
+                    path={"/home"}
+                    element={
+                      isAuth ? (
+                        isAppLoading ? (
+                          <LoadingPage />
+                        ) : (
+                          <Suspense fallback={<LoadingPage />}>
+                            <HomePage />
+                          </Suspense>
+                        )
+                      ) : (
+                        <Navigate to={"/"} />
+                      )
+                    }
+                  />
+                  <Route
+                    path={"/profile/:userId"}
+                    element={
+                      isAuth ? (
+                        isAppLoading ? (
+                          <LoadingPage />
+                        ) : (
+                          <ProfilePage />
+                        )
+                      ) : (
+                        <Navigate to={"/"} />
+                      )
+                    }
+                  />
+                  <Route path={"/account/"} element={<AccountLayout />}>
+                    <Route index path={"login"} element={<LoginPage />} />
+                    <Route path={"forget-password"} element={<ForgetPassword />} />
+                    <Route path={"new-password/:token"} element={<ResetPassword />} />
+                  </Route>
+                  <Route path={"/post/:id"} element={<PostDetails />} />
+                  <Route path={"oauth-verify"} element={<Oauth />} />
+                </Routes>
+                <ChatExc isShow={true} />
+              </ToastProvider>
+            </ThemeProvider>
+          </div></>
   );
 }
 

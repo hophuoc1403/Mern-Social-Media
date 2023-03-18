@@ -2,7 +2,7 @@ import { Divider, Menu, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import UserImage from "components/UserImage";
 import { useAppSelector } from "index";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTitleMessage } from "service/chat.service";
 import { makeStyles, withStyles } from "tss-react/mui";
 import { useHover } from "usehooks-ts";
@@ -15,12 +15,14 @@ interface ChatBoxProps {
 
 const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
   const { classes } = useStyle();
+  const [titleMessages, setTitleMessages] = useState<any>([]);
 
   useEffect(() => {
     const handleGetTitleMessage = async () => {
       try {
         const titleMessage = await getTitleMessage();
         console.log({ titleMessage });
+        setTitleMessages(titleMessage.data);
       } catch (e) {
         console.log(e);
       }
@@ -46,9 +48,15 @@ const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
       className={classes.chatBox}
     >
       <Box className={""}>
-        <ChatBoxEl />
-        <ChatBoxEl />
-        <ChatBoxEl />
+        {titleMessages.length > 0 ? (
+          titleMessages.map((message: any) => {
+            return <ChatBoxEl />;
+          })
+        ) : (
+          <Box padding={2}>
+            <Typography>No message yet</Typography>
+          </Box>
+        )}
       </Box>
     </Menu>
   );
