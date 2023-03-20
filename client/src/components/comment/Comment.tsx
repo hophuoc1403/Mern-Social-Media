@@ -51,11 +51,11 @@ const Comment = ({ comment, commentLevel, setComments }: IComment) => {
   }, []);
 
   return (
-    <Box mt={"0.5rem"}>
+    <Box mt={"1.5rem"}>
       <Box key={comment._id} pl={!commentLevel ? "50px" : undefined} my={2}>
         <Box display={"flex"} justifyContent={"left"}>
-          <UserImage image={user.picturePath} size={50} />
-          <Paper sx={{ borderTopLeftRadius: "50px", px: "20px" }}>
+          <UserImage image={user.picturePath} size={50}/>
+          <Paper sx={{ borderTopLeftRadius: "50px", px: "20px",ml:"20px" }}>
             <Typography
               color={"grey"}
               variant={"h6"}

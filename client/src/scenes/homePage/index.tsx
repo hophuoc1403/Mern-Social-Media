@@ -6,11 +6,10 @@ import PostsWidget from "../widgets/PostsWidget";
 import AdvertWidget from "../widgets/AdvertWidget";
 import FriendListWidget from "../widgets/FriendListWidget";
 import { useEffect } from "react";
-import useAppStore from "hooks/stateApp.store";
 import { useAppSelector } from "index";
 import { getFreePosts } from "service/post.service";
 import { useScroll } from "hooks/useScroll";
-import {actions, useTrackedStore} from "../../hooks";
+import { useTrackedStore} from "../../hooks";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -40,7 +39,7 @@ const HomePage = () => {
         justifyContent={"space-between"}
       >
         <Box flexBasis={isNonMobileScreens ? "22%" : undefined}>
-          <Box style={{ position: "sticky", top: "110px" }}>
+          <Box style={{ position: "sticky", top: "95px" }}>
             <UserWidget user={user} />
           </Box>
         </Box>
@@ -59,7 +58,7 @@ const HomePage = () => {
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis={"22%"}>
-            <Box style={{ position: "sticky", top: "110px" }}>
+            <Box style={{ position: "sticky", top: "95px" }}>
               <AdvertWidget />
               <Box m={"1rem 0"}>
                 <FriendListWidget />

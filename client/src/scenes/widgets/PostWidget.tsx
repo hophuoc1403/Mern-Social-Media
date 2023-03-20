@@ -22,7 +22,6 @@ import {
 } from "@mui/icons-material";
 import Comment from "../../components/comment/Comment";
 import InputReply from "../../components/comment/InputReply";
-import useAppStore from "hooks/stateApp.store";
 import { useAppDispatch, useAppSelector } from "index";
 import { motion } from "framer-motion";
 import { style } from "components/EditPostModal";
@@ -74,7 +73,6 @@ const PostWidget = ({
   const { palette } = useTheme();
   // @ts-ignore
   const main = palette.neutral.main;
-  const primary = palette.primary.main;
 
   const patchLike = async () => {
     try {
@@ -238,7 +236,7 @@ const PostWidget = ({
         <Divider sx={{ my: 2 }} />
 
         {isComment && (
-          <>
+          <div className={"pb-4"}>
             <InputReply setComments={setComment} postId={postId} />
             {comment &&
               comment.map((comment: any, index: number) => {
@@ -253,7 +251,7 @@ const PostWidget = ({
                   );
                 }
               })}
-          </>
+          </div>
         )}
       </WidgetWrapper>
 
