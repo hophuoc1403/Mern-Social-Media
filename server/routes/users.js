@@ -12,7 +12,7 @@ const router = express.Router()
 
 // Read routes
 
-router.get("/fiends",verifyToken,getFriend)
+router.get("/fiends/:id",verifyToken,getFriend)
 router.get("/:id",verifyToken,getUser)
 
 // update

@@ -4,31 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="update redux like post and change router login">
-      <change afterPath="$PROJECT_DIR$/client/src/components/partial/PartialsBackground.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/partial/partial.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/hooks/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" afterDir="false" />
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="install particles">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/layouts/AccountLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/AccountLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/layouts/MainLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/MainLayout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateApp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateApp.store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateChat.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateProfile.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateProfile.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateProfile.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/useScroll.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/FriendListWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/MyPostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/chat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/chat.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/user.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/Chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/Chat.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/users.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +87,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\MERN\mern-social-media\client\src" />
       <recent name="E:\MERN\mern-social-media\client\src\components\partial" />
       <recent name="E:\MERN\mern-social-media\client\src\components\loading" />
     </key>
@@ -127,7 +130,14 @@
       <workItem from="1678527192938" duration="54000" />
       <workItem from="1678957242815" duration="2478000" />
       <workItem from="1678959867631" duration="2260000" />
-      <workItem from="1679159559888" duration="4129000" />
+      <workItem from="1679159559888" duration="4465000" />
+      <workItem from="1679207029587" duration="1753000" />
+      <workItem from="1679218740227" duration="1976000" />
+      <workItem from="1679221534570" duration="5372000" />
+      <workItem from="1679235743595" duration="12022000" />
+      <workItem from="1679281632857" duration="2498000" />
+      <workItem from="1679316407264" duration="1663000" />
+      <workItem from="1679326543111" duration="3117000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>
@@ -157,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678174535687</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="install particles">
+      <created>1679164104182</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679164104183</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,6 +196,7 @@
     <MESSAGE value="add feature" />
     <MESSAGE value="add feature comment post" />
     <MESSAGE value="update redux like post and change router login" />
-    <option name="LAST_COMMIT_MESSAGE" value="update redux like post and change router login" />
+    <MESSAGE value="install particles" />
+    <option name="LAST_COMMIT_MESSAGE" value="install particles" />
   </component>
 </project>

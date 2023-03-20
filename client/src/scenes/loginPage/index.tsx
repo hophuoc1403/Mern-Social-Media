@@ -1,6 +1,6 @@
 import {Box, Typography, useMediaQuery, useTheme} from "@mui/material";
 import Form from "./Form"
-import AccountLayout from "../../components/layouts/AccountLayout";
+import AccountLayout from "../../layouts/AccountLayout";
 
 const LoginPage = () => {
   const theme = useTheme()

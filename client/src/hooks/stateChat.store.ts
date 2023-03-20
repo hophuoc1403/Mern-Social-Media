@@ -1,25 +1,26 @@
 import { create } from "zustand";
 
-interface chat {
+export interface chat {
+  senderId:string
   message: string;
   createdAt: string;
 }
 
 interface stateChatStore {
-  senderInfor: string | null;
+  memberInfo: IUser | null;
   isOpenChat: boolean;
-  setSenderInfor: (senderInfor: string) => void;
-  setIsOpenChat: () => void;
+  setMemberInfo: (memberInfo: IUser) => void;
+  setIsOpenChat: (check:boolean) => void;
 }
 
 const useChatStore = create<stateChatStore>((set, get) => ({
-  senderInfor: null,
+  memberInfo: null,
   isOpenChat: false,
-  setSenderInfor: (senderInfor: string) => {
-    set({ senderInfor });
+  setMemberInfo: (memberInfo: IUser) => {
+    set({ memberInfo });
   },
-  setIsOpenChat: () => {
-    set({ isOpenChat: !get().isOpenChat });
+  setIsOpenChat: (check) => {
+    set({ isOpenChat: check });
   },
 }));
 export default useChatStore;

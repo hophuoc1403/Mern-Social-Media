@@ -1,43 +1,20 @@
 import WidgetWrapper from "../../components/WidgetWrapper";
-import { useEffect, useState } from "react";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import {  IconButton, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "index";
-import { addOrRemoveFriend, getFriends } from "../../service/user.service";
+import {addOrRemoveFriend, getFriends, getUser} from "../../service/user.service";
 import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
 import { PersonRemoveOutlined } from "@mui/icons-material";
 import { toast } from "react-toastify";
-import state, { setFriends } from "../../state";
+import  { setFriends } from "../../state";
 import useChatStore from "hooks/stateChat.store";
 
 const FriendListWidget = () => {
-  const { palette } = useTheme();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { _id: userId, friends } = useAppSelector((state) => state.user);
-  const { setIsOpenChat, setSenderInfor } = useChatStore((state) => state);
+  const { setIsOpenChat, setMemberInfo } = useChatStore((state) => state);
 
-  const handleGetFriends = async () => {
-    try {
-      const res = await getFriends();
-      const friendList: IUser[] = res.data;
-      console.log({ friendList });
-      dispatch(setFriends({ friends: friendList }));
-    } catch (e) {
-      console.log({ error: e });
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-
-    if (token) {
-      handleGetFriends();
-    }
-  }, []);
 
   const removeFriend = async (friendId: string) => {
     const id = toast.info("loading ....", {
@@ -66,12 +43,14 @@ const FriendListWidget = () => {
       {friends.length > 0 &&
         friends.map((friend) => (
           <FlexBetween
-            onClick={() => {
-              setIsOpenChat();
-              setSenderInfor(friend._id);
+            onClick={async () => {
+              const memberInfoRes = await getUser(friend._id)
+              const memberInfo:IUser = memberInfoRes.data
+              setMemberInfo(memberInfo);
+              setIsOpenChat(true);
             }}
             key={friend._id}
-            sx={{ marginBottom: "10px" }}
+            sx={{ marginBottom: "10px",cursor:"pointer" }}
           >
             <FlexBetween sx={{}}>
               <UserImage image={`${friend.picturePath}`} size={55} />
@@ -81,7 +60,10 @@ const FriendListWidget = () => {
             </FlexBetween>
             <IconButton
               sx={{ cursor: "pointer" }}
-              onClick={() => removeFriend(friend._id)}
+              onClick={async (e) => {
+                e.stopPropagation()
+               await removeFriend(friend._id)
+              }}
             >
               <PersonRemoveOutlined />
             </IconButton>

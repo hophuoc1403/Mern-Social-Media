@@ -14,11 +14,11 @@ import {actions, useTrackedStore} from "../../hooks";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath, firstName, lastName } = useAppSelector(
+  const {  picturePath, firstName, lastName } = useAppSelector(
     (state) => state.user
   );
+  const {user} = useAppSelector(state => state)
   const  socket  = useTrackedStore().socket.socket();
-  const {setSocket} = actions().socket
   useEffect(() => {
     const nameUser = firstName + " " + lastName;
     socket?.emit("newUser", nameUser);
@@ -41,7 +41,7 @@ const HomePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "22%" : undefined}>
           <Box style={{ position: "sticky", top: "110px" }}>
-            <UserWidget userId={_id} picturePath={picturePath} />
+            <UserWidget user={user} />
           </Box>
         </Box>
         <Box

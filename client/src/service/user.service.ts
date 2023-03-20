@@ -2,13 +2,13 @@ import {getMethodAPI, patchMethod} from "./base.service";
 
 export const getUser =async (id:string | null = null) => {
   const response = await getMethodAPI(`/users/${id ?? ''}`)
-  console.log(response);
-  
+
   return response
 }
 
-export const getFriends = async () => {
-  const response = await getMethodAPI(`/users/fiends`)
+export const getFriends = async (id:string) => {
+  console.log({id})
+  const response = await getMethodAPI(`/users/fiends/${id}`)
   return response
 }
 

@@ -32,8 +32,8 @@ import { deletePost } from "../service/post.service";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
 import { useAppSelector } from "index";
-import useAppStore from "hooks/stateApp.store";
 import {useTrackedStore} from "../hooks";
+import useProfileStore from "../hooks/stateProfile.store";
 
 interface FriendPops {
   friendId: string;
@@ -61,12 +61,14 @@ const Friend = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id: userId, friends } = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   // @ts-ignore
   const main = palette.neutral.main;
   // @ts-ignore
   const medium = palette.neutral.medium;
+  const {setUserSelected} = useProfileStore()
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -158,8 +160,6 @@ const Friend = ({
         <Box
           ml={"1rem"}
           onClick={async () => {
-            const response = await getUser(friendId);
-            dispatch(setUSer({ user: response.data }));
             navigate(`/profile/${friendId}`);
           }}
           sx={{ cursor: "pointer" }}

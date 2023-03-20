@@ -1,33 +1,24 @@
-import { useEffect, useState } from "react";
 import { Box, Divider, Typography, useTheme } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import { getUser } from "../../service/user.service";
+import { useNavigate } from "react-router-dom";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
 import {
   EditOutlined,
   LocationOnOutlined,
-  ManageAccounts,
   ManageAccountsOutlined,
   WorkOutline,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "index";
-import useAppStore from "hooks/stateApp.store";
-import { setUSer } from "state";
 import {actions} from "../../hooks";
 
 interface UserWidgetProps {
-  userId: string;
-  picturePath: string;
+  user:IUser
 }
 
-const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
-  const rootUser = useAppSelector((state) => state.user);
+const UserWidget = ({ user }: UserWidgetProps) => {
   const { palette } = useTheme();
-  const [user, setUser] = useState<IUser>(rootUser);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
   // @ts-ignore
   const dark = palette.neutral.dark;
   // @ts-ignore
@@ -35,21 +26,6 @@ const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
   // @ts-ignore
   const main = palette.neutral.main;
   const {setIsAppLoading} = actions().socket
-  const {userId:id} = useParams()
-
-  const userId1 = localStorage.getItem('userId')
-  useEffect(() => {
-    console.log(id);
-    
-    const handleGetUser = async () => {
-      const res = await getUser(id ?? userId1);
-      console.log(res);
-      
-      dispatch(setUSer({ user: res.data }));
-      setUser(res.data as IUser)
-    };
-    handleGetUser();
-  }, [id]);
 
 
 
@@ -65,6 +41,8 @@ const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
     occupation,
     impressions,
     viewedProfile,
+    _id,
+    picturePath
   } = user;
 
   return (
@@ -76,7 +54,7 @@ const UserWidget = ({ userId, picturePath }: UserWidgetProps) => {
         pb={"1.1rem"}
         onClick={async() => {
           await setIsAppLoading()
-          navigate(`/profile/${userId}`)}}
+          navigate(`/profile/${user._id}`)}}
       >
         <FlexBetween gap={"0.5rem"}>
           <UserImage image={picturePath} size={40} />

@@ -78,8 +78,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
       }
       const res = await sendPost(formData);
       const postResponse: IPost = res.data;
-      console.log(postResponse);
-      
+
       dispatch(addNewestPost({ post:postResponse }));
       setImage(null);
       setPost("");

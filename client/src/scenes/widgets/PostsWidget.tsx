@@ -1,12 +1,19 @@
-import { useAppDispatch, useAppSelector } from "index";
-import { getFreePosts, getUserPosts } from "../../service/post.service";
-import { setPosts } from "../../state";
-import { useEffect, useState } from "react";
+import {useAppDispatch, useAppSelector} from "index";
+import {getFreePosts, getUserPosts} from "../../service/post.service";
+import {setPosts} from "../../state";
+import {useEffect, useState} from "react";
 import PostWidget from "./PostWidget";
-import { useScroll } from "../../hooks/useScroll";
+import {useScroll} from "../../hooks/useScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SkeletonPost from "components/loading/SkeletonPost";
-import { Link, useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+
+function arrayEquals(a: any, b: any) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
+}
 
 interface PostWidgetProps {
   status: "error" | "loading" | "success";
@@ -16,11 +23,11 @@ interface PostWidgetProps {
 }
 
 const PostsWidget = ({
-  characters,
-  hasNextPage,
-  status,
-  fetchNextPage,
-}: PostWidgetProps) => {
+                       characters,
+                       hasNextPage,
+                       status,
+                       fetchNextPage,
+                     }: PostWidgetProps) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
@@ -34,7 +41,7 @@ const PostsWidget = ({
 
   useEffect(() => {
     if (characters) {
-      dispatch(setPosts({ posts: [...characters.posts] }));
+        dispatch(setPosts({posts: [...characters.posts]}));
     }
   }, [characters]);
 
@@ -42,18 +49,18 @@ const PostsWidget = ({
     <>
       {initialLoading ? (
         <>
-          <SkeletonPost />
-          <SkeletonPost />
+          <SkeletonPost/>
+          <SkeletonPost/>
         </>
       ) : (
         <InfiniteScroll
           next={async () => {
             setTimeout((_: any) => fetchNextPage(), 1500);
           }}
-          hasMore={!!hasNextPage}
-          loader={<SkeletonPost />}
+          hasMore={hasNextPage ? !!hasNextPage : false}
+          loader={<SkeletonPost/>}
           endMessage={
-            <p style={{ textAlign: "center" }}>
+            <p style={{textAlign: "center"}}>
               <b>Yay! You have seen it all</b>
             </p>
           }

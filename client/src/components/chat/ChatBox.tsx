@@ -21,7 +21,6 @@ const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
     const handleGetTitleMessage = async () => {
       try {
         const titleMessage = await getTitleMessage();
-        console.log({ titleMessage });
         setTitleMessages(titleMessage.data);
       } catch (e) {
         console.log(e);

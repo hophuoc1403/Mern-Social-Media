@@ -30,9 +30,12 @@ export const getFirstMessage = async (req, res) => {
 export const getMessage = async (req, res) => {
   try {
     const { members } = req.body;
-    const messages = await Chat.find({ members }).populate("User", "RoomChat");
-    return res.status(200).json(messages);
+    const room = await RoomChat.findOne({members:{$all:members}})
+    const messages = await Chat.find({ roomId:room._id });
+    console.log(messages)
+    return res.status(200).json({room,messages});
   } catch (e) {
+    console.log(e)
     return res.status(408).json({ message: e });
   }
 };

@@ -2,6 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import Notification from "../models/Notification.js";
+import mongoose from "mongoose";
 
 // Create
 
@@ -88,13 +89,12 @@ export const getUserPosts = async (req, res) => {
     const limit = req.query.limit || 5;
     const { userId } = req.params;
     const pagination = await apiPagination(pageNumber, limit, userId);
-    const posts = await Post.find({ userId })
+    const posts = await Post.find({ userId:mongoose.Types.ObjectId(userId) })
       .sort({ createdAt: -1 })
       .skip(pagination.offset)
       .limit(limit)
       .exec();
     let comment = await Comment.find({}).exec();
-    console.log(posts);
     const userInfor = await User.findById(userId);
     let postWithComment = await Promise.all(
       posts.map(async (post) => {

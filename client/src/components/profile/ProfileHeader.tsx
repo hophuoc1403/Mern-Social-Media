@@ -6,8 +6,8 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "index";
-import { makeStyles } from "tss-react/mui";
+import {useAppDispatch, useAppSelector} from "index";
+import {makeStyles} from "tss-react/mui";
 import UserImage from "../UserImage";
 import FlexBetween from "../FlexBetween";
 import {
@@ -15,16 +15,16 @@ import {
   EditAttributesOutlined,
   EditOffOutlined,
 } from "@mui/icons-material";
-import { useState } from "react";
+import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { styled } from "@mui/system";
-import { changeAvatar } from "../../service/user.service";
-import { setAvatar } from "../../state";
-import { toast } from "react-toastify";
+import {styled} from "@mui/system";
+import {changeAvatar} from "../../service/user.service";
+import {setAvatar} from "../../state";
+import {toast} from "react-toastify";
 import useProfileStore from "hooks/stateProfile.store";
-import { useTheme } from "@emotion/react";
+import {useTheme} from "@emotion/react";
 
-const ModalStyle = styled(Box)(({ theme }) => ({
+const ModalStyle = styled(Box)(({theme}) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -36,22 +36,23 @@ const ModalStyle = styled(Box)(({ theme }) => ({
   width: "max-content",
 }));
 
-const ProfileHeader = () => {
-  const { user } = useAppSelector((state) => state);
-  const { classes, cx } = useStyles();
+
+const ProfileHeader = ({user}: { user: IUser }) => {
+  const {classes, cx} = useStyles();
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const { handleOpenModal } = useProfileStore();
+  const {handleOpenModal} = useProfileStore();
   const theme = useTheme()
+  const {user: userRoot} = useAppSelector(state => state)
 
   const handleUploadAvatar = async (avatar: any) => {
     const file = avatar.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = (e: any) => {
-      const { result } = e.target;
+      const {result} = e.target;
       setImageUrl(result);
     };
     if (file) {
@@ -73,10 +74,10 @@ const ProfileHeader = () => {
       form.append("picturePath", fileImage!.name);
       await changeAvatar(form);
       await new Promise((_) => setTimeout(_, 1500));
-      dispatch(setAvatar({ avatar: fileImage!.name }));
+      dispatch(setAvatar({avatar: fileImage!.name}));
       toast.success("update avatar successfully");
     } catch (e) {
-      console.log({ error: e });
+      console.log({error: e});
       toast.error("update avatar fail");
     } finally {
       setLoading(false);
@@ -84,8 +85,11 @@ const ProfileHeader = () => {
     }
   };
 
-  return (
-    <Box sx={{ backgroundImage:theme.palette.mode === "dark" ? "linear-gradient(to bottom,#0b4a55,#242526)" : "linear-gradient(to bottom,gray,#fff)" }}>
+  // @ts-ignore
+  const mode = theme.palette.mode
+
+  return (<Box
+      sx={{backgroundImage: mode === "dark" ? "linear-gradient(to bottom,#0b4a55,#242526)" : "linear-gradient(to bottom,gray,#fff)"}}>
       <Box className={classes.background}>
         <img
           style={{
@@ -94,7 +98,7 @@ const ProfileHeader = () => {
             objectFit: "cover",
             height: "20rem",
             borderRadius: ".5rem",
-            boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px;'
+            boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px'
           }}
           src={`http://localhost:3001/assets/${user.picturePath}`}
           alt=""
@@ -102,12 +106,12 @@ const ProfileHeader = () => {
       </Box>
       <FlexBetween mx={"15%"}>
         <FlexBetween>
-          <Box sx={{ marginLeft: "5rem", transform: "translateY(-15%)" }}>
+          <Box sx={{marginLeft: "5rem", transform: "translateY(-15%)"}}>
             <Badge
               badgeContent={
                 <label
                   htmlFor="icon-button-file"
-                  style={{ transform: "translate(-80%,350%)" }}
+                  style={{transform: "translate(-80%,350%)"}}
                 >
                   <input
                     onChange={async (avatar: any) => {
@@ -116,17 +120,17 @@ const ProfileHeader = () => {
                     type="file"
                     accept="image/*"
                     id="icon-button-file"
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   />
 
                   <IconButton aria-label="upload picture" component="span">
-                    <CameraAlt sx={{ fontSize: 20 }} />
+                    <CameraAlt sx={{fontSize: 20}}/>
                   </IconButton>
                 </label>
               }
             >
               <UserImage
-                style={{ border: "6px solid #242526" }}
+                style={{border: "6px solid #242526"}}
                 image={`${user.picturePath}`}
                 size={150}
               />
@@ -136,7 +140,7 @@ const ProfileHeader = () => {
             <Typography
               fontWeight={"bold"}
               variant={"h3"}
-              sx={{ marginBottom: ".3rem" }}
+              sx={{marginBottom: ".3rem"}}
             >
               {user.firstName + " " + user.lastName}
             </Typography>
@@ -148,18 +152,19 @@ const ProfileHeader = () => {
                 <UserImage
                   image={friend.picturePath}
                   size={50}
-                  style={{ border: "3px solid #242526" }}
+                  style={{border: "3px solid #242526"}}
                 />
               ))}
             </Box>
           </Box>
         </FlexBetween>
-        <Button variant={"contained"} onClick={handleOpenModal}>
-          <IconButton>
-            <EditOffOutlined />
-          </IconButton>
+        {user._id === userRoot._id ? <Button variant={"contained"} onClick={handleOpenModal}>
+          <EditOffOutlined/>
           Edit profile
-        </Button>
+        </Button> : <Button variant={"contained"}>
+          Message
+        </Button>}
+
       </FlexBetween>
 
       <Modal
@@ -208,7 +213,7 @@ const ProfileHeader = () => {
               size="medium"
               color="primary"
               variant="contained"
-              style={{ marginLeft: 20 }}
+              style={{marginLeft: 20}}
             >
               Upload
             </LoadingButton>

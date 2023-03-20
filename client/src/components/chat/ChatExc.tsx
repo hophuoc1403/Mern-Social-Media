@@ -7,30 +7,66 @@ import {
   Divider,
   IconButton,
   InputBase,
-  TextField,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import {Box} from "@mui/system";
 import FlexBetween from "components/FlexBetween";
 import UserImage from "components/UserImage";
-import { useAppSelector } from "index";
-import { useState } from "react";
-import { makeStyles } from "tss-react/mui";
+import {useAppSelector} from "index";
+import {useEffect, useState} from "react";
+import {makeStyles} from "tss-react/mui";
 import ScrollToBottom from "react-scroll-to-bottom";
+import useChatStore, {chat} from "../../hooks/stateChat.store";
+import {getMessages} from "../../service/chat.service";
+import {useTrackedStore} from "../../hooks";
+import state from "../../state";
 
 interface ChatExcProps {
   isShow: boolean;
 }
+
 interface Chat {
   room: string;
   chat: any;
 }
 
-const ChatExc = ({ isShow }: ChatExcProps) => {
+const ChatExc = ({isShow}: ChatExcProps) => {
   const [isSmallSize, setIsSmallSize] = useState<boolean>(false);
-  const { user } = useAppSelector((state) => state);
-  const { classes, theme } = useStyles({ isShow, isSmallSize });
-  const [isClosed, setIsClosed] = useState<boolean>(false);
+  const {user} = useAppSelector((state) => state);
+  const {classes, theme} = useStyles({isShow, isSmallSize});
+  const [messages, setMessages] = useState<chat[]>([])
+  const socket = useTrackedStore().socket.socket()
+  const [messSend, setMessSend] = useState<string>("")
+  const [room,setRoom] = useState<any>(null)
+
+  const {setIsOpenChat, memberInfo} = useChatStore()
+
+  useEffect(() => {
+    const handleGetMessages = async () => {
+      // res : {room : roomInstance , chat: chat[] }
+      const res = await getMessages({members: [user._id, memberInfo!._id]})
+      setMessages(res.data.messages as chat[])
+      setRoom(res.data.room)
+      console.log(res.data)
+    }
+    handleGetMessages().then(r => r)
+  }, [memberInfo])
+
+  const handleSendMessage = async () => {
+    socket?.emit("getMessage", {senderId: user._id, message: messSend, roomId:room._id})
+    setMessSend("")
+  }
+
+  // @ts-ignore
+  useEffect(() => {
+    const handler = ({senderId,message,createdAt}:chat) => {
+      if(message !== ""){
+        setMessages(state => ([...state,{senderId,message,createdAt}]))
+      }
+    }
+    socket?.on("sendMessage",handler )
+    return () => socket!.off('sendMessage', handler);
+  }, [])
 
   return (
     <Box className={classes.container}>
@@ -39,13 +75,13 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
         onClick={() => setIsSmallSize(false)}
       >
         <FlexBetween>
-          <UserImage size={40} image={user.picturePath} />
+          <UserImage size={40} image={memberInfo ? memberInfo.picturePath : user.picturePath}/>
           <Typography
             className="pl-1 font-bold"
             variant="body2"
             fontWeight={"bold"}
           >
-            skdjasfhdsfkd
+            {memberInfo ? memberInfo.firstName + " " + memberInfo.lastName : "User"}
           </Typography>
         </FlexBetween>
 
@@ -56,48 +92,62 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
               setIsSmallSize(!isSmallSize);
             }}
           >
-            <HorizontalRuleOutlined />
+            <HorizontalRuleOutlined/>
           </IconButton>
           <IconButton
             onClick={(e) => {
               e.stopPropagation();
-              setIsClosed(true);
+              setIsOpenChat(false);
             }}
           >
-            <CloseOutlined />
+            <CloseOutlined/>
           </IconButton>
         </Box>
       </FlexBetween>
       <ScrollToBottom className={classes.body}>
-          <ChatContent isSender={true} />
+        {messages.map(message => (<ChatContent senderInfo={message.senderId === user._id ? user : memberInfo!} message={message.message} isSender={(message.senderId === user._id)}/>))}
       </ScrollToBottom>
       <Box className={classes.input}>
-        <Divider sx={{ backgroundColor: theme.palette.primary.main, mb: 1 }} />
+        <Divider sx={{backgroundColor: theme.palette.primary.main, mb: 1}}/>
         <InputBase
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage();
+            }
+          }}
           placeholder="write some thing ..."
           sx={{
             border: "1px solid white",
             borderRadius: "20px !important",
             padding: "3px 10px",
           }}
-          endAdornment={<SendAndArchiveOutlined sx={{ cursor: "pointer" }} />}
+          endAdornment={<SendAndArchiveOutlined sx={{cursor: "pointer"}}/>}
           autoFocus
           fullWidth
+          value={messSend}
+          onChange={event => setMessSend(event.target.value)}
+          onClick={handleSendMessage}
+
         />
       </Box>
     </Box>
   );
 };
 
-const ChatContent = ({ isSender }: { isSender: boolean }) => {
-  const { classes } = useChatContentStyles({ isSender });
+interface ChatContentProps {
+  isSender:boolean,
+  senderInfo:IUser,
+  message:string
+}
+const ChatContent = ({isSender,senderInfo,message}: ChatContentProps) => {
+  const {classes} = useChatContentStyles({isSender});
 
   return (
     <Box className={classes.container}>
-      <UserImage image="" size={40} />
+      <UserImage image={senderInfo.picturePath} size={40}/>
       <Box className={classes.box}>
-        <Typography fontSize={"12px"}>
-          lkfdjgfdjg hdfgjf kasdjaks djkd jfd ksk kdsfj
+        <Typography fontSize={"15px"}>
+          {message}
         </Typography>
       </Box>
     </Box>
@@ -107,14 +157,14 @@ const ChatContent = ({ isSender }: { isSender: boolean }) => {
 export default ChatExc;
 
 const useStyles = makeStyles<{ isShow: boolean; isSmallSize: boolean }>()(
-  (theme, { isShow, isSmallSize }) => ({
+  (theme, {isShow, isSmallSize}) => ({
     container: {
       display: isShow ? "flex" : "none",
       flexDirection: "column",
       position: "fixed",
       right: "6%",
       bottom: "0",
-      width: "20vw",
+      width: "max(20vw,300px)",
       height: isSmallSize ? "auto" : "max(50vh,300px)",
       backgroundColor: theme.palette.background.default,
       boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
@@ -146,12 +196,12 @@ const useStyles = makeStyles<{ isShow: boolean; isSmallSize: boolean }>()(
 );
 
 const useChatContentStyles = makeStyles<{ isSender: boolean }>()(
-  (theme, { isSender }) => ({
+  (theme, {isSender}) => ({
     container: {
       display: "flex",
       flexDirection: isSender ? "row-reverse" : "row",
       alignItems: "center",
-      marginBottom: "8px",
+      marginBottom: "15px",
     },
     box: {
       display: "flex",
