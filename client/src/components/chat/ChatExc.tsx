@@ -19,15 +19,17 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import useChatStore, {chat} from "../../hooks/stateChat.store";
 import {getMessages} from "../../service/chat.service";
 import {useTrackedStore} from "../../hooks";
-import state from "../../state";
+import moment from "moment";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface ChatExcProps {
   isShow: boolean;
 }
 
+
 interface Chat {
-  room: string;
-  chat: any;
+
+  messages: chat[];
 }
 
 const ChatExc = ({isShow}: ChatExcProps) => {
@@ -37,34 +39,38 @@ const ChatExc = ({isShow}: ChatExcProps) => {
   const [messages, setMessages] = useState<chat[]>([])
   const socket = useTrackedStore().socket.socket()
   const [messSend, setMessSend] = useState<string>("")
-  const [room,setRoom] = useState<any>(null)
+  const [room, setRoom] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {setIsOpenChat, memberInfo} = useChatStore()
 
   useEffect(() => {
     const handleGetMessages = async () => {
-      // res : {room : roomInstance , chat: chat[] }
       const res = await getMessages({members: [user._id, memberInfo!._id]})
-      setMessages(res.data.messages as chat[])
+      const chatRes: Chat = res.data
+      setMessages(chatRes.messages)
       setRoom(res.data.room)
-      console.log(res.data)
     }
     handleGetMessages().then(r => r)
   }, [memberInfo])
 
   const handleSendMessage = async () => {
-    socket?.emit("getMessage", {senderId: user._id, message: messSend, roomId:room._id})
+    setIsLoading(true)
+    socket?.emit("getMessage", {senderId: user._id, message: messSend, roomId: room._id})
     setMessSend("")
+    await new Promise(_ => setTimeout(_, 500))
+    setIsLoading(false)
   }
 
   // @ts-ignore
   useEffect(() => {
-    const handler = ({senderId,message,createdAt}:chat) => {
-      if(message !== ""){
-        setMessages(state => ([...state,{senderId,message,createdAt}]))
+    const handler = ({senderId, message, createdAt}: {senderId:string, message:string, createdAt:string}) => {
+      if (message !== "") {
+
+        setMessages(state => ([...state, {senderId:senderId === memberInfo?._id ? memberInfo : user, message, createdAt}]))
       }
     }
-    socket?.on("sendMessage",handler )
+    socket?.on("sendMessage", handler)
     return () => socket!.off('sendMessage', handler);
   }, [])
 
@@ -105,7 +111,9 @@ const ChatExc = ({isShow}: ChatExcProps) => {
         </Box>
       </FlexBetween>
       <ScrollToBottom className={classes.body}>
-        {messages.map(message => (<ChatContent senderInfo={message.senderId === user._id ? user : memberInfo!} message={message.message} isSender={(message.senderId === user._id)}/>))}
+        {messages.map(message => (
+          <ChatContent createdAt={message.createdAt} senderInfo={message.senderId}
+                       message={message.message} isSender={(message.senderId._id === user._id)}/>))}
       </ScrollToBottom>
       <Box className={classes.input}>
         <Divider sx={{backgroundColor: theme.palette.primary.main, mb: 1}}/>
@@ -121,7 +129,8 @@ const ChatExc = ({isShow}: ChatExcProps) => {
             borderRadius: "20px !important",
             padding: "3px 10px",
           }}
-          endAdornment={<SendAndArchiveOutlined sx={{cursor: "pointer"}}/>}
+          endAdornment={<LoadingButton sx={{minWidth: "max-content"}} loading={isLoading}><SendAndArchiveOutlined
+            sx={{cursor: "pointer"}}/></LoadingButton>}
           autoFocus
           fullWidth
           value={messSend}
@@ -135,20 +144,25 @@ const ChatExc = ({isShow}: ChatExcProps) => {
 };
 
 interface ChatContentProps {
-  isSender:boolean,
-  senderInfo:IUser,
-  message:string
+  isSender: boolean,
+  senderInfo: IUser,
+  message: string
+  createdAt: string
 }
-const ChatContent = ({isSender,senderInfo,message}: ChatContentProps) => {
+
+const ChatContent = ({isSender, senderInfo, message, createdAt}: ChatContentProps) => {
   const {classes} = useChatContentStyles({isSender});
 
   return (
     <Box className={classes.container}>
       <UserImage image={senderInfo.picturePath} size={40}/>
-      <Box className={classes.box}>
-        <Typography fontSize={"15px"}>
-          {message}
-        </Typography>
+      <Box style={{maxWidth: "60%"}}>
+        <Box className={classes.box}>
+          <Typography fontSize={"15px"}>
+            {message}
+          </Typography>
+        </Box>
+        <Typography fontSize={"12px"} color={"grey"}>{moment(createdAt).fromNow()}</Typography>
       </Box>
     </Box>
   );
@@ -180,12 +194,11 @@ const useStyles = makeStyles<{ isShow: boolean; isSmallSize: boolean }>()(
 
     body: {
       flexGrow: "1",
+      height: "230px",
       display: isSmallSize ? "none" : "block",
-      overflowY: isSmallSize ? "hidden" : "scroll",
-      "&::-webkit-scrollbar": {
-        display: "none",
-      },
     },
+
+
     input: {
       marginBottom: "5px",
       bottom: "-4px",
@@ -202,16 +215,20 @@ const useChatContentStyles = makeStyles<{ isSender: boolean }>()(
       flexDirection: isSender ? "row-reverse" : "row",
       alignItems: "center",
       marginBottom: "15px",
+      paddingInline: "5px"
     },
     box: {
       display: "flex",
       alignItems: "center",
       textAlign: "center",
       borderRadius: "40px",
-      padding: "2px 8px",
-      overflow: "auto",
-      maxWidth: "60%",
+      padding: "2px 10px",
+      // overflow: "auto",
+      // maxWidth: "60%",
       backgroundColor: isSender ? "green" : "blue",
+      "&::-webkit-scrollbar": {
+        display: "none"
+      },
     },
   })
 );

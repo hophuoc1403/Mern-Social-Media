@@ -28,7 +28,6 @@ import { useNavigate } from "react-router-dom";
 import { setLogout, setMode, setPostsSearched } from "../../state";
 import UserImage from "../../components/UserImage";
 import Menu from "@mui/material/Menu";
-import useAppStore from "hooks/stateApp.store";
 import { useAppDispatch, useAppSelector } from "index";
 import { findPost, getNotifications } from "service/post.service";
 import useDebounce from "hooks/useDebounce";
@@ -83,10 +82,8 @@ const NavbarPage = () => {
   };
 
   useEffect(() => {
-    socket &&
-      socket.on("getNotification", (data) => {
+      socket?.on("getNotification", (data) => {
         console.log({ data });
-
         setNotifications((prev) => [
           { content: `${data.senderName} ${data.type} your post` },
           ...prev,
@@ -105,7 +102,6 @@ const NavbarPage = () => {
   // @ts-ignore
   const neutralLight = theme.palette.neutral.light;
   // @ts-ignore
-  const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
   // @ts-ignore
@@ -163,7 +159,7 @@ const NavbarPage = () => {
             <LoadingButton
               className="p-0"
               sx={{ paddingRight: "1rem", minWidth: "max-content" }}
-              loading={status === "pending" ? true : false}
+              loading={status === "pending"}
             >
               {" "}
               <Search />

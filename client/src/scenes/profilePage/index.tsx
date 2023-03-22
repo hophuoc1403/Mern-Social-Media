@@ -11,7 +11,6 @@ import {useEffect, useMemo} from "react";
 import useProfileStore from "../../hooks/stateProfile.store";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {getFriends, getUser} from "../../service/user.service";
-import {setFriends} from "../../state";
 
 const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -19,7 +18,6 @@ const ProfilePage = () => {
   const { user } = useAppSelector((state) => state);
   const {userSelected,setUserSelected} = useProfileStore()
   const { userId } = useParams();
-  const dispatch = useAppDispatch()
 
   // const { status, hasNextPage, fetchNextPage, characters ,refetch} = useScroll(
   //   (page: number) => getUserPosts(userId as string, page)
@@ -32,9 +30,9 @@ const ProfilePage = () => {
       }
       else {
         const response = await getUser(userId);
-        setUserSelected(response.data)
         const friendResponse = await getFriends(userId ?? user._id)
-        dispatch(setFriends({ friends: friendResponse.data }));
+        const userSelectedRes : IUser = {...response.data,friends:friendResponse.data}
+        setUserSelected(userSelectedRes)
       }
     }
     getUserSelected().then(r => r)

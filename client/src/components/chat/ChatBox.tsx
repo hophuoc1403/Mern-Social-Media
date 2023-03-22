@@ -4,8 +4,10 @@ import UserImage from "components/UserImage";
 import { useAppSelector } from "index";
 import { useEffect, useRef, useState } from "react";
 import { getTitleMessage } from "service/chat.service";
-import { makeStyles, withStyles } from "tss-react/mui";
+import { makeStyles } from "tss-react/mui";
 import { useHover } from "usehooks-ts";
+import useChatStore, {chat} from "../../hooks/stateChat.store";
+import {getUser} from "../../service/user.service";
 
 interface ChatBoxProps {
   onClose: () => void;
@@ -13,9 +15,16 @@ interface ChatBoxProps {
   chatRef: HTMLElement | null;
 }
 
-const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
+interface TitleMessages {
+  roomId: {
+    members:string[]
+  };
+  messages : chat
+}
+
+const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
   const { classes } = useStyle();
-  const [titleMessages, setTitleMessages] = useState<any>([]);
+  const [titleMessages, setTitleMessages] = useState<TitleMessages[]>([]);
 
   useEffect(() => {
     const handleGetTitleMessage = async () => {
@@ -49,7 +58,7 @@ const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
       <Box className={""}>
         {titleMessages.length > 0 ? (
           titleMessages.map((message: any) => {
-            return <ChatBoxEl />;
+            return <ChatBoxEl message={message} />;
           })
         ) : (
           <Box padding={2}>
@@ -61,21 +70,32 @@ const ChatBox = ({ id, onClose, chatRef }: ChatBoxProps) => {
   );
 };
 
-const ChatBoxEl = () => {
+const ChatBoxEl = ({message}:{message:any}) => {
   const chatElRef = useRef<HTMLDivElement | null>(null);
   const isHoverChat = useHover(chatElRef);
-  const { user } = useAppSelector((state) => state);
   const { classes } = useStyleEl({ chatBoxHover: isHoverChat });
+  const {user} = useAppSelector(state => state)
+  const {setMemberInfo,setIsOpenChat} = useChatStore()
+
+  console.log(message)
+  const handleClickChatBox = async () => {
+    const memberId  = message[0].roomId.members.find((member:string) => member !== user._id)
+    const res = await getUser(memberId)
+    await  setMemberInfo(res.data)
+    setIsOpenChat(true)
+  }
+
   return (
     <>
       <Box
         ref={chatElRef}
+        onClick={handleClickChatBox}
         className={`flex gap-2 px-2 py-3 min-w-[150px] ${classes.chatBoxEl}`}
       >
-        <UserImage image={user.picturePath} size={35} />
+        <UserImage image={message[0].senderId.picturePath} size={35} />
         <Box>
-          <Typography variant="h6">{user.firstName}</Typography>
-          <Typography variant="body2">{user.firstName}</Typography>
+          <Typography variant="h6">{message[0].senderId.firstName}</Typography>
+          <Typography variant="body2">{message[0].message}</Typography>
         </Box>
       </Box>
       <Divider />

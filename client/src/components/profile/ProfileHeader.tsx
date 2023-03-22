@@ -12,17 +12,18 @@ import UserImage from "../UserImage";
 import FlexBetween from "../FlexBetween";
 import {
   CameraAlt,
-  EditAttributesOutlined,
   EditOffOutlined,
 } from "@mui/icons-material";
-import {useState} from "react";
+import { useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {styled} from "@mui/system";
-import {changeAvatar} from "../../service/user.service";
+import {addOrRemoveFriend, changeAvatar} from "../../service/user.service";
 import {setAvatar} from "../../state";
 import {toast} from "react-toastify";
 import useProfileStore from "hooks/stateProfile.store";
 import {useTheme} from "@emotion/react";
+import useChatStore from "../../hooks/stateChat.store";
+import {useTrackedStore} from "../../hooks";
 
 const ModalStyle = styled(Box)(({theme}) => ({
   position: "absolute",
@@ -38,15 +39,27 @@ const ModalStyle = styled(Box)(({theme}) => ({
 
 
 const ProfileHeader = ({user}: { user: IUser }) => {
-  const {classes, cx} = useStyles();
+  const {classes} = useStyles();
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const {handleOpenModal} = useProfileStore();
   const theme = useTheme()
   const {user: userRoot} = useAppSelector(state => state)
+  const {handleOpenModal} = useProfileStore();
+  const {setIsOpenChat} = useChatStore()
+  const socket = useTrackedStore().socket.socket()
+  const {setUserSelected} = useProfileStore()
+
+  // check is friend
+  const [isFriend, setIsFriend] = useState<boolean>(() => {
+    if (user._id === userRoot._id) {
+      return false;
+    }
+    // @ts-ignore
+    return !!user.friends.find((friend) => friend._id === userRoot._id);
+  })
 
   const handleUploadAvatar = async (avatar: any) => {
     const file = avatar.target.files[0];
@@ -82,6 +95,35 @@ const ProfileHeader = ({user}: { user: IUser }) => {
     } finally {
       setLoading(false);
       setIsOpenModal(false);
+    }
+  };
+
+  const patchFriend = async () => {
+    try {
+      const id = toast.info("loading ....", {
+        autoClose: false,
+        className: "rotateY animated",
+      });
+      const response = await addOrRemoveFriend(userRoot._id, user._id);
+      const friends: IUser[] = response.data;
+      // @ts-ignore
+      const isFriends = friends.find((friend) => friend._id === user._id);
+      isFriends && socket?.emit("createRoom", {members: [userRoot._id, user._id]});
+      setIsFriend(state => !state)
+      setTimeout((_: any): any => {
+        toast.update(id, {
+          render: isFriends
+            ? "add friend successfully"
+            : "remove friend successfully",
+          type: toast.TYPE.SUCCESS,
+          className: "rotateY animated",
+          autoClose: 4000,
+        });
+      }, 1000);
+      const userWithNewFriend = {...user, friends}
+      setUserSelected(userWithNewFriend)
+    } catch (e) {
+      console.log({error: e});
     }
   };
 
@@ -161,9 +203,12 @@ const ProfileHeader = ({user}: { user: IUser }) => {
         {user._id === userRoot._id ? <Button variant={"contained"} onClick={handleOpenModal}>
           <EditOffOutlined/>
           Edit profile
-        </Button> : <Button variant={"contained"}>
-          Message
-        </Button>}
+        </Button> : (<Box className={"flex gap-2"}>
+          <Button onClick={() => setIsOpenChat(true)} variant={"contained"}>
+            Message
+          </Button> <Button onClick={patchFriend}
+                            variant={"contained"}>{isFriend ? "Add Friend" : "Remove Friend"}</Button>
+        </Box>)}
 
       </FlexBetween>
 

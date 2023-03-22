@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export interface chat {
-  senderId:string
+  senderId:IUser
   message: string;
   createdAt: string;
 }
@@ -13,7 +13,7 @@ interface stateChatStore {
   setIsOpenChat: (check:boolean) => void;
 }
 
-const useChatStore = create<stateChatStore>((set, get) => ({
+const useChatStore = create<stateChatStore>((set) => ({
   memberInfo: null,
   isOpenChat: false,
   setMemberInfo: (memberInfo: IUser) => {

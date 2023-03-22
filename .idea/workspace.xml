@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment="changer method render post user and get user friend">
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment=":lipstick: update ui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/homePage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatBox.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/hooks/stateChat.store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/chat.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +120,11 @@
       <workItem from="1679235743595" duration="12022000" />
       <workItem from="1679281632857" duration="2498000" />
       <workItem from="1679316407264" duration="1663000" />
-      <workItem from="1679326543111" duration="4157000" />
+      <workItem from="1679326543111" duration="6910000" />
+      <workItem from="1679381707262" duration="58000" />
+      <workItem from="1679390659057" duration="3915000" />
+      <workItem from="1679404926122" duration="10440000" />
+      <workItem from="1679468242463" duration="83000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>
@@ -159,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679329864913</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary=":lipstick: update ui">
+      <created>1679331085213</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679331085213</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +199,7 @@
     <MESSAGE value="update redux like post and change router login" />
     <MESSAGE value="install particles" />
     <MESSAGE value="changer method render post user and get user friend" />
-    <option name="LAST_COMMIT_MESSAGE" value="changer method render post user and get user friend" />
+    <MESSAGE value=":lipstick: update ui" />
+    <option name="LAST_COMMIT_MESSAGE" value=":lipstick: update ui" />
   </component>
 </project>
