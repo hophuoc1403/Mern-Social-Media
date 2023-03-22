@@ -111,19 +111,20 @@ io.on("connection", (socket) => {
 
     socket.on(
         "sendNotification",
-        async ({senderName, receiverName, type, senderId, receiverId}) => {
+        async ({senderName, receiverName, type, senderId, receiverId,postId}) => {
             const receiver = getUser(receiverName) ?? null;
-            console.log({receiver});
             receiver &&
             io.to(receiver.socketId).emit("getNotification", {
                 senderName,
                 type,
+                postId
             });
             try {
                 const newNoti = new Notification({
                     senderId,
                     receiverId,
                     content: `${senderName} ${type} your post.`,
+                    postId
                 });
                 await newNoti.save();
             } catch (e) {
@@ -137,7 +138,6 @@ io.on("connection", (socket) => {
     // });
 
     // chat
-
     socket.on("createRoom", async ({members}) => {
         const isExistRoom = await RoomChat.find({members: {$all: members}});
 

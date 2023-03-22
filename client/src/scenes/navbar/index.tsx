@@ -20,7 +20,7 @@ import {
   DarkMode,
   LightMode,
   Close,
-  MenuOpenOutlined,
+  MenuOpenOutlined, AccountBalanceOutlined, ExitToAppOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import { useEffect, useState } from "react";
@@ -36,6 +36,9 @@ import { LoadingButton } from "@mui/lab";
 import { motion } from "framer-motion";
 import ChatBox from "components/chat/ChatBox";
 import {actions, useTrackedStore} from "../../hooks";
+import NotificationBox from "../../components/Notification";
+
+export interface Notification { content: string,postId:string }
 
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
@@ -46,7 +49,7 @@ const NavbarPage = () => {
   const theme = useTheme();
   const socket = useTrackedStore().socket.socket();
   const {setIsAppLoading} = actions().socket
-  const [notifications, setNotifications] = useState<{ content: string }[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [searchVal, setSearchVal] = useState<string>("");
 
   const [searchDebounced, status] = useDebounce(searchVal);
@@ -81,11 +84,10 @@ const NavbarPage = () => {
     setAnchorEl2(null);
   };
 
-  useEffect(() => {
-      socket?.on("getNotification", (data) => {
-        console.log({ data });
+  useEffect(() => {{}
+      socket?.on("getNotification", (data:{senderName:string,postId:string,type:string}) => {
         setNotifications((prev) => [
-          { content: `${data.senderName} ${data.type} your post` },
+          { content: `${data.senderName} ${data.type} your post`,postId:data.postId },
           ...prev,
         ]);
       });
@@ -225,48 +227,50 @@ const NavbarPage = () => {
               MenuListProps={{
                 "aria-labelledby": "basic-button",
               }}
+
             >
-              <MenuItem
-                value={fullName}
-                onClick={async () => {
-                  await setIsAppLoading();
-                  navigate(`/profile/${user._id}`);
-                }}
-              >
-                <Typography>{fullName}</Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/account/login");
-                  localStorage.removeItem("accessToken");
-                  dispatch(setLogout());
-                }}
-              >
-                Logout
-              </MenuItem>
+              <Box sx={{minWidth:"150px"}}>
+                <MenuItem
+                  value={fullName}
+                  onClick={async () => {
+                    await setIsAppLoading();
+                    navigate(`/profile/${user._id}`);
+                  }}
+                  sx={{backgroundColor:theme.palette.background.default,padding:"15px 10px"}}
+                >
+                  <AccountBalanceOutlined className={"mr-2"}/>
+                  <Typography>{fullName}</Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate("/account/login");
+                    localStorage.removeItem("accessToken");
+                    dispatch(setLogout());
+                  }}
+                  sx={{backgroundColor:theme.palette.background.default,padding:"15px 10px"}}
+                >
+                  <ExitToAppOutlined className={"mr-2"}/>
+                  Logout
+                </MenuItem>
+              </Box>
             </Menu>
             <Menu
               id="basic-menu2"
               anchorEl={anchorEl2}
               open={open2}
               onClose={handleClose2}
-              // MenuListProps={{
-              //   "aria-labelledby": "basic-button2",
-              // }}
             >
               <Box
-                // borderRadius={5}
-                p={"5px 10px"}
-                // bgcolor={theme.palette.background.default}
               >
                 {notifications.length > 0
-                  ? notifications.map((noti: any) => (
-                      <>
-                        <Box my={1}>
-                          <p>{noti.content}</p>
-                        </Box>
-                        <Divider />
-                      </>
+                  ? notifications.map((notification) => (
+                    <NotificationBox notification={notification} />
+                      // <>
+                      //   <Box my={1}>
+                      //     <p>{noti.content}</p>
+                      //   </Box>
+                      //   <Divider />
+                      // </>
                     ))
                   : "you don't have any notification"}
               </Box>

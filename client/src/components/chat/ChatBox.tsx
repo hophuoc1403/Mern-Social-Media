@@ -77,7 +77,6 @@ const ChatBoxEl = ({message}:{message:any}) => {
   const {user} = useAppSelector(state => state)
   const {setMemberInfo,setIsOpenChat} = useChatStore()
 
-  console.log(message)
   const handleClickChatBox = async () => {
     const memberId  = message[0].roomId.members.find((member:string) => member !== user._id)
     const res = await getUser(memberId)

@@ -74,7 +74,7 @@ const PostWidget = ({
   // @ts-ignore
   const main = palette.neutral.main;
 
-  const patchLike = async () => {
+  const patchLike = async (postId:string) => {
     try {
       const response = await likePost(postId, loggedInUserId);
       const post: IPost = response.data;
@@ -86,6 +86,7 @@ const PostWidget = ({
           type: "liked",
           senderId: currentUser._id,
           receiverId: postUserId,
+          postId
         });
     } catch (e) {
       console.log(e);
@@ -213,7 +214,7 @@ const PostWidget = ({
         >
           <FlexBetween gap={"1rem"}>
             <FlexBetween gap={"0.3rem"}>
-              <IconButton onClick={patchLike}>
+              <IconButton onClick={()=>patchLike(postId)}>
                 {isLiked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
               </IconButton>
               <Typography>{likeCount}</Typography>
