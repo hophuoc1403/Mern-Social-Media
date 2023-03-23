@@ -104,12 +104,12 @@ const ProfileHeader = ({user}: { user: IUser }) => {
         autoClose: false,
         className: "rotateY animated",
       });
-      const response = await addOrRemoveFriend(userRoot._id, user._id);
+      const response = await addOrRemoveFriend(user._id,userRoot._id,);
       const friends: IUser[] = response.data;
       // @ts-ignore
-      const isFriends = friends.find((friend) => friend._id === user._id);
+      const isFriends = friends.find((friend) => friend._id === userRoot._id);
       isFriends && socket?.emit("createRoom", {members: [userRoot._id, user._id]});
-      setIsFriend(state => !state)
+      setIsFriend(!!isFriends)
       setTimeout((_: any): any => {
         toast.update(id, {
           render: isFriends
@@ -120,6 +120,7 @@ const ProfileHeader = ({user}: { user: IUser }) => {
           autoClose: 4000,
         });
       }, 1000);
+      console.log(friends)
       const userWithNewFriend = {...user, friends}
       setUserSelected(userWithNewFriend)
     } catch (e) {
@@ -207,7 +208,7 @@ const ProfileHeader = ({user}: { user: IUser }) => {
           <Button onClick={() => setIsOpenChat(true)} variant={"contained"}>
             Message
           </Button> <Button onClick={patchFriend}
-                            variant={"contained"}>{isFriend ? "Add Friend" : "Remove Friend"}</Button>
+                            variant={"contained"}>{!isFriend ? "Add Friend" : "Remove Friend"}</Button>
         </Box>)}
 
       </FlexBetween>

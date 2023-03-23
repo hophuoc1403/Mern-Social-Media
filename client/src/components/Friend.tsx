@@ -120,7 +120,9 @@ const Friend = ({
   };
 
   const handleDeletePost = async () => {
-    window.confirm("Do you want to delete your post ? ");
+   const check =  window.confirm("Do you want to delete your post ? ");
+   if(check){
+
     const id = toast.info("loading ....", {
       autoClose: false,
       className: "rotateY animated",
@@ -147,6 +149,7 @@ const Friend = ({
       });
     }
   };
+   }
 
   return (
     <Box

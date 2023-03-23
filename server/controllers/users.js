@@ -73,9 +73,9 @@ export const changeAvatar = async (req, res) => {
         const id = req.userId;
         const currentUser = await User.findById(id);
         const {picturePath} = req.body;
-        // if (req.file.filename !== currentUser.picturePath) {
-        //     fs.unlinkSync(`public/assets/${currentUser.picturePath}`);
-        // }
+        if (req.file.filename !== currentUser.picturePath) {
+            fs.unlinkSync(`public/assets/${currentUser.picturePath}`);
+        }
 
         currentUser.picturePath = picturePath;
         await Post.updateMany({userId: id}, {userPicturePath: picturePath});
@@ -96,7 +96,6 @@ export const editProfile = async (req, res) => {
 
     try {
         const {userId} = req;
-        let editedProfile = {};
         const {lastName, firstName, location, email, occupation} = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(

@@ -1,15 +1,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { AuthClient, OAuth2Client } from "google-auth-library";
+import {  OAuth2Client } from "google-auth-library";
 import nodemailer from "nodemailer";
 
 // Register user
 export const register = async (req, res) => {
   try {
-    // let picturePath =req.get("host") + "/assets"  + req.file.filename
     const {
-      picturePath,
       firstName,
       lastName,
       email,
@@ -26,14 +24,13 @@ export const register = async (req, res) => {
       lastName,
       email,
       password: passwordHash,
-      picturePath,
+      picturePath:req.file,filename,
       friends,
       location,
       occupation,
       viewedProfile: Math.floor(Math.random() * 1000),
       impressions: Math.floor(Math.random() * 1000),
     });
-    console.log(newUser);
     const savedUSer = await newUser.save();
     res.status(201).json(savedUSer);
   } catch (e) {

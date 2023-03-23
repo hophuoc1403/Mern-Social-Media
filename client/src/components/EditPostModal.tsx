@@ -15,7 +15,7 @@ import Dropzone from "react-dropzone";
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 import { updatePost } from "../service/post.service";
 import { useDispatch } from "react-redux";
-import { setPost, setPosts } from "../state";
+import { setPost } from "../state";
 import { toast } from "react-toastify";
 
 interface EditPostModalProps {
@@ -61,9 +61,13 @@ const EditPostModal = ({
     try {
       const formData = new FormData();
       formData.append("description", valuePost);
-      if (image !== null) {
-        formData.append("picturePath", image.name);
-        formData.append("picture", image);
+      if(typeEditImage === "change"){
+        if (image !== null) {
+          formData.append("picturePath", image.name);
+          formData.append("picture", image);
+        }
+      }else {
+        formData.append("pictureDelete",postPicturePath)
       }
       const res = await updatePost(id, formData);
 
