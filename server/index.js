@@ -7,14 +7,14 @@ import multer from "multer";
 import morgan from "morgan";
 import helmet from "helmet";
 import path from "path";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import http from "http";
+import { fileURLToPath } from "url";
 
-import {fileURLToPath} from "url";
-import {register} from "./controllers/auth.js";
-import {createPosts, editPost} from "./controllers/posts.js";
-import {verifyToken} from "./middleware/auth.js";
-import {changeAvatar} from "./controllers/users.js";
+import { register } from "./controllers/auth.js";
+import { createPosts, editPost } from "./controllers/posts.js";
+import { verifyToken } from "./middleware/auth.js";
+import { changeAvatar } from "./controllers/users.js";
 
 import Notification from "./models/Notification.js";
 import RoomChat from "./models/RoomChat.js";
@@ -31,17 +31,17 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(bodyParser.urlencoded({extended: true, limit: "30mb"}));
+app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
 app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: {
-        // err in server we are calling
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
-    },
+  cors: {
+    // err in server we are calling
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
 });
 
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
@@ -49,27 +49,27 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 // File storage
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function (req, file, cb) {
-        cb(null,new Date().toString() + file.originalname);
-    },
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toString() + file.originalname);
+  },
 });
 const upload = multer({
-    storage,
-    fileFilter(req, file, callback) {
-        if (
-            file.mimetype === "image/png" ||
-            file.mimetype === "image/jpg" ||
-            file.mimetype === "image/jpeg"
-        ) {
-            callback(null, true);
-        } else {
-            callback(null, false);
-            return callback(new Error("file image please"));
-        }
-    },
+  storage,
+  fileFilter(req, file, callback) {
+    if (
+      file.mimetype === "image/png" ||
+      file.mimetype === "image/jpg" ||
+      file.mimetype === "image/jpeg"
+    ) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+      return callback(new Error("file image please"));
+    }
+  },
 });
 
 app.post("/auth/register", upload.single("picture"), register);
@@ -86,89 +86,96 @@ app.use("/chat", chatRoutes);
 // mongoose setup
 mongoose.set("strictQuery", false);
 mongoose.connect("mongodb://0.0.0.0:27017/social-media", (err) => {
-    if (err) console.log(err);
-    else console.log("connected");
+  if (err) console.log(err);
+  else console.log("connected");
 });
 
 let onlineUsers = [];
 
 const addNewUser = (username, socketId) => {
-    !onlineUsers.some((user) => user.username === username) &&
-    onlineUsers.push({username, socketId});
+  !onlineUsers.some((user) => user.username === username) &&
+    onlineUsers.push({ username, socketId });
 };
 
 const getUser = (username) => {
-    return onlineUsers.find((user) => user.username === username);
+  return onlineUsers.find((user) => user.username === username);
 };
 
 io.on("connection", (socket) => {
-    // notifications
-    console.log("socket connected");
-    socket.on("newUser", (username) => {
-        addNewUser(username, socket.id);
-        console.log({username});
-    });
+  // notifications
+  console.log("socket connected");
+  socket.on("newUser", (username) => {
+    addNewUser(username, socket.id);
+    console.log({ username });
+  });
 
-    socket.on(
-        "sendNotification",
-        async ({senderName, receiverName, type, senderId, receiverId,postId}) => {
-            const receiver = getUser(receiverName) ?? null;
-            receiver &&
-            io.to(receiver.socketId).emit("getNotification", {
-                senderName,
-                type,
-                postId
-            });
-            try {
-                const newNoti = new Notification({
-                    senderId,
-                    receiverId,
-                    content: `${senderName} ${type} your post.`,
-                    postId
-                });
-                await newNoti.save();
-            } catch (e) {
-                console.log({error: e});
-            }
-        }
-    );
-
-    // socket.on("disconnect", () => {
-    //   removeUser(socket.id);
-    // });
-
-    // chat
-    socket.on("createRoom", async ({members}) => {
-        const isExistRoom = await RoomChat.find({members: {$all: members}});
-
-        if (isExistRoom.length !== 0) {
-            return;
-        }
-
-        let newRoom = new RoomChat({
-            members,
+  socket.on(
+    "sendNotification",
+    async ({
+      senderName,
+      receiverName,
+      type,
+      senderId,
+      receiverId,
+      postId,
+    }) => {
+      const receiver = getUser(receiverName) ?? null;
+      receiver &&
+        io.to(receiver.socketId).emit("getNotification", {
+          senderName,
+          type,
+          postId,
         });
+      try {
+        const newNoti = new Notification({
+          senderId,
+          receiverId,
+          content: `${senderName} ${type} your post.`,
+          postId,
+        });
+        await newNoti.save();
+      } catch (e) {
+        console.log({ error: e });
+      }
+    }
+  );
 
-        await newRoom.save();
+  // socket.on("disconnect", () => {
+  //   removeUser(socket.id);
+  // });
+
+  // chat
+  socket.on("createRoom", async ({ members }) => {
+    const isExistRoom = await RoomChat.find({ members: { $all: members } });
+
+    if (isExistRoom.length !== 0) {
+      return;
+    }
+
+    let newRoom = new RoomChat({
+      members,
     });
 
-    socket.on("getMessage", async ({senderId, message, roomId}) => {
-        try {
-            const createdAt = new Date().toString()
-            io.emit("sendMessage", {senderId, message, createdAt});
-            let newChat = new Chat({
-                senderId,
-                roomId,
-                message,
-            });
-            await newChat.save();
-            console.log(newChat)
-        } catch (e) {
-            console.log(e);
-        }
-    });
+    await newRoom.save();
+  });
+
+  socket.on("getMessage", async ({ senderId, message, roomId }) => {
+    try {
+      const createdAt = new Date().toString();
+      io.emit("sendMessage", { senderId, message, createdAt });
+      let newChat = new Chat({
+        senderId,
+        roomId,
+        message,
+      });
+      await newChat.save();
+      console.log(newChat);
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 server.listen(3001, () => {
-    console.log("listening....");
+  console.log("listening....");
 });

@@ -10,10 +10,10 @@ import {
   WorkOutline,
 } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "index";
-import {actions} from "../../hooks";
+import { actions } from "../../hooks";
 
 interface UserWidgetProps {
-  user:IUser
+  user: IUser;
 }
 
 const UserWidget = ({ user }: UserWidgetProps) => {
@@ -25,9 +25,7 @@ const UserWidget = ({ user }: UserWidgetProps) => {
   const medium = palette.neutral.medium;
   // @ts-ignore
   const main = palette.neutral.main;
-  const {setIsAppLoading} = actions().socket
-
-
+  const { setIsAppLoading } = actions().socket;
 
   if (!user) {
     return null;
@@ -41,8 +39,8 @@ const UserWidget = ({ user }: UserWidgetProps) => {
     occupation,
     impressions,
     viewedProfile,
-    _id,
-    picturePath
+    id,
+    picturePath,
   } = user;
 
   return (
@@ -52,9 +50,10 @@ const UserWidget = ({ user }: UserWidgetProps) => {
         sx={{ display: "flex", justifyContent: "space-between" }}
         gap={"0.5rem"}
         pb={"1.1rem"}
-        onClick={async() => {
-          await setIsAppLoading()
-          navigate(`/profile/${user._id}`)}}
+        onClick={async () => {
+          await setIsAppLoading();
+          navigate(`/profile/${user.id}`);
+        }}
       >
         <FlexBetween gap={"0.5rem"}>
           <UserImage image={picturePath} size={40} />
@@ -136,7 +135,7 @@ const UserWidget = ({ user }: UserWidgetProps) => {
           mb={"0.5rem"}
         >
           <FlexBetween gap={"1rem"}>
-            <img src={"../assets/twitter.png"} alt={"twitter"} />
+            <img src={"../twitter.png"} alt={"twitter"} />
             <Box>
               <Typography color={main} fontWeight={"500"}>
                 Twitter
@@ -153,7 +152,7 @@ const UserWidget = ({ user }: UserWidgetProps) => {
           mb={"0.5rem"}
         >
           <FlexBetween gap={"1rem"}>
-            <img src={"../assets/linkedIn.png"} alt={"twitter"} />
+            <img src={"../linkedIn.png"} alt={"twitter"} />
             <Box>
               <Typography color={main} fontWeight={"500"}>
                 linkedIn

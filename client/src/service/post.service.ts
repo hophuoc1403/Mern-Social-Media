@@ -15,30 +15,35 @@ export const getFreePosts = async (page: number) => {
   return data;
 };
 
-export const getUserPosts = async (id: string, page: number) => {
+export const getUserPosts = async (id: number, page: number) => {
+  const { data } = await getMethodAPI(`/posts/${id}?page=${page}&limit=5`);
+  return data;
+};
+
+export const getComment = async (postId: number, page: number) => {
   const { data } = await getMethodAPI(
-    `/posts/${id}/posts?page=${page}&limit=5`
+    `/posts/comment/${postId}?page=${page}&limit=3`
   );
   return data;
 };
 
-export const getSpecificPost = async  (id:string) => {
-  const {data} = await  getMethodAPI(`/posts/${id}`)
-  return data
-}
+export const getSpecificPost = async (id: number) => {
+  const { data } = await getMethodAPI(`/posts/detail/${id}`);
+  return data;
+};
 
-export const likePost = async (id: string, userId: string) => {
-  const response = await patchMethod(`/posts/${id}/like`, { userId });
+export const likePost = async (id: number) => {
+  const response = await postMethodAPI(`/posts/like`, { postId: id });
   return response;
 };
 
-export const deletePost = async (id: string) => {
-  const response = await deleteMethodAPI(`/posts/${id}`);
+export const deletePost = async (id: number) => {
+  const response = await deleteMethodAPI(`/posts/delete/${id}`);
   return response;
 };
 
-export const updatePost = async (id: string, data: FormData) => {
-  const response = await patchMethod(`/posts/${id}`, data, true);
+export const updatePost = async (id: number, data: FormData) => {
+  const response = await patchMethod(`/posts/update/${id}`, data, true);
   return response;
 };
 
@@ -47,18 +52,22 @@ export const addComment = async ({
   message,
   commentRoot,
 }: {
-  postId: string;
+  postId: number;
   message: string;
-  commentRoot?: string;
+  commentRoot?: number;
 }) => {
-  const response = await postMethodAPI(`/posts/${postId}/comment`, {
-    message,
-    commentRoot,
-  });
+  const payload = {
+    postId,
+    content: message,
+  };
+  if (commentRoot) {
+    Object.assign(payload, { parenCommentId: commentRoot });
+  }
+  const response = await postMethodAPI(`/posts/comment`, payload);
   return response;
 };
 
-export const getNotifications = async ({ userId }: { userId: string }) => {
+export const getNotifications = async ({ userId }: { userId: number }) => {
   const response = await getMethodAPI(`/posts/${userId}/notifications`);
 
   return response;
@@ -73,12 +82,17 @@ export const sharePost = async ({
   postId,
   sharedContent,
 }: {
-  postId: string;
+  postId: number;
   sharedContent: string;
 }) => {
   const response = await postMethodAPI(`/posts/share`, {
     postId,
-    sharedContent,
+    description: sharedContent,
   });
+  return response;
+};
+
+export const getTags = async () => {
+  const response = await getMethodAPI("/posts/tags");
   return response;
 };

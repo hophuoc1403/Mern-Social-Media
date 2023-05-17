@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment=":lipstick: update notification and ui popover profile">
+    <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment=":lipstick: update service edit post and name image">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/EditPostModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/EditPostModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/posts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/MERN/mern-social-media&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;E:\\MERN\\mern-social-media&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\MERN\\mern-social-media\\client\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/northstudio/eof-next",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "E:\\MERN\\mern-social-media",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "E:\\MERN\\mern-social-media\\client\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\MERN\mern-social-media\client\src" />
@@ -129,7 +122,8 @@
       <workItem from="1679468242463" duration="83000" />
       <workItem from="1679492720306" duration="4527000" />
       <workItem from="1679554181835" duration="107000" />
-      <workItem from="1679586664467" duration="2945000" />
+      <workItem from="1679586664467" duration="3360000" />
+      <workItem from="1679622690611" duration="39000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>
@@ -194,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679497893840</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary=":lipstick: update service edit post and name image">
+      <created>1679590075103</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679590075103</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +222,7 @@
     <MESSAGE value=":lipstick: update ui" />
     <MESSAGE value=":lipstick: update chat service" />
     <MESSAGE value=":lipstick: update notification and ui popover profile" />
-    <option name="LAST_COMMIT_MESSAGE" value=":lipstick: update notification and ui popover profile" />
+    <MESSAGE value=":lipstick: update service edit post and name image" />
+    <option name="LAST_COMMIT_MESSAGE" value=":lipstick: update service edit post and name image" />
   </component>
 </project>

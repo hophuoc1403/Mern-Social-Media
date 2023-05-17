@@ -23,10 +23,10 @@ interface EditPostModalProps {
   postPicturePath: string;
   isEditPost: boolean;
   setIsEditPost: React.Dispatch<React.SetStateAction<boolean>>;
-  id: string;
+  id: number;
 }
 
-export  const style = {
+export const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
@@ -61,18 +61,17 @@ const EditPostModal = ({
     try {
       const formData = new FormData();
       formData.append("description", valuePost);
-      if(typeEditImage === "change"){
+      if (typeEditImage === "change") {
         if (image !== null) {
-          formData.append("picturePath", image.name);
-          formData.append("picture", image);
+          formData.append("picturePath", image);
         }
-      }else {
-        formData.append("pictureDelete",postPicturePath)
+      } else {
+        formData.append("pictureDelete", postPicturePath);
       }
       const res = await updatePost(id, formData);
 
-      const post: IPost = res.data;
-      dispatch(setPost({ post, post_id: id }));
+      const post: IPost = res.data.post;
+      dispatch(setPost({ post, postid: id }));
       setIsEditPost(false);
       setValuePost("");
       setImage(null);
@@ -124,7 +123,7 @@ const EditPostModal = ({
                   <img
                     width={90}
                     style={{ borderRadius: "10px" }}
-                    src={`http://localhost:3001/assets/${postPicturePath}`}
+                    src={`http://localhost:3001/${postPicturePath}`}
                     alt=""
                   />
                 </FlexBetween>

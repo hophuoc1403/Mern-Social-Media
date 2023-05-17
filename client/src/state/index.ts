@@ -11,7 +11,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   mode: "dark",
   user: {
-    _id: "1",
+    id: 1,
     lastName: "admin",
     firstName: "ho",
     friends: [],
@@ -53,15 +53,17 @@ export const authSlice = createSlice({
       state.user.friends = action.payload.friends;
     },
     setPosts: (state, action: { payload: { posts: IPost[] } }) => {
+      console.log({ action: action.payload.posts });
+
       state.posts = action.payload.posts;
     },
     setAvatar: (state, action: { payload: { avatar: string } }) => {
       state.user.picturePath = action.payload.avatar;
     },
-    setPost: (state, action: { payload: { post_id: string; post: IPost } }) => {
+    setPost: (state, action: { payload: { postid: number; post: IPost } }) => {
       const updatedPost = state.posts.map((post) => {
-        if (post._id === action.payload.post_id) {
-          return { ...post, ...action.payload.post, comment: post.comment };
+        if (post.id === action.payload.postid) {
+          return { ...post, ...action.payload.post, comment: post.commentCount };
         }
         return post;
       });
@@ -78,7 +80,7 @@ export const authSlice = createSlice({
       action: { payload: { postId: string; likedId: string } }
     ) => {
       let postInndex = state.posts.findIndex(
-        (post) => post._id == action.payload.postId
+        (post) => post.id == action.payload.postId
       );
       if (state.posts[postInndex].likes[action.payload.likedId]) {
         delete state.posts[postInndex].likes[action.payload.likedId];

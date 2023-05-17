@@ -10,8 +10,9 @@ const PostDetails = () => {
   const [post, setPost] = useState<IPost | null>(null);
   useEffect(() => {
     const handleGetPost = async () => {
-      const postResponse = await getSpecificPost(id as string);
-      setPost(postResponse);
+      const postResponse = await getSpecificPost(+id!);
+      console.log({ postResponse });
+      setPost(postResponse.post);
     };
     handleGetPost();
   }, [id]);
@@ -21,7 +22,7 @@ const PostDetails = () => {
       <Navbar />
       <Box width={"100%"} display={"flex"} justifyContent={"center"} px={"6%"}>
         <Box flexBasis={"80%"}>
-          {post && <PostWidget key={post._id} {...post} />}
+          {post && <PostWidget key={post.id} {...post} />}
         </Box>
       </Box>
     </Box>

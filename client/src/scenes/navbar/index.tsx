@@ -20,7 +20,9 @@ import {
   DarkMode,
   LightMode,
   Close,
-  MenuOpenOutlined, AccountBalanceOutlined, ExitToAppOutlined,
+  MenuOpenOutlined,
+  AccountBalanceOutlined,
+  ExitToAppOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import { useEffect, useState } from "react";
@@ -35,10 +37,13 @@ import ModalSearch from "components/ModalSearch";
 import { LoadingButton } from "@mui/lab";
 import { motion } from "framer-motion";
 import ChatBox from "components/chat/ChatBox";
-import {actions, useTrackedStore} from "../../hooks";
+import { actions, useTrackedStore } from "../../hooks";
 import NotificationBox from "../../components/Notification";
 
-export interface Notification { content: string,postId:string }
+export interface Notification {
+  content: string;
+  postId: string;
+}
 
 const NavbarPage = () => {
   const [isMobileToggled, setIsMobileToggled] = useState<boolean>(false);
@@ -48,7 +53,7 @@ const NavbarPage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const socket = useTrackedStore().socket.socket();
-  const {setIsAppLoading} = actions().socket
+  const { setIsAppLoading } = actions().socket;
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [searchVal, setSearchVal] = useState<string>("");
 
@@ -84,18 +89,26 @@ const NavbarPage = () => {
     setAnchorEl2(null);
   };
 
-  useEffect(() => {{}
-      socket?.on("getNotification", (data:{senderName:string,postId:string,type:string}) => {
+  useEffect(() => {
+    {
+    }
+    socket?.on(
+      "getNotification",
+      (data: { senderName: string; postId: string; type: string }) => {
         setNotifications((prev) => [
-          { content: `${data.senderName} ${data.type} your post`,postId:data.postId },
+          {
+            content: `${data.senderName} ${data.type} your post`,
+            postId: data.postId,
+          },
           ...prev,
         ]);
-      });
+      }
+    );
   }, [socket]);
 
   useEffect(() => {
     const handleGetNotifications = async () => {
-      const res = await getNotifications({ userId: user._id });
+      const res = await getNotifications({ userId: user.id });
       setNotifications(res.data);
     };
     handleGetNotifications();
@@ -227,18 +240,20 @@ const NavbarPage = () => {
               MenuListProps={{
                 "aria-labelledby": "basic-button",
               }}
-
             >
-              <Box sx={{minWidth:"150px"}}>
+              <Box sx={{ minWidth: "150px" }}>
                 <MenuItem
                   value={fullName}
                   onClick={async () => {
                     await setIsAppLoading();
-                    navigate(`/profile/${user._id}`);
+                    navigate(`/profile/${user.id}`);
                   }}
-                  sx={{backgroundColor:theme.palette.background.default,padding:"15px 10px"}}
+                  sx={{
+                    backgroundColor: theme.palette.background.default,
+                    padding: "15px 10px",
+                  }}
                 >
-                  <AccountBalanceOutlined className={"mr-2"}/>
+                  <AccountBalanceOutlined className={"mr-2"} />
                   <Typography>{fullName}</Typography>
                 </MenuItem>
                 <MenuItem
@@ -247,9 +262,12 @@ const NavbarPage = () => {
                     localStorage.removeItem("accessToken");
                     dispatch(setLogout());
                   }}
-                  sx={{backgroundColor:theme.palette.background.default,padding:"15px 10px"}}
+                  sx={{
+                    backgroundColor: theme.palette.background.default,
+                    padding: "15px 10px",
+                  }}
                 >
-                  <ExitToAppOutlined className={"mr-2"}/>
+                  <ExitToAppOutlined className={"mr-2"} />
                   Logout
                 </MenuItem>
               </Box>
@@ -260,11 +278,10 @@ const NavbarPage = () => {
               open={open2}
               onClose={handleClose2}
             >
-              <Box
-              >
+              <Box>
                 {notifications.length > 0
                   ? notifications.map((notification) => (
-                    <NotificationBox notification={notification} />
+                      <NotificationBox notification={notification} />
                       // <>
                       //   <Box my={1}>
                       //     <p>{noti.content}</p>

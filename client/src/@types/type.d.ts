@@ -1,5 +1,5 @@
 interface IUser {
-  _id: string;
+  id: number;
   firstName: string;
   lastName: string;
   friends: IUser[];
@@ -11,21 +11,48 @@ interface IUser {
   updatedAt: string;
 }
 
-interface IPost {
-  _id: string;
-  name: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
+interface ISinglePost {
   description: string;
-  location: string;
+  id: number;
   picturePath: string;
-  userPicturePath: string;
-  likes: { [key: string]: boolean };
-  comment: any[];
+}
+
+interface ITag {
+  id: number;
+  name: string;
+}
+
+interface IPost {
+  id: number;
   createdAt: string;
-  userIdRoot: string | null;
-  sharedContent: string | null;
-  userRoot: IUser;
-  createdAtRoot:string
+  post: ISinglePost;
+  tags: ITag[];
+  user: IUser;
+  userRoot?: IUser;
+  sharedContent?: string;
+  likes: Like[];
+  commentCount: number;
+}
+
+interface IComment {
+  id: number;
+  content: string;
+  user: IUser;
+  post: IPost;
+  parentCommentId: number | null;
+  createdAt:string
+}
+
+interface Like {
+  id: number;
+  user: IUser;
+  post: IPost;
+}
+
+interface PaginationOptions {
+  totalItems: number;
+  itemCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
 }

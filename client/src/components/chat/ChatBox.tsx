@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { getTitleMessage } from "service/chat.service";
 import { makeStyles } from "tss-react/mui";
 import { useHover } from "usehooks-ts";
-import useChatStore, {chat} from "../../hooks/stateChat.store";
-import {getUser} from "../../service/user.service";
+import useChatStore, { chat } from "../../hooks/stateChat.store";
+import { getUser } from "../../service/user.service";
 
 interface ChatBoxProps {
   onClose: () => void;
@@ -17,9 +17,9 @@ interface ChatBoxProps {
 
 interface TitleMessages {
   roomId: {
-    members:string[]
+    members: string[];
   };
-  messages : chat
+  messages: chat;
 }
 
 const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
@@ -70,19 +70,21 @@ const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
   );
 };
 
-const ChatBoxEl = ({message}:{message:any}) => {
+const ChatBoxEl = ({ message }: { message: any }) => {
   const chatElRef = useRef<HTMLDivElement | null>(null);
   const isHoverChat = useHover(chatElRef);
   const { classes } = useStyleEl({ chatBoxHover: isHoverChat });
-  const {user} = useAppSelector(state => state)
-  const {setMemberInfo,setIsOpenChat} = useChatStore()
+  const { user } = useAppSelector((state) => state);
+  const { setMemberInfo, setIsOpenChat } = useChatStore();
 
   const handleClickChatBox = async () => {
-    const memberId  = message[0].roomId.members.find((member:string) => member !== user._id)
-    const res = await getUser(memberId)
-    await  setMemberInfo(res.data)
-    setIsOpenChat(true)
-  }
+    const memberId = message[0].roomId.members.find(
+      (member: string) => member !== user.id
+    );
+    const res = await getUser(memberId);
+    await setMemberInfo(res.data);
+    setIsOpenChat(true);
+  };
 
   return (
     <>

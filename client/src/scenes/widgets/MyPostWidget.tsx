@@ -1,16 +1,21 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Divider,
   IconButton,
   InputBase,
+  Menu,
+  MenuItem,
+  Select,
+  TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "index";
 import { useEffect, useState } from "react";
-import { sendPost } from "../../service/post.service";
+import { getTags, sendPost } from "../../service/post.service";
 import { addNewestPost, setPosts } from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import FlexBetween from "../../components/FlexBetween";
@@ -24,6 +29,7 @@ import {
   ImageOutlined,
   MicOutlined,
   MoreHorizOutlined,
+  OpacityOutlined,
 } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
@@ -56,12 +62,25 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
   const [image, setImage] = useState<File | null>(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
-  const { _id } = useAppSelector((state) => state.user);
+  const { id } = useAppSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   // @ts-ignore
   const mediumMain = palette.neutral.mediumMain;
   // @ts-ignore
   const medium = palette.neutral.medium;
+
+  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
+  const [isOpenTag, setIsOpenTag] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+
+  useEffect(() => {
+    const handleGetTags = async () => {
+      const response = await getTags();
+      setTags(response.data);
+    };
+
+    handleGetTags();
+  }, []);
 
   const handlePost = async () => {
     const id = toast.info("loading ....", {
@@ -70,19 +89,24 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
     });
     try {
       const formData = new FormData();
-      formData.append("userId", _id);
+      // formData.append("userId", id.toString());
       formData.append("description", post);
       if (image) {
-        formData.append("picture", image);
-        formData.append("picturePath", image.name);
+        formData.append("picturePath", image);
+      }
+      if (selectedTags.length > 0) {
+        formData.append("tags", JSON.stringify(selectedTags));
       }
       const res = await sendPost(formData);
-      const postResponse: IPost = res.data;
 
-      dispatch(addNewestPost({ post:postResponse }));
+      const postResponse: IPost = res.data.post;
+
+      dispatch(addNewestPost({ post: postResponse }));
       setImage(null);
       setPost("");
       setIsImage(false);
+      setIsOpenTag(false);
+      setSelectedTags([]);
 
       toast.update(id, {
         render: " post successfully",
@@ -164,6 +188,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
                       </FlexBetween>
                     )}
                   </Box>
+
                   {image && (
                     <IconButton
                       onClick={() => setImage(null)}
@@ -178,6 +203,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
           </Box>
         </motion.div>
       )}
+
       <Divider sx={{ margin: "1.25rem 0" }} />
 
       <FlexBetween>
@@ -188,6 +214,15 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
             sx={{ "&:hover": { cursor: "pointer", color: medium } }}
           >
             Image
+          </Typography>
+        </FlexBetween>
+        <FlexBetween gap={"0.25rem"} onClick={() => setIsOpenTag(!isOpenTag)}>
+          <OpacityOutlined />
+          <Typography
+            color={mediumMain}
+            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+          >
+            Tags
           </Typography>
         </FlexBetween>
         {isNonMobileScreens ? (
@@ -231,6 +266,40 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
           POST
         </LoadingButton>
       </FlexBetween>
+      {isOpenTag && (
+        <div>
+          <Autocomplete
+            multiple
+            id="tags-standard"
+            options={tags}
+            getOptionLabel={(option) => option.name}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Select Tags"
+                placeholder="Tags"
+              />
+            )}
+            onChange={(e, val) =>
+              setSelectedTags(() => val.map((item) => item.id))
+            }
+          />
+          {/* <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age sadsadsa"
+            // onChange={handleChange}
+            sx={{ width: "100%", color: "#fff" }}
+            defaultValue={tags[0].id}
+          >
+            {tags &&
+              tags.map((item) => (
+                <MenuItem value={item.id}>{item.name}</MenuItem>
+              ))}
+          </Select> */}
+        </div>
+      )}
     </WidgetWrapper>
   );
 };

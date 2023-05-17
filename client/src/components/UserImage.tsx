@@ -18,7 +18,7 @@ const UserImage = ({ image, size, style }: UserImageProps) => {
           height: size,
           width: size,
         }}
-        src={`http://localhost:3001/assets/${image}`}
+        src={`http://localhost:3001/${image}`}
       />
     </Box>
   );

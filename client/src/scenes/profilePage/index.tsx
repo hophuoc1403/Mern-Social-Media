@@ -2,71 +2,78 @@ import ProfileHeader from "components/profile/ProfileHeader";
 import Navbar from "../navbar";
 import { Box, useMediaQuery } from "@mui/material";
 import UserWidget from "../widgets/UserWidget";
-import {useAppDispatch, useAppSelector} from "index";
+import { useAppDispatch, useAppSelector } from "index";
 import PostsWidget from "../widgets/PostsWidget";
 import ModalEdit from "components/profile/ModalEdit";
 import { useParams } from "react-router-dom";
 import { getUserPosts } from "service/post.service";
-import {useEffect, useMemo} from "react";
+import { useEffect, useMemo, useState } from "react";
 import useProfileStore from "../../hooks/stateProfile.store";
-import {useInfiniteQuery} from "@tanstack/react-query";
-import {getFriends, getUser} from "../../service/user.service";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getFriends, getUser } from "../../service/user.service";
+import { useScroll } from "hooks/useScroll";
 
 const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   const { user } = useAppSelector((state) => state);
-  const {userSelected,setUserSelected} = useProfileStore()
+  const { userSelected, setUserSelected } = useProfileStore();
   const { userId } = useParams();
+  const dispatch = useAppDispatch();
 
   // const { status, hasNextPage, fetchNextPage, characters ,refetch} = useScroll(
   //   (page: number) => getUserPosts(userId as string, page)
   // );
 
-  useEffect(()=>{
+  useEffect(() => {
     const getUserSelected = async () => {
-      if(userId === user._id){
-        setUserSelected(user)
-      }
-      else {
-        const response = await getUser(userId);
-        const friendResponse = await getFriends(userId ?? user._id)
-        const userSelectedRes : IUser = {...response.data,friends:friendResponse.data}
-        setUserSelected(userSelectedRes)
-      }
-    }
-    getUserSelected().then(r => r)
-  },[])
+      if (+userId! === user.id) {
+        setUserSelected(user);
+      } else {
+        const response = await getUser(+userId!);
+        const friendResponse = await getFriends(+userId!);
+        console.log({ friendResponse });
 
-  const {data, fetchNextPage, status, hasNextPage } =
-    useInfiniteQuery(
-      ["free-posts"+ userId],
-      async ({pageParam = 1}) => {
-        const res = await getUserPosts(userId!,pageParam);
-        return res;
+        const userSelectedRes: IUser = {
+          ...response.data.user,
+          friends: friendResponse.data.friends,
+        };
+        setUserSelected(userSelectedRes);
+      }
+    };
+    getUserSelected().then((r) => r);
+  }, []);
+
+  console.log({ userSelected });
+
+  const { data, fetchNextPage, status, hasNextPage } = useInfiniteQuery(
+    ["free-posts" + userId],
+    async ({ pageParam = 1 }) => {
+      const res = await getUserPosts(+userId!, pageParam);
+      return res;
+    },
+    {
+      getNextPageParam: (lastPage: {
+        items: IPost[];
+        meta: PaginationOptions;
+      }) => {
+        if (lastPage.meta.currentPage < lastPage.meta.totalPages) {
+          return lastPage.meta.currentPage + 1;
+        } else {
+          return false;
+        }
       },
-      {
-        getNextPageParam: (lastPage: any) => {
-          if (lastPage.pagination.hasNextPage) {
-            return lastPage.pagination.currentPage + 1
-          } else {
-            return false
-          }
+    }
+  );
 
-        },
-      }
-    );
-
-  let characters = [];
+  let characters: any = [];
 
   characters = useMemo(
     () =>
-
       data?.pages.reduce((prev, page) => {
-
         return {
-          info: page.pagination,
-          posts: [...prev.posts, ...page.posts.reverse()],
+          meta: page.meta,
+          items: [...prev.items, ...page.items.reverse()],
         };
       }),
     [data]

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Chip,
   Divider,
   IconButton,
   Modal,
@@ -9,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { likePost, sharePost } from "../../service/post.service";
+import { getComment, likePost, sharePost } from "../../service/post.service";
 import { addNewestPost, setPost } from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import Friend from "../../components/Friend";
@@ -20,38 +21,31 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import Comment from "../../components/comment/Comment";
-import InputReply from "../../components/comment/InputReply";
 import { useAppDispatch, useAppSelector } from "index";
 import { motion } from "framer-motion";
 import { style } from "components/EditPostModal";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import {useTrackedStore} from "../../hooks";
+import { useTrackedStore } from "../../hooks";
+import Comment from "../../components/comment/Comment";
 
 const PostWidget = ({
-  _id: postId,
-  lastName,
-  firstName,
-  picturePath,
-  userPicturePath,
-  userId: postUserId,
-  likes,
-  description,
-  comment: postComment,
   createdAt,
-  sharedContent,
-  userIdRoot,
+  id,
+  post,
+  tags,
+  user,
   userRoot,
-  createdAtRoot,
+  sharedContent,
+  likes,
+  commentCount,
 }: IPost) => {
   const [isComment, setIsComment] = useState<boolean>(false);
-  const userName = firstName + " " + lastName;
-  const [comment, setComment] = useState<any>(postComment);
+  const userName = user.firstName + " " + user.lastName;
   const dispatch = useAppDispatch();
-  const loggedInUserId: string = useAppSelector((state: any) => state.user._id);
-  const socket  = useTrackedStore().socket.socket();
+  const loggedInUserId: string = useAppSelector((state: any) => state.user.id);
+  const socket = useTrackedStore().socket.socket();
   const { user: currentUser } = useAppSelector((state: any) => state);
   const [isShare, setIsShare] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,35 +53,31 @@ const PostWidget = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isLiked = loggedInUserId
-    ? Boolean(
-        likes[loggedInUserId] !== undefined ? likes[loggedInUserId] : null
-      )
-    : false;
-  const likeCount = Object.keys(likes).length;
-
-  useEffect(() => {
-    setComment(postComment);
-  }, [postComment]);
-
   const { palette } = useTheme();
   // @ts-ignore
   const main = palette.neutral.main;
 
-  const patchLike = async (postId:string) => {
+  const isLiked = useMemo(() => {
+    return likes.find((like) => {
+      return like.user.id === +loggedInUserId;
+    });
+  }, [likes]);
+
+  const patchLike = async (postId: number) => {
     try {
-      const response = await likePost(postId, loggedInUserId);
-      const post: IPost = response.data;
-      dispatch(setPost({ post_id: postId, post }));
-      !isLiked &&
-        socket!.emit("sendNotification", {
-          senderName: currentUser.firstName + " " + currentUser.lastName,
-          receiverName: userName,
-          type: "liked",
-          senderId: currentUser._id,
-          receiverId: postUserId,
-          postId
-        });
+      const response = await likePost(postId);
+      const post: IPost = response.data.post;
+      console.log(post);
+      dispatch(setPost({ postid: post.id, post }));
+      // !isLiked &&
+      //   socket!.emit("sendNotification", {
+      //     senderName: currentUser.firstName + " " + currentUser.lastName,
+      //     receiverName: userName,
+      //     type: "liked",
+      //     senderId: currentUser.id,
+      //     receiverId: postUserId,
+      //     postId,
+      //   });
     } catch (e) {
       console.log(e);
       toast.error("Like post failed :<");
@@ -98,12 +88,13 @@ const PostWidget = ({
     try {
       setIsLoading(true);
       const res = await sharePost({
-        postId,
+        postId: id,
+
         sharedContent: valueSharedContent,
       });
       console.log(res.data);
 
-      dispatch(addNewestPost({ post: res.data }));
+      dispatch(addNewestPost({ post: res.data.post }));
       await new Promise((_) => setTimeout(_, 1000));
       toast.success("Share post successfully <3");
       setIsLoading(true);
@@ -116,10 +107,6 @@ const PostWidget = ({
   // useEffect(() => {
   //   // refec
   // });
-
-  const commentLevel: any = useMemo(() => {
-    return comment ? comment.filter((cmt: any) => cmt.commentRoot) : [];
-  }, [comment]);
 
   return (
     <motion.div
@@ -134,22 +121,23 @@ const PostWidget = ({
             "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;",
         }}
       >
-        {userIdRoot && (
+        {userRoot && (
           <Box>
             <Friend
-              postId={postId}
-              description={description}
-              postPicturePath={picturePath}
-              friendId={postUserId}
+              postId={id}
+              description={sharedContent ? sharedContent : ""}
+              postPicturePath={post.picturePath}
+              friendId={user.id}
               name={userName}
               subtitle={createdAt}
-              userPicturePath={
-                userIdRoot ? userPicturePath : userRoot.picturePath
-              }
+              userPicturePath={userRoot.picturePath}
             />
             <Typography
               color={main}
               sx={{ mt: "1rem", wordBreak: "break-word" }}
+              onClick={() => {
+                location.pathname.includes("home") && navigate(`/post/${id}`);
+              }}
             >
               {sharedContent}
             </Typography>
@@ -157,41 +145,38 @@ const PostWidget = ({
         )}
         <Box
           sx={{
-            padding: userIdRoot ? "15px 10px" : undefined,
-            border: userIdRoot ? `2px solid ${palette.divider}` : "none",
-            borderRadius: userIdRoot ? `10px` : "none",
-            mt: userIdRoot ? `20px` : "none",
+            padding: userRoot ? "15px 10px" : undefined,
+            border: userRoot ? `2px solid ${palette.divider}` : "none",
+            borderRadius: userRoot ? `10px` : "none",
+            mt: userRoot ? `20px` : "none",
           }}
         >
           <Friend
-            postId={postId}
-            description={description}
-            postPicturePath={picturePath}
-            friendId={userIdRoot ? userIdRoot : postUserId}
+            postId={post.id}
+            description={post.description}
+            postPicturePath={post.picturePath}
+            friendId={userRoot ? userRoot.id : user.id}
             name={
-              userIdRoot
-                ? userRoot.firstName + " " + userRoot.lastName
-                : userName
+              userRoot ? userRoot.firstName + " " + userRoot.lastName : userName
             }
-            subtitle={createdAtRoot ? createdAtRoot : createdAt}
-            userPicturePath={
-              userIdRoot ? userRoot.picturePath : userPicturePath
-            }
-            isSharePost={!!userIdRoot}
+            subtitle={createdAt}
+            userPicturePath={userRoot ? userRoot.picturePath : user.picturePath}
+            isSharePost={!!userRoot}
           />
 
           <Box
             onClick={() => {
-              location.pathname.includes("home") && navigate(`/post/${postId}`);
+              location.pathname.includes("home") &&
+                navigate(`/post/${post.id}`);
             }}
           >
             <Typography
               color={main}
               sx={{ mt: "1rem", wordBreak: "break-word" }}
             >
-              {description}
+              {post.description}
             </Typography>
-            {picturePath && (
+            {post.picturePath && (
               <img
                 width={"100%"}
                 height={"500px"}
@@ -201,11 +186,19 @@ const PostWidget = ({
                   marginTop: "0.75rem",
                   objectFit: "cover",
                 }}
-                src={`http://localhost:3001/assets/${picturePath}`}
+                src={`http://localhost:3001/${post.picturePath}`}
               />
             )}
           </Box>
         </Box>
+
+        {tags.length > 0 && (
+          <Box sx={{ mt: "1rem" }}>
+            {tags.map((item) => (
+              <Chip label={"#" + item.name} sx={{ mr: ".5rem" }} />
+            ))}
+          </Box>
+        )}
 
         <Box
           mt={"1rem"}
@@ -214,46 +207,28 @@ const PostWidget = ({
         >
           <FlexBetween gap={"1rem"}>
             <FlexBetween gap={"0.3rem"}>
-              <IconButton onClick={()=>patchLike(postId)}>
+              <IconButton onClick={() => patchLike(id)}>
                 {isLiked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
               </IconButton>
-              <Typography>{likeCount}</Typography>
+              <Typography>{likes.length}</Typography>
             </FlexBetween>
 
             <FlexBetween gap={"0.3rem"}>
               <IconButton onClick={() => setIsComment(!isComment)}>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography>{comment ? comment.length : 0}</Typography>
+              <Typography>{commentCount}</Typography>
             </FlexBetween>
           </FlexBetween>
 
-          {postUserId !== loggedInUserId && (
+          {user.id !== +loggedInUserId && (
             <IconButton onClick={() => setIsShare(true)}>
               <ShareOutlined />
             </IconButton>
           )}
         </Box>
         <Divider sx={{ my: 2 }} />
-
-        {isComment && (
-          <div className={"pb-4"}>
-            <InputReply setComments={setComment} postId={postId} />
-            {comment &&
-              comment.map((comment: any, index: number) => {
-                if (!comment.commentRoot) {
-                  return (
-                    <Comment
-                      setComments={setComment}
-                      commentLevel={commentLevel}
-                      key={index}
-                      comment={comment}
-                    />
-                  );
-                }
-              })}
-          </div>
-        )}
+        {isComment && <Comment postId={id} />}
       </WidgetWrapper>
 
       <Modal

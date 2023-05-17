@@ -32,15 +32,15 @@ import { deletePost } from "../service/post.service";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
 import { useAppSelector } from "index";
-import {useTrackedStore} from "../hooks";
+import { useTrackedStore } from "../hooks";
 import useProfileStore from "../hooks/stateProfile.store";
 
 interface FriendPops {
-  friendId: string;
+  friendId: number;
   name: string;
   subtitle: string;
   userPicturePath: string;
-  postId: string;
+  postId: number;
   description: string;
   postPicturePath: string;
   isSharePost?: boolean;
@@ -60,15 +60,14 @@ const Friend = ({
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { _id: userId, friends } = useAppSelector((state) => state.user);
-  const user = useAppSelector((state) => state.user);
+  const { id: userId, friends } = useAppSelector((state) => state.user);
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   // @ts-ignore
   const main = palette.neutral.main;
   // @ts-ignore
   const medium = palette.neutral.medium;
-  const {setUserSelected} = useProfileStore()
+  const posts = useAppSelector((state) => state.posts);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -88,7 +87,7 @@ const Friend = ({
       return false;
     }
     // @ts-ignore
-    return friends.find((friend) => friend._id === friendId);
+    return friends.find((friend) => friend.id === friendId);
   }, [friends]);
 
   const patchFriend = async () => {
@@ -98,9 +97,9 @@ const Friend = ({
         className: "rotateY animated",
       });
       const response = await addOrRemoveFriend(userId, friendId);
-      const friends: IUser[] = response.data;
+      const friends: IUser[] = response.data.friends;
       // @ts-ignore
-      const isFriend = friends.find((friend) => friend._id === friendId);
+      const isFriend = friends.find((friend) => friend.id === friendId);
       isFriend && socket?.emit("createRoom", { members: [userId, friendId] });
       setTimeout((_: any): any => {
         toast.update(id, {
@@ -120,36 +119,37 @@ const Friend = ({
   };
 
   const handleDeletePost = async () => {
-   const check =  window.confirm("Do you want to delete your post ? ");
-   if(check){
-
-    const id = toast.info("loading ....", {
-      autoClose: false,
-      className: "rotateY animated",
-    });
-    try {
-      const response = await deletePost(postId);
-      // const posts:IPost[] = response.data
-      dispatch(setPosts({ posts: response.data }));
-      setTimeout((_: any) => {
+    const check = window.confirm("Do you want to delete your post ? ");
+    if (check) {
+      const id = toast.info("loading ....", {
+        autoClose: false,
+        className: "rotateY animated",
+      });
+      try {
+        // const response = await deletePost(postId);
+        // const posts:IPost[] = response.data
+        dispatch(
+          setPosts({ posts: posts.filter((item) => item.id !== postId) })
+        );
+        setTimeout((_: any) => {
+          toast.update(id, {
+            render: "remove post successfully",
+            type: toast.TYPE.SUCCESS,
+            className: "rotateY animated",
+            autoClose: 4000,
+          });
+        }, 1000);
+      } catch (e) {
+        console.log(e);
         toast.update(id, {
-          render: "remove post successfully",
-          type: toast.TYPE.SUCCESS,
+          render: " post failed",
+          type: toast.TYPE.ERROR,
           className: "rotateY animated",
           autoClose: 4000,
         });
-      }, 1000);
-    } catch (e) {
-      console.log(e);
-      toast.update(id, {
-        render: " post failed",
-        type: toast.TYPE.ERROR,
-        className: "rotateY animated",
-        autoClose: 4000,
-      });
+      }
     }
   };
-   }
 
   return (
     <Box

@@ -11,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { setLogin } from "../../state";
 import FlexBetween from "../../components/FlexBetween";
@@ -27,7 +27,6 @@ const registerSchema = yup.object().shape({
   password: yup.string().required(),
   location: yup.string().required(),
   occupation: yup.string().required(),
-  picture: yup.string().required(),
 });
 
 const loginSchema = yup.object().shape({
@@ -42,7 +41,6 @@ const initialValueRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
 };
 
 const initialValueLogin = {
@@ -58,6 +56,7 @@ const Form = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const [file, setFile] = useState<File | null>(null);
 
   interface loginProps {
     email: string;
@@ -70,9 +69,6 @@ const Form = () => {
     password: string;
     location: string;
     occupation: string;
-    picture: {
-      name: string;
-    };
   }
   const handleLogin = async (values: loginProps, onSubmitProps: any) => {
     const id = toast.info("loading ....", {
@@ -80,28 +76,30 @@ const Form = () => {
       className: "rotateY animated",
     });
     try {
-      console.log("ok");
       const savedLoginResponse: any = await login({
         email: values.email,
         password: values.password,
       });
-      console.log(savedLoginResponse);
-      onSubmitProps.resetForm();
-      if (savedLoginResponse) {
+      console.log({ savedLoginResponse });
+      if (savedLoginResponse.data.access_token) {
+        onSubmitProps.resetForm();
         dispatch(
           setLogin({
             user: savedLoginResponse.data.user,
             token: savedLoginResponse.data.token,
           })
         );
-        localStorage.setItem("accessToken", savedLoginResponse.data.token);
+        localStorage.setItem(
+          "accessToken",
+          savedLoginResponse.data.access_token
+        );
         localStorage.setItem(
           "refreshToken",
-          savedLoginResponse.data.refreshToken
+          savedLoginResponse.data.refresh_token
         );
-        localStorage.setItem("userId", savedLoginResponse.data.user._id);
+        localStorage.setItem("userId", savedLoginResponse.data.user.id);
         navigate("/home");
-         setTimeout((_: any) => {
+        setTimeout((_: any) => {
           toast.update(id, {
             render: "login successfully",
             type: toast.TYPE.SUCCESS,
@@ -128,15 +126,17 @@ const Form = () => {
         // @ts-ignore
         formData.append(value, values[value]);
       }
-      formData.append("picturePath", values.picture.name);
+      file && formData.append("picturePath", file);
+      // formData.append("picturePath", values.picture.name);
       const savedUserResponse = await register(formData);
       console.log(savedUserResponse);
       onSubmitProps.resetForm();
       if (savedUserResponse) {
         setPageType("login");
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log({ error: e });
+      toast.error(`${e.response.data.message}`);
     }
   };
 
@@ -246,7 +246,7 @@ const Form = () => {
                     <Dropzone
                       multiple={false}
                       onDrop={(acceptedFiles) => {
-                        setFieldValue("picture", acceptedFiles[0]);
+                        setFile(acceptedFiles[0]);
                         console.log(values);
                       }}
                     >
@@ -258,12 +258,12 @@ const Form = () => {
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         >
                           <input {...getInputProps()} />
-                          {!values.picture ? (
+                          {!file ? (
                             <p>Add picture here</p>
                           ) : (
                             <FlexBetween>
                               <Typography>
-                                {values.picture.name}
+                                {file.name}
                                 <EditOutlined />
                               </Typography>
                             </FlexBetween>
@@ -322,7 +322,10 @@ const Form = () => {
                   sx={{
                     textDecoration: "underline",
                     color: palette.primary.main,
-                    "&:hover": { cursor: "pointer", color: palette.primary.dark },
+                    "&:hover": {
+                      cursor: "pointer",
+                      color: palette.primary.dark,
+                    },
                   }}
                 >
                   {isLogin
@@ -330,7 +333,7 @@ const Form = () => {
                     : "Already have an account? Login here"}
                 </Typography>
 
-                <Link to={"/account/forget-password"} >
+                <Link to={"/account/forget-password"}>
                   <Typography className={"decoration-1 hover:decoration-4"}>
                     Forget password ?
                   </Typography>

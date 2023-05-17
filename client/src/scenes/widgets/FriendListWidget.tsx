@@ -1,20 +1,23 @@
 import WidgetWrapper from "../../components/WidgetWrapper";
-import {  IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "index";
-import {addOrRemoveFriend, getFriends, getUser} from "../../service/user.service";
+import {
+  addOrRemoveFriend,
+  getFriends,
+  getUser,
+} from "../../service/user.service";
 import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
 import { PersonRemoveOutlined } from "@mui/icons-material";
 import { toast } from "react-toastify";
-import  { setFriends } from "../../state";
+import { setFriends } from "../../state";
 import useChatStore from "hooks/stateChat.store";
 
 const FriendListWidget = () => {
   const dispatch = useDispatch();
-  const { _id: userId, friends } = useAppSelector((state) => state.user);
+  const { id: userId, friends } = useAppSelector((state) => state.user);
   const { setIsOpenChat, setMemberInfo } = useChatStore((state) => state);
-
 
   const removeFriend = async (friendId: string) => {
     const id = toast.info("loading ....", {
@@ -44,13 +47,13 @@ const FriendListWidget = () => {
         friends.map((friend) => (
           <FlexBetween
             onClick={async () => {
-              const memberInfoRes = await getUser(friend._id)
-              const memberInfo:IUser = memberInfoRes.data
+              const memberInfoRes = await getUser(friend.id);
+              const memberInfo: IUser = memberInfoRes.data;
               setMemberInfo(memberInfo);
               setIsOpenChat(true);
             }}
-            key={friend._id}
-            sx={{ marginBottom: "10px",cursor:"pointer" }}
+            key={friend.id}
+            sx={{ marginBottom: "10px", cursor: "pointer" }}
           >
             <FlexBetween sx={{}}>
               <UserImage image={`${friend.picturePath}`} size={55} />
@@ -61,8 +64,8 @@ const FriendListWidget = () => {
             <IconButton
               sx={{ cursor: "pointer" }}
               onClick={async (e) => {
-                e.stopPropagation()
-               await removeFriend(friend._id)
+                e.stopPropagation();
+                await removeFriend(friend.id);
               }}
             >
               <PersonRemoveOutlined />
