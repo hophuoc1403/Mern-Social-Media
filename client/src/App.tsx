@@ -24,6 +24,7 @@ import Particles from "react-particles";
 import useChatStore from "./hooks/stateChat.store";
 import { getFriends, getSelfInfo, getUser } from "./service/user.service";
 import { setFriends, setUSer } from "./state";
+import SearchPost from "./scenes/searchPost/intex";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -129,6 +130,7 @@ function App() {
                   element={<ResetPassword />}
                 />
               </Route>
+              <Route path={"/search"} element={<SearchPost />}/>
               <Route path={"/post/:id"} element={<PostDetails />} />
               <Route path={"oauth-verify"} element={<Oauth />} />
             </Routes>

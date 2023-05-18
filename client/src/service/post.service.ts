@@ -96,3 +96,7 @@ export const getTags = async () => {
   const response = await getMethodAPI("/posts/tags");
   return response;
 };
+
+export const searchPost = async (content:string) => {
+  return (await getMethodAPI(`/posts/find/${content}`)).data
+}

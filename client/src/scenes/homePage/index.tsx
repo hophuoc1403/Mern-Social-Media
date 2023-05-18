@@ -10,6 +10,8 @@ import { useAppSelector } from "index";
 import { getFreePosts } from "service/post.service";
 import { useScroll } from "hooks/useScroll";
 import { useTrackedStore } from "../../hooks";
+import Sidebar from "../../components/sidebar/SideBar";
+import MainLayout from "../../layouts/MainLayout";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -39,27 +41,7 @@ const HomePage = () => {
   console.log({ characters });
 
   return (
-    <Box>
-      <Box sx={{ position: "sticky", top: "0px", zIndex: 999 }}>
-        <Navbar />
-      </Box>
-      <Box
-        width={"100%"}
-        padding={"2rem 6%"}
-        display={isNonMobileScreens ? "flex" : "block"}
-        gap={"0.5rem"}
-        justifyContent={"space-between"}
-      >
-        <Box flexBasis={isNonMobileScreens ? "22%" : undefined}>
-          <Box style={{ position: "sticky", top: "95px" }}>
-            <UserWidget user={user} />
-          </Box>
-        </Box>
-        <Box
-          flexBasis={isNonMobileScreens ? "50%" : undefined}
-          overflow={"hidden"}
-          mt={isNonMobileScreens ? undefined : "2rem"}
-        >
+    <MainLayout>
           <MyPostWidget picturePath={picturePath} />
           <PostsWidget
             status={status}
@@ -67,19 +49,7 @@ const HomePage = () => {
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
           />
-        </Box>
-        {isNonMobileScreens && (
-          <Box flexBasis={"22%"}>
-            <Box style={{ position: "sticky", top: "95px" }}>
-              <AdvertWidget />
-              <Box m={"1rem 0"}>
-                <FriendListWidget />
-              </Box>
-            </Box>
-          </Box>
-        )}
-      </Box>
-    </Box>
+    </MainLayout>
   );
 };
 

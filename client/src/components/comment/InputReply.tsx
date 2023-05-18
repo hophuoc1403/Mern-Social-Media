@@ -28,7 +28,6 @@ const InputReply = ({ replyFor, postId, setComment }: InputReplyProps) => {
         commentRoot: replyFor ? replyFor.id : undefined,
       });
       console.log(response.data.comment);
-
       setComment((state) => ({
         meta: { ...state!.meta, totalItems: state!.meta.totalItems + 1 },
         items: [response.data.comment, ...state!.items],
