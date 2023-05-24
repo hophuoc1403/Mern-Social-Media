@@ -1,18 +1,15 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 
 import {
   Box,
   Drawer,
-  alpha,
   styled,
   Divider,
   useTheme,
-  Button,
-  lighten,
-  darken, Avatar
-} from '@mui/material';
+  Avatar,
+} from "@mui/material";
 
-import {SidebarContext} from "../contexts/SideBarContext";
+import { SidebarContext } from "../contexts/SideBarContext";
 import Scrollbar from "../Scrollbar";
 import SidebarMenu from "./SideBarMenu";
 
@@ -20,11 +17,12 @@ const SidebarWrapper = styled(Box)(
   ({ theme }) => `
         width: 15%;
         min-width: 150px;
-        color:#333;
+        color:${theme.palette.mode === "light" ? "#333" : "black"} !important;
         position: relative;
         z-index: 7;
         height: 100%;
         padding-bottom: 68px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `
 );
 
@@ -38,18 +36,14 @@ function Sidebar() {
       <SidebarWrapper
         sx={{
           display: {
-            xs: 'none',
-            lg: 'inline-block'
+            xs: "none",
+            lg: "inline-block",
           },
-          position: 'fixed',
+          position: "fixed",
           left: 0,
           top: 0,
-          background:
-            theme.palette.mode === 'dark'
-              ? "#151f31"
-              : "#373948",
-          boxShadow:
-            "box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;"
+          background: theme.palette.mode === "dark" ? "#151f31" : "white",
+          boxShadow: "box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;",
         }}
       >
         <Scrollbar>
@@ -57,17 +51,21 @@ function Sidebar() {
             <Box
               mx={2}
               sx={{
-                width: 52
+                width: 52,
               }}
             >
-              <Avatar src={"https://wallpapers.com/images/thumb/social-media-apps-dgwr9vwvb0svnu9w.jpg"}/>
+              <Avatar
+                src={
+                  "https://wallpapers.com/images/thumb/social-media-apps-dgwr9vwvb0svnu9w.jpg"
+                }
+              />
             </Box>
           </Box>
           <Divider
             sx={{
               mt: theme.spacing(3),
               mx: theme.spacing(2),
-              background:"white"
+              background: "white",
             }}
           />
           <SidebarMenu />
@@ -77,13 +75,12 @@ function Sidebar() {
         {/*    background: "white"*/}
         {/*  }}*/}
         {/*/>*/}
-
       </SidebarWrapper>
       <Drawer
         sx={{
-          boxShadow: `box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;`
+          boxShadow: `box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;`,
         }}
-        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+        anchor={theme.direction === "rtl" ? "right" : "left"}
         open={sidebarToggle}
         onClose={closeSidebar}
         variant="temporary"
@@ -91,10 +88,8 @@ function Sidebar() {
       >
         <SidebarWrapper
           sx={{
-            background:
-              theme.palette.mode === 'dark'
-                ? "white"
-                : "black"
+            width: 250,
+            background: theme.palette.mode === "dark" ? "#151f31" : "white",
           }}
         >
           <Scrollbar>
@@ -102,17 +97,21 @@ function Sidebar() {
               <Box
                 mx={2}
                 sx={{
-                  width: 52
+                  width: 52,
                 }}
               >
-                <Avatar src={"https://wallpapers.com/images/thumb/social-media-apps-dgwr9vwvb0svnu9w.jpg"}/>
+                <Avatar
+                  src={
+                    "https://wallpapers.com/images/thumb/social-media-apps-dgwr9vwvb0svnu9w.jpg"
+                  }
+                />
               </Box>
             </Box>
             <Divider
               sx={{
                 mt: theme.spacing(3),
                 mx: theme.spacing(2),
-                background: "white"
+                background: "white",
               }}
             />
             <SidebarMenu />

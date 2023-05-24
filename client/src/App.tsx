@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import LoginPage from "./scenes/loginPage";
@@ -22,9 +22,10 @@ import ChatExc from "components/chat/ChatExc";
 import { actions, useTrackedStore } from "./hooks";
 import Particles from "react-particles";
 import useChatStore from "./hooks/stateChat.store";
-import { getFriends, getSelfInfo, getUser } from "./service/user.service";
+import { getFriends, getSelfInfo } from "./service/user.service";
 import { setFriends, setUSer } from "./state";
 import SearchPost from "./scenes/searchPost/intex";
+import { SidebarProvider } from "components/contexts/SideBarContext";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -60,8 +61,7 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    // setSocket(io("http://localhost:3001"));
-    let userId = localStorage.getItem("userId");
+    setSocket(io("http://localhost:3001"));
     const handleGetUser = async () => {
       const res = await getSelfInfo();
       dispatch(setUSer({ user: res.data }));
@@ -82,60 +82,65 @@ function App() {
       <Particles />
       <div className={mode === "dark" ? "App" : "app"}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ToastProvider>
-            {isNavigating && <ProgressLoading />}
-            <Routes>
-              <Route
-                path={"/"}
-                element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
-              />
-              <Route
-                path={"/home"}
-                element={
-                  isAuth ? (
-                    isAppLoading ? (
-                      <LoadingPage />
-                    ) : (
-                      <Suspense fallback={<LoadingPage />}>
-                        <HomePage />
-                      </Suspense>
-                    )
-                  ) : (
-                    <Navigate to={"/"} />
-                  )
-                }
-              />
-              <Route
-                path={"/profile/:userId"}
-                element={
-                  isAuth ? (
-                    isAppLoading ? (
-                      <LoadingPage />
-                    ) : (
-                      <Suspense fallback={<LoadingPage />}>
-                        <ProfilePage />
-                      </Suspense>
-                    )
-                  ) : (
-                    <Navigate to={"/"} />
-                  )
-                }
-              />
-              <Route path={"/account/"} element={<AccountLayout />}>
-                <Route index path={"login"} element={<LoginPage />} />
-                <Route path={"forget-password"} element={<ForgetPassword />} />
+          <SidebarProvider>
+            <CssBaseline />
+            <ToastProvider>
+              {isNavigating && <ProgressLoading />}
+              <Routes>
                 <Route
-                  path={"new-password/:token"}
-                  element={<ResetPassword />}
+                  path={"/"}
+                  element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
                 />
-              </Route>
-              <Route path={"/search"} element={<SearchPost />}/>
-              <Route path={"/post/:id"} element={<PostDetails />} />
-              <Route path={"oauth-verify"} element={<Oauth />} />
-            </Routes>
-            {isOpenChat && <ChatExc isShow={true} />}
-          </ToastProvider>
+                <Route
+                  path={"/home"}
+                  element={
+                    isAuth ? (
+                      isAppLoading ? (
+                        <LoadingPage />
+                      ) : (
+                        <Suspense fallback={<LoadingPage />}>
+                          <HomePage />
+                        </Suspense>
+                      )
+                    ) : (
+                      <Navigate to={"/"} />
+                    )
+                  }
+                />
+                <Route
+                  path={"/profile/:userId"}
+                  element={
+                    isAuth ? (
+                      isAppLoading ? (
+                        <LoadingPage />
+                      ) : (
+                        <Suspense fallback={<LoadingPage />}>
+                          <ProfilePage />
+                        </Suspense>
+                      )
+                    ) : (
+                      <Navigate to={"/"} />
+                    )
+                  }
+                />
+                <Route path={"/account/"} element={<AccountLayout />}>
+                  <Route index path={"login"} element={<LoginPage />} />
+                  <Route
+                    path={"forget-password"}
+                    element={<ForgetPassword />}
+                  />
+                  <Route
+                    path={"new-password/:token"}
+                    element={<ResetPassword />}
+                  />
+                </Route>
+                <Route path={"/search"} element={<SearchPost />} />
+                <Route path={"/post/:id"} element={<PostDetails />} />
+                <Route path={"oauth-verify"} element={<Oauth />} />
+              </Routes>
+              {isOpenChat && <ChatExc isShow={true} />}
+            </ToastProvider>
+          </SidebarProvider>
         </ThemeProvider>
       </div>
     </>

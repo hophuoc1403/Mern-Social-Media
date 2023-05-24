@@ -5,7 +5,7 @@ export const getTitleMessage = async () => {
   return response;
 };
 
-export const getMessages = async (payload: { members: string[] }) => {
-  const response = await postMethodAPI("/chat/get-message", payload);
+export const getMessages = async (payload: { members: number[] }) => {
+  const response = await postMethodAPI("/chats/get-message", payload);
   return response;
 };

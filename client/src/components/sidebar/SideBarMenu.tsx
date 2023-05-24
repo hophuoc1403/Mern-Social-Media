@@ -1,23 +1,20 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from "react";
 
 import {
-  alpha,
   Box,
   Button,
-  Collapse,
   List,
   ListItem,
   ListSubheader,
-  styled
-} from '@mui/material';
+  styled,
+} from "@mui/material";
 
-import {ExpandLess, ExpandMore} from '@mui/icons-material';
-import {navigations} from './navigation';
-import {useLocation, useNavigate} from "react-router-dom";
-import {SidebarContext} from "../contexts/SideBarContext";
+import { navigations } from "./navigation";
+import { useLocation, useNavigate } from "react-router-dom";
+import { SidebarContext } from "../contexts/SideBarContext";
 
 const MenuWrapper = styled(Box)(
-  ({theme}) => `
+  ({ theme }) => `
   .MuiList-root {
     padding: ${theme.spacing(1)};
     & > .MuiList-root {
@@ -37,7 +34,7 @@ const MenuWrapper = styled(Box)(
 );
 
 const SubMenuWrapper = styled(Box)(
-  ({theme}) => `
+  ({ theme }) => `
     .MuiList-root {
 
       .MuiListItem-root {
@@ -58,7 +55,7 @@ const SubMenuWrapper = styled(Box)(
     
         .MuiButton-root {
           display: flex;
-          color: white;
+          color: ${theme.palette.mode === "dark" ? "white" : "black"};
           background-color: transparent;
           width: 100%;
           justify-content: flex-start;
@@ -66,7 +63,7 @@ const SubMenuWrapper = styled(Box)(
 
           .MuiButton-startIcon,
           .MuiButton-endIcon {
-            transition: ${theme.transitions.create(['color'])};
+            transition: ${theme.transitions.create(["color"])};
 
             .MuiSvgIcon-root {
               font-size: inherit;
@@ -130,9 +127,9 @@ const SubMenuWrapper = styled(Box)(
                 background: white;
                 opacity: 0;
                 transition: ${theme.transitions.create([
-    'transform',
-    'opacity'
-  ])};
+                  "transform",
+                  "opacity",
+                ])};
                 width: 6px;
                 height: 6px;
                 transform: scale(0);
@@ -158,7 +155,7 @@ const SubMenuWrapper = styled(Box)(
 );
 
 function SidebarMenu() {
-  const {closeSidebar} = useContext(SidebarContext);
+  const { closeSidebar } = useContext(SidebarContext);
   const navigate = useNavigate();
   const location = useLocation();
   const currentRoute = location.pathname;
@@ -167,76 +164,79 @@ function SidebarMenu() {
     console.log(key);
     setOpen((prevState: any) => ({
       ...prevState,
-      [key]: !prevState[key]
+      [key]: !prevState[key],
     }));
   };
 
   return (
-    <Box sx={{marginTop: 2}}>
+    <Box sx={{ marginTop: 2 }}>
       <MenuWrapper>
-        {navigations.map((
-          {
+        {navigations.map(
+          ({
             subheader,
             key,
             label,
             icon: Icon,
-            children
-          }: { subheader: any, key: any, label: any, icon: any, children: any }) => {
-          const isOpen = open[key] || false;
-          return (
-            <List
-              key={key}
-              component="div"
-              subheader={
-                <ListSubheader component="div" disableSticky>
-                  {subheader}
-                </ListSubheader>
-              }
-            >
-              <SubMenuWrapper>
-                <List component="div">
-                  <ListItem onClick={handleClick(key)}>
-                    <Button
-                      className={currentRoute === '="/' ? 'active' : ''}
-                      disableRipple
-                      component="a"
-                      startIcon={Icon && <Icon/>}
-                    >
-                      {label}
-                    </Button>
-                  </ListItem>
-                  {/*<Collapse in={isOpen} timeout="auto" unmountOnExit>*/}
+            children,
+          }: {
+            subheader: any;
+            key: any;
+            label: any;
+            icon: any;
+            children: any;
+          }) => {
+            return (
+              <List
+                key={key}
+                component="div"
+                subheader={
+                  <ListSubheader component="div" disableSticky>
+                    {subheader}
+                  </ListSubheader>
+                }
+              >
+                <SubMenuWrapper>
+                  <List component="div">
+                    <ListItem onClick={handleClick(key)}>
+                      <Button
+                        className={currentRoute === '="/' ? "active" : ""}
+                        disableRipple
+                        component="a"
+                        startIcon={Icon && <Icon />}
+                      >
+                        {label}
+                      </Button>
+                    </ListItem>
+                    {/*<Collapse in={isOpen} timeout="auto" unmountOnExit>*/}
                     <List
-                      style={{padding: '3px 4px 0 8px'}}
+                      style={{ padding: "3px 4px 0 8px" }}
                       component="div"
                       disablePadding
                     >
                       {children.map(
-                        (
-                          {
-                            key: childKey,
-                            label: childLabel,
-                            icon: ChildIcon,
-                            href: childHref,
-                            children
-                          }: {
-                            key: any,
-                            label: any,
-                            icon: any,
-                            href: any,
-                            children: any
-                          }) => {
-                          const isOpen = open[childKey] || false;
+                        ({
+                          key: childKey,
+                          label: childLabel,
+                          icon: ChildIcon,
+                          href: childHref,
+                          children,
+                        }: {
+                          key: any;
+                          label: any;
+                          icon: any;
+                          href: any;
+                          children: any;
+                        }) => {
                           return (
                             <>
                               <ListItem
                                 onClick={handleClick(childKey)}
                                 key={childKey}
-                                sx={{pl: 4}}
+                                sx={{ pl: 4 }}
                               >
                                 <Button
                                   className={
-                                    currentRoute === childHref ? 'active' : ''
+                                    currentRoute === childHref ? "active" : ""
                                   }
                                   disableRipple
                                   component="a"
@@ -246,8 +246,7 @@ function SidebarMenu() {
                                       closeSidebar();
                                     }
                                   }}
-                                  startIcon={ChildIcon && <ChildIcon/>}
-
+                                  startIcon={ChildIcon && <ChildIcon />}
                                 >
                                   {childLabel}
                                 </Button>
@@ -257,69 +256,69 @@ function SidebarMenu() {
                               {/*  timeout="auto"*/}
                               {/*  unmountOnExit*/}
                               {/*>*/}
-                                <List
-                                  style={{padding: '3px 4px 0 8px'}}
-                                  component="div"
-                                  disablePadding
-                                >
-                                  {children?.map(
-                                    (
-                                      {
-                                        key: secondChildKey,
-                                        label: secondChildLabel,
-                                        icon: SecondChildIcon,
-                                        href: secondHref
-                                      }: {
-                                        key: any,
-                                        label: any,
-                                        icon: any,
-                                        href: any
-                                      }) => (
-                                      <>
-                                        <ListItem
-                                          onClick={handleClick(secondChildKey)}
-                                          key={secondChildKey}
-                                          sx={{pl: 4}}
+                              <List
+                                style={{ padding: "3px 4px 0 8px" }}
+                                component="div"
+                                disablePadding
+                              >
+                                {children?.map(
+                                  ({
+                                    key: secondChildKey,
+                                    label: secondChildLabel,
+                                    icon: SecondChildIcon,
+                                    href: secondHref,
+                                  }: {
+                                    key: any;
+                                    label: any;
+                                    icon: any;
+                                    href: any;
+                                  }) => (
+                                    <>
+                                      <ListItem
+                                        onClick={handleClick(secondChildKey)}
+                                        key={secondChildKey}
+                                        sx={{ pl: 4 }}
+                                      >
+                                        <Button
+                                          className={
+                                            currentRoute === secondHref
+                                              ? "active"
+                                              : ""
+                                          }
+                                          disableRipple
+                                          component="a"
+                                          onClick={() => {
+                                            if (secondHref) {
+                                              navigate(secondHref);
+                                            }
+                                            closeSidebar();
+                                          }}
+                                          startIcon={
+                                            SecondChildIcon && (
+                                              <SecondChildIcon />
+                                            )
+                                          }
                                         >
-                                          <Button
-                                            className={
-                                              currentRoute === secondHref
-                                                ? 'active'
-                                                : ''
-                                            }
-                                            disableRipple
-                                            component="a"
-                                            onClick={() => {
-                                              if (secondHref) {
-                                                navigate(secondHref);
-                                              }
-                                              closeSidebar();
-                                            }}
-                                            startIcon={
-                                              SecondChildIcon && (
-                                                <SecondChildIcon/>
-                                              )
-                                            }
-                                          >
-                                            {secondChildLabel}
-                                          </Button>
-                                        </ListItem>
-                                      </>
-                                    )
-                                  )}
-                                </List>
+                                          {secondChildLabel}
+                                        </Button>
+                                      </ListItem>
+                                    </>
+                                  )
+                                )}
+                              </List>
                               {/*</Collapse>*/}
                             </>
                           );
                         }
                       )}
                     </List>
-                  {/*</Collapse>*/}
-                </List>
-              </SubMenuWrapper>
-            </List>
-          );
-        })}
+                    {/*</Collapse>*/}
+                  </List>
+                </SubMenuWrapper>
+              </List>
+            );
+          }
+        )}
       </MenuWrapper>
     </Box>
   );

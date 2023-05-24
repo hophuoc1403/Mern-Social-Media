@@ -49,6 +49,7 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
 
   const handleSendMessage = async () => {
     setIsLoading(true);
+
     socket?.emit("getMessage", {
       senderId: user.id,
       message: messSend,
@@ -74,7 +75,7 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
         setMessages((state) => [
           ...state,
           {
-            senderId: senderId === memberInfo?.id ? memberInfo : user,
+            sender: +senderId === memberInfo?.id ? memberInfo : user,
             message,
             createdAt,
           },
@@ -130,9 +131,9 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
         {messages.map((message) => (
           <ChatContent
             createdAt={message.createdAt}
-            senderInfo={message.senderId}
+            senderInfo={message.sender}
             message={message.message}
-            isSender={message.senderId.id === user.id}
+            isSender={message.sender.id === user.id}
           />
         ))}
       </ScrollToBottom>
@@ -159,7 +160,7 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
           fullWidth
           value={messSend}
           onChange={(event) => setMessSend(event.target.value)}
-          onClick={handleSendMessage}
+          // onClick={handleSendMessage}
         />
       </Box>
     </Box>

@@ -10,7 +10,7 @@ import {
   MenuItem,
   ButtonBase,
   Badge,
-  Divider, Tooltip,
+  Tooltip,
 } from "@mui/material";
 import {
   Search,
@@ -25,7 +25,7 @@ import {
   ExitToAppOutlined,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setLogout, setMode, setPostsSearched } from "../../state";
 import UserImage from "../../components/UserImage";
@@ -39,9 +39,9 @@ import { motion } from "framer-motion";
 import ChatBox from "components/chat/ChatBox";
 import { actions, useTrackedStore } from "../../hooks";
 import NotificationBox from "../../components/Notification";
-import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import {SidebarContext} from "../../components/contexts/SideBarContext";
+import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
+import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
+import { SidebarContext } from "../../components/contexts/SideBarContext";
 
 export interface Notification {
   content: string;
@@ -59,8 +59,8 @@ const NavbarPage = () => {
   const { setIsAppLoading } = actions().socket;
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [searchVal, setSearchVal] = useState<string>("");
-  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-
+  const { sidebarToggle, toggleSidebar, setSidebarToggle } =
+    useContext(SidebarContext);
 
   const [searchDebounced, status] = useDebounce(searchVal);
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
@@ -95,8 +95,8 @@ const NavbarPage = () => {
   };
 
   useEffect(() => {
-    {
-    }
+
+
     socket?.on(
       "getNotification",
       (data: { senderName: string; postId: string; type: string }) => {
@@ -189,6 +189,28 @@ const NavbarPage = () => {
             )}
           </FlexBetween>
         )}
+        <Box
+          component="span"
+          sx={{
+            ml: 2,
+            display: { lg: "none", xs: "inline-block" },
+          }}
+        >
+          <Tooltip arrow title="Toggle Menu">
+            <IconButton
+              color="primary"
+              onClick={() => {
+                toggleSidebar();
+              }}
+            >
+              {!sidebarToggle ? (
+                <MenuTwoToneIcon fontSize="small" />
+              ) : (
+                <CloseTwoToneIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Tooltip>
+        </Box>
       </FlexBetween>
 
       {/*Desktop nav*/}
@@ -217,23 +239,7 @@ const NavbarPage = () => {
               <Notifications sx={{ fontSize: "25px" }} />
             </Badge>
           </IconButton>
-          <Box
-            // component="span"
-            // sx={{
-            //   ml: 2,
-            //   display: { lg: 'none', xs: 'inline-block' }
-            // }}
-          >
-            <Tooltip arrow title="Toggle Menu">
-              <IconButton color="primary" onClick={toggleSidebar}>
-                {!sidebarToggle ? (
-                  <MenuTwoToneIcon fontSize="small" />
-                ) : (
-                  <CloseTwoToneIcon fontSize="small" />
-                )}
-              </IconButton>
-            </Tooltip>
-          </Box>
+
           <Help sx={{ fontSize: "25px" }} />
           <FlexBetween>
             <ButtonBase

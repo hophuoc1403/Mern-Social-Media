@@ -79,7 +79,7 @@ const ChatBoxEl = ({ message }: { message: any }) => {
 
   const handleClickChatBox = async () => {
     const memberId = message[0].roomId.members.find(
-      (member: string) => member !== user.id
+      (member: string) => +member !== user.id
     );
     const res = await getUser(memberId);
     await setMemberInfo(res.data);

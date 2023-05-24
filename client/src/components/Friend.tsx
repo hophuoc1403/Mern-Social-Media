@@ -12,8 +12,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   addOrRemoveFriend,
-  getFriends,
-  getUser,
 } from "../service/user.service";
 import { setFriends, setPosts, setUSer } from "../state";
 import FlexBetween from "./FlexBetween";
@@ -24,16 +22,14 @@ import {
   PersonRemoveOutlined,
   SyncLockRounded,
 } from "@mui/icons-material";
-import React, { useEffect, useMemo, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import React, {  useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import moment from "moment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { deletePost } from "../service/post.service";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
 import { useAppSelector } from "index";
 import { useTrackedStore } from "../hooks";
-import useProfileStore from "../hooks/stateProfile.store";
 
 interface FriendPops {
   friendId: number;
@@ -87,7 +83,7 @@ const Friend = ({
       return false;
     }
     // @ts-ignore
-    return friends.find((friend) => friend.id === friendId);
+    return friends && friends.find((friend) => friend.id === friendId);
   }, [friends]);
 
   const patchFriend = async () => {

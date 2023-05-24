@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "index";
 import {
   addOrRemoveFriend,
-  getFriends,
   getUser,
 } from "../../service/user.service";
 import FlexBetween from "../../components/FlexBetween";
@@ -19,14 +18,14 @@ const FriendListWidget = () => {
   const { id: userId, friends } = useAppSelector((state) => state.user);
   const { setIsOpenChat, setMemberInfo } = useChatStore((state) => state);
 
-  const removeFriend = async (friendId: string) => {
+  const removeFriend = async (friendId: number) => {
     const id = toast.info("loading ....", {
       autoClose: false,
       className: "rotateY animated",
     });
     try {
-      const res = await addOrRemoveFriend(userId, friendId);
-      const friends = res.data;
+      const res = await addOrRemoveFriend(userId, +friendId);
+      const friends = res.data.friends;
       dispatch(setFriends({ friends }));
       setTimeout((_: any) => {
         toast.update(id, {
@@ -65,7 +64,7 @@ const FriendListWidget = () => {
               sx={{ cursor: "pointer" }}
               onClick={async (e) => {
                 e.stopPropagation();
-                await removeFriend(friend.id);
+                await removeFriend(+friend.id);
               }}
             >
               <PersonRemoveOutlined />

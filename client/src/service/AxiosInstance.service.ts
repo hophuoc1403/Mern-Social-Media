@@ -19,7 +19,8 @@ const handleRefreshToken = async () => {
   const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
     refreshToken: refresh_token,
   });
-  localStorage.setItem("accessToken", response.data.accessToken);
+  localStorage.setItem("accessToken", response.data.access_token);
+  localStorage.setItem("refreshToken", response.data.refresh_token);
   return response;
 };
 
@@ -51,6 +52,7 @@ axiosInstance.interceptors.request.use(async (config) => {
   }
   const user: JwtPayload = jwt_decode(access_token);
   const isExpired = dayjs.unix(user.exp as number).diff(dayjs()) < 1;
+  console.log({ exp: user.exp });
 
   if (!isExpired) {
     return {
@@ -90,7 +92,7 @@ axiosInstance.interceptors.response.use(
       }
       const { status } = err.response;
       console.log(status);
-      if (status == 401) {
+      if (status === 401) {
         console.log("err 401");
       }
       // showNotification("error", data?.error ?? "");
