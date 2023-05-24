@@ -9,8 +9,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
-import { getComment, likePost, sharePost } from "../../service/post.service";
+import {  useMemo, useState } from "react";
+import {  likePost, sharePost } from "../../service/post.service";
 import { addNewestPost, setPost } from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import Friend from "../../components/Friend";
@@ -92,7 +92,6 @@ const PostWidget = ({
 
         sharedContent: valueSharedContent,
       });
-      console.log(res.data);
 
       dispatch(addNewestPost({ post: res.data.post }));
       await new Promise((_) => setTimeout(_, 1000));

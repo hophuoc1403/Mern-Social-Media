@@ -32,7 +32,6 @@ const ProfilePage = () => {
       } else {
         const response = await getUser(+userId!);
         const friendResponse = await getFriends(+userId!);
-        console.log({ friendResponse });
 
         const userSelectedRes: IUser = {
           ...response.data.user,
@@ -44,7 +43,6 @@ const ProfilePage = () => {
     getUserSelected().then((r) => r);
   }, []);
 
-  console.log({ userSelected });
 
   const { data, fetchNextPage, status, hasNextPage } = useInfiniteQuery(
     ["free-posts" + userId],

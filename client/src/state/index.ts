@@ -53,7 +53,6 @@ export const authSlice = createSlice({
       state.user.friends = action.payload.friends;
     },
     setPosts: (state, action: { payload: { posts: IPost[] } }) => {
-      console.log({ action: action.payload.posts });
 
       state.posts = action.payload.posts;
     },

@@ -117,7 +117,6 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
           autoClose: 4000,
         });
       }, 1000);
-      console.log(friends);
       const userWithNewFriend = { ...user, friends };
       setUserSelected(userWithNewFriend);
     } catch (e) {

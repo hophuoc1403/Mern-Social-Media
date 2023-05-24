@@ -80,7 +80,6 @@ const Form = () => {
         email: values.email,
         password: values.password,
       });
-      console.log({ savedLoginResponse });
       if (savedLoginResponse.data.access_token) {
         onSubmitProps.resetForm();
         dispatch(
@@ -129,7 +128,6 @@ const Form = () => {
       file && formData.append("picturePath", file);
       // formData.append("picturePath", values.picture.name);
       const savedUserResponse = await register(formData);
-      console.log(savedUserResponse);
       onSubmitProps.resetForm();
       if (savedUserResponse) {
         setPageType("login");
@@ -247,7 +245,6 @@ const Form = () => {
                       multiple={false}
                       onDrop={(acceptedFiles) => {
                         setFile(acceptedFiles[0]);
-                        console.log(values);
                       }}
                     >
                       {({ getRootProps, getInputProps }) => (

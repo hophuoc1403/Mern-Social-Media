@@ -1,24 +1,17 @@
-import { Box, useMediaQuery } from "@mui/material";
-import Navbar from "../navbar";
-import UserWidget from "../widgets/UserWidget";
+import {  useMediaQuery } from "@mui/material";
 import MyPostWidget from "../widgets/MyPostWidget";
 import PostsWidget from "../widgets/PostsWidget";
-import AdvertWidget from "../widgets/AdvertWidget";
-import FriendListWidget from "../widgets/FriendListWidget";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppSelector } from "index";
 import { getFreePosts } from "service/post.service";
 import { useScroll } from "hooks/useScroll";
 import { useTrackedStore } from "../../hooks";
-import Sidebar from "../../components/sidebar/SideBar";
 import MainLayout from "../../layouts/MainLayout";
 
 const HomePage = () => {
-  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { picturePath, firstName, lastName } = useAppSelector(
     (state) => state.user
   );
-  const { user } = useAppSelector((state) => state);
   const socket = useTrackedStore().socket.socket();
   useEffect(() => {
     const nameUser = firstName + " " + lastName;
@@ -38,7 +31,6 @@ const HomePage = () => {
   //   handleGetAllPost();
   // }, []);
 
-  console.log({ characters });
 
   return (
     <MainLayout>

@@ -43,8 +43,6 @@ function App() {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         const res = await getFriends(user.id);
-        console.log({ res });
-
         const friendList: IUser[] = res.data.friends;
         dispatch(setFriends({ friends: friendList }));
       }

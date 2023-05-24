@@ -161,7 +161,6 @@ function SidebarMenu() {
   const currentRoute = location.pathname;
   const [open, setOpen] = useState<any>({});
   const handleClick = (key: any) => () => {
-    console.log(key);
     setOpen((prevState: any) => ({
       ...prevState,
       [key]: !prevState[key],

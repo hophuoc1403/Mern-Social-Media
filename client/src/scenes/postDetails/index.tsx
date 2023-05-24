@@ -11,7 +11,6 @@ const PostDetails = () => {
   useEffect(() => {
     const handleGetPost = async () => {
       const postResponse = await getSpecificPost(+id!);
-      console.log({ postResponse });
       setPost(postResponse.post);
     };
     handleGetPost();
