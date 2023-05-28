@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
 import { Markup } from "interweave";
+import { useTrackedStore } from "hooks";
 
 const PostWidget = ({
   createdAt,
@@ -41,8 +42,6 @@ const PostWidget = ({
   likes,
   commentCount,
 }: IPost) => {
-  console.log(user);
-
   const [isComment, setIsComment] = useState<boolean>(false);
   const userName = user.firstName + " " + user.lastName;
   const dispatch = useAppDispatch();
@@ -52,12 +51,12 @@ const PostWidget = ({
   const [valueSharedContent, setValueSharedContent] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+  const socket = useTrackedStore().socket.socket();
+  const { user: currentUser } = useAppSelector((state) => state);
 
   const { palette } = useTheme();
   // @ts-ignore
   const main = palette.neutral.main;
-
-  console.log({ id, post });
 
   const isLiked = useMemo(() => {
     return likes.find((like) => {
@@ -69,17 +68,16 @@ const PostWidget = ({
     try {
       const response = await likePost(postId);
       const post: IPost = response.data.post;
-      console.log(post);
       dispatch(setPost({ postid: post.id, post }));
-      // !isLiked &&
-      //   socket!.emit("sendNotification", {
-      //     senderName: currentUser.firstName + " " + currentUser.lastName,
-      //     receiverName: userName,
-      //     type: "liked",
-      //     senderId: currentUser.id,
-      //     receiverId: postUserId,
-      //     postId,
-      //   });
+      !isLiked &&
+        socket!.emit("sendNotification", {
+          senderName: currentUser.firstName + " " + currentUser.lastName,
+          receiverName: userName,
+          type: "like",
+          senderId: currentUser.id,
+          postId: id,
+          receiverId: user.id,
+        });
     } catch (e) {
       console.log(e);
       toast.error("Like post failed :<");
@@ -90,9 +88,9 @@ const PostWidget = ({
     try {
       setIsLoading(true);
       const res = await sharePost({
-        postId: id,
-
+        postId: post.id,
         sharedContent: valueSharedContent,
+        userRoot: +user.id,
       });
 
       dispatch(addNewestPost({ post: res.data.post }));
@@ -127,7 +125,7 @@ const PostWidget = ({
               friendId={user.id}
               name={userName}
               subtitle={createdAt}
-              userPicturePath={userRoot.picturePath}
+              userPicturePath={user.picturePath ?? ""}
             />
             <Typography
               color={main}

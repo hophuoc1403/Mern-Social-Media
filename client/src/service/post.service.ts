@@ -68,7 +68,7 @@ export const addComment = async ({
 };
 
 export const getNotifications = async ({ userId }: { userId: number }) => {
-  const response = await getMethodAPI(`/posts/${userId}/notifications`);
+  const response = await getMethodAPI(`/notifications/${userId}`);
 
   return response;
 };
@@ -81,13 +81,16 @@ export const findPost = async ({ key }: { key: string }) => {
 export const sharePost = async ({
   postId,
   sharedContent,
+  userRoot,
 }: {
+  userRoot: number;
   postId: number;
   sharedContent: string;
 }) => {
   const response = await postMethodAPI(`/posts/share`, {
     postId,
     description: sharedContent,
+    userRoot,
   });
   return response;
 };

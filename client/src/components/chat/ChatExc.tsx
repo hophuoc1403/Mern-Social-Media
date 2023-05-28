@@ -61,7 +61,6 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
     setIsLoading(false);
   };
 
-  // @ts-ignore
   useEffect(() => {
     const handler = ({
       senderId,
@@ -84,7 +83,9 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
       }
     };
     socket?.on("sendMessage", handler);
-    return () => socket!.off("sendMessage", handler);
+    return () => {
+      socket!.off("sendMessage", handler);
+    };
   }, []);
 
   return (

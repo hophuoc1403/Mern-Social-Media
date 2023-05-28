@@ -39,7 +39,7 @@ const FriendListWidget = () => {
 
   return (
     <WidgetWrapper>
-      {friends &&
+      {friends && friends.length > 0 ? (
         friends.map((friend) => (
           <FlexBetween
             onClick={async () => {
@@ -67,7 +67,12 @@ const FriendListWidget = () => {
               <PersonRemoveOutlined />
             </IconButton>
           </FlexBetween>
-        ))}
+        ))
+      ) : (
+        <Typography textAlign={"center"} variant="h5">
+          No Friend
+        </Typography>
+      )}
     </WidgetWrapper>
   );
 };

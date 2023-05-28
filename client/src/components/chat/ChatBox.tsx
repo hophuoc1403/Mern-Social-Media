@@ -16,20 +16,21 @@ interface ChatBoxProps {
 }
 
 interface TitleMessages {
-  roomId: {
-    members: string[];
-  };
-  messages: chat;
+  id: number;
+  message: string;
+  sender: IUser;
+  room: { id: string; member1: IUser; member2: IUser };
 }
 
 const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
   const { classes } = useStyle();
   const [titleMessages, setTitleMessages] = useState<TitleMessages[]>([]);
+  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const handleGetTitleMessage = async () => {
       try {
-        const titleMessage = await getTitleMessage();
+        const titleMessage = await getTitleMessage(user.id);
         setTitleMessages(titleMessage.data);
       } catch (e) {
         console.log(e);
@@ -58,7 +59,7 @@ const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
       <Box className={""}>
         {titleMessages.length > 0 ? (
           titleMessages.map((message: any) => {
-            return <ChatBoxEl message={message} />;
+            return <ChatBoxEl onClose={onClose} message={message} />;
           })
         ) : (
           <Box padding={2}>
@@ -70,7 +71,13 @@ const ChatBox = ({ onClose, chatRef }: ChatBoxProps) => {
   );
 };
 
-const ChatBoxEl = ({ message }: { message: any }) => {
+const ChatBoxEl = ({
+  message,
+  onClose,
+}: {
+  message: TitleMessages;
+  onClose: any;
+}) => {
   const chatElRef = useRef<HTMLDivElement | null>(null);
   const isHoverChat = useHover(chatElRef);
   const { classes } = useStyleEl({ chatBoxHover: isHoverChat });
@@ -78,12 +85,13 @@ const ChatBoxEl = ({ message }: { message: any }) => {
   const { setMemberInfo, setIsOpenChat } = useChatStore();
 
   const handleClickChatBox = async () => {
-    const memberId = message[0].roomId.members.find(
-      (member: string) => +member !== user.id
+    const memberId = [message.room.member1, message.room.member2].find(
+      (member) => +member.id !== user.id
     );
-    const res = await getUser(memberId);
+    const res = await getUser(memberId!.id);
     await setMemberInfo(res.data);
     setIsOpenChat(true);
+    onClose();
   };
 
   return (
@@ -93,10 +101,10 @@ const ChatBoxEl = ({ message }: { message: any }) => {
         onClick={handleClickChatBox}
         className={`flex gap-2 px-2 py-3 min-w-[150px] ${classes.chatBoxEl}`}
       >
-        <UserImage image={message[0].senderId.picturePath} size={35} />
+        <UserImage image={message.sender.picturePath} size={35} />
         <Box>
-          <Typography variant="h6">{message[0].senderId.firstName}</Typography>
-          <Typography variant="body2">{message[0].message}</Typography>
+          <Typography variant="h6">{message.sender.firstName}</Typography>
+          <Typography variant="body2">{message.message}</Typography>
         </Box>
       </Box>
       <Divider />

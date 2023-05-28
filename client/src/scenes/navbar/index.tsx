@@ -43,9 +43,18 @@ import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
 import { SidebarContext } from "../../components/contexts/SideBarContext";
 
+export enum NotiType {
+  LIKE = "like",
+  COMMENT = "comment",
+}
+
 export interface Notification {
-  content: string;
-  postId: string;
+  senderName: string;
+  user: IUser;
+  post: IPost;
+  message: string;
+  type: NotiType;
+  receiver: IUser;
 }
 
 const NavbarPage = () => {
@@ -95,26 +104,31 @@ const NavbarPage = () => {
   };
 
   useEffect(() => {
-
-
-    socket?.on(
-      "getNotification",
-      (data: { senderName: string; postId: string; type: string }) => {
+    const handler = (data: any) => {
+      if (data.receiverId === user.id) {
         setNotifications((prev) => [
           {
-            content: `${data.senderName} ${data.type} your post`,
-            postId: data.postId,
+            ...data,
+            post: { id: data.postId },
+            user: { id: data.userId },
+            receiver: { id: data.receiverId },
           },
           ...prev,
         ]);
       }
-    );
-  }, [socket]);
+    };
+    socket?.on("getNotification", handler);
+
+    return () => {
+      socket!.off("getNotification", handler);
+    };
+  }, []);
 
   useEffect(() => {
     const handleGetNotifications = async () => {
       const res = await getNotifications({ userId: user.id });
-      setNotifications(res.data);
+      console.log({ res });
+      setNotifications(res.data.notifications);
     };
     handleGetNotifications();
   }, [user]);
@@ -310,12 +324,6 @@ const NavbarPage = () => {
                 {notifications.length > 0
                   ? notifications.map((notification) => (
                       <NotificationBox notification={notification} />
-                      // <>
-                      //   <Box my={1}>
-                      //     <p>{noti.content}</p>
-                      //   </Box>
-                      //   <Divider />
-                      // </>
                     ))
                   : "you don't have any notification"}
               </Box>
