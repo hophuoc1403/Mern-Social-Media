@@ -61,17 +61,17 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
   const [isImage, setIsImage] = useState<boolean>(false);
   const [image, setImage] = useState<File | null>(null);
   const [post, setPost] = useState("");
-  const { palette } = useTheme();
   const { id } = useAppSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const { palette } = useTheme();
   // @ts-ignore
   const mediumMain = palette.neutral.mediumMain;
   // @ts-ignore
   const medium = palette.neutral.medium;
 
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
-  const [isOpenTag, setIsOpenTag] = useState(false);
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
+  const [isOpenTag, setIsOpenTag] = useState(false);
 
   useEffect(() => {
     const handleGetTags = async () => {
@@ -276,7 +276,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                variant="standard"
+                variant="filled"
                 label="Select Tags"
                 placeholder="Tags"
               />

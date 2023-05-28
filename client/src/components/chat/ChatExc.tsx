@@ -41,6 +41,7 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
     const handleGetMessages = async () => {
       const res = await getMessages({ members: [user.id, memberInfo!.id] });
       const chatRes: Chat = res.data;
+      console.log(res);
       setMessages(chatRes.messages);
       setRoom(res.data.room);
     };

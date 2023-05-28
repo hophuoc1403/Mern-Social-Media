@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTrackedStore } from "../../hooks";
 import Comment from "../../components/comment/Comment";
+import { Markup } from 'interweave';
 
 const PostWidget = ({
   createdAt,
@@ -173,7 +174,8 @@ const PostWidget = ({
               color={main}
               sx={{ mt: "1rem", wordBreak: "break-word" }}
             >
-              {post.description}
+              <Markup content={post.description} />
+
             </Typography>
             {post.picturePath && (
               <img
