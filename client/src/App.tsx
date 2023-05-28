@@ -29,6 +29,7 @@ import SearchPost from "./scenes/searchPost/intex";
 import { SidebarProvider } from "components/contexts/SideBarContext";
 import AddPost from "./scenes/addPost";
 import PostWithTags from "scenes/postWithTags";
+import SharedPost from "scenes/sharedPost";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -140,6 +141,7 @@ function App() {
                 <Route path={"/post/:id"} element={<PostDetails />} />
                 <Route path={"/add-post"} element={<AddPost />} />
                 <Route path={"/post-tags"} element={<PostWithTags />} />
+                <Route path={"/shared-post"} element={<SharedPost />} />
               </Routes>
               {isOpenChat && <ChatExc isShow={true} />}
             </ToastProvider>

@@ -41,7 +41,7 @@ export const navigations = [
       },
       {
         key: "service-price1",
-        href: "/shared",
+        href: "/shared-post",
         label: "Shared post",
         icon: AllInboxIcon,
       },

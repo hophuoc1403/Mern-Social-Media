@@ -92,6 +92,11 @@ export const sharePost = async ({
   return response;
 };
 
+export const getSharedPost = async () => {
+  const response = await getMethodAPI("/posts/share");
+  return response;
+};
+
 export const getTags = async () => {
   const response = await getMethodAPI("/posts/tags");
   return response;

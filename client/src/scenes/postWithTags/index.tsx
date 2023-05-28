@@ -5,15 +5,19 @@ import { useEffect, useState } from "react";
 import PostWidget from "scenes/widgets/PostWidget";
 import { getPostByTags, getTags } from "service/post.service";
 import { setPosts } from "state";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostWithTags = () => {
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const [selectedTags, setSelectedTags] = useState<number | null>(null);
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleGetTags = async () => {
+      setIsLoading(true);
       const response = await getTags();
       setTags(response.data);
       setSelectedTags(response.data[0].id);
@@ -21,6 +25,7 @@ const PostWithTags = () => {
       const getPostWithTagRes = await getPostByTags(response.data[0].id);
       const posts = getPostWithTagRes.data.posts;
       dispatch(setPosts({ posts }));
+      setIsLoading(false);
     };
 
     handleGetTags();
@@ -28,10 +33,12 @@ const PostWithTags = () => {
 
   useEffect(() => {
     const getPost = async () => {
+      setIsLoading(true);
       if (selectedTags) {
         const getPostWithTagRes = await getPostByTags(selectedTags);
         const posts = getPostWithTagRes.data.posts;
         dispatch(setPosts({ posts }));
+        setIsLoading(false);
       }
     };
 
@@ -62,13 +69,26 @@ const PostWithTags = () => {
           />
         )}
       </Box>
-
-      {posts.length > 0 ? (
-        posts.map((post: IPost) => <PostWidget key={post.id} {...post} />)
+      {isLoading ? (
+        <>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={isLoading}
+            onClick={() => setIsLoading(false)}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </>
       ) : (
-        <Typography textAlign={"center"} mt={3} variant={"h3"}>
-          No data found{" "}
-        </Typography>
+        <>
+          {posts.length > 0 ? (
+            posts.map((post: IPost) => <PostWidget key={post.id} {...post} />)
+          ) : (
+            <Typography textAlign={"center"} mt={3} variant={"h3"}>
+              No data found{" "}
+            </Typography>
+          )}
+        </>
       )}
     </MainLayout>
   );
