@@ -2,10 +2,7 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import { IconButton, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "index";
-import {
-  addOrRemoveFriend,
-  getUser,
-} from "../../service/user.service";
+import { addOrRemoveFriend, getUser } from "../../service/user.service";
 import FlexBetween from "../../components/FlexBetween";
 import UserImage from "../../components/UserImage";
 import { PersonRemoveOutlined } from "@mui/icons-material";
@@ -42,7 +39,7 @@ const FriendListWidget = () => {
 
   return (
     <WidgetWrapper>
-      {friends.length > 0 &&
+      {friends &&
         friends.map((friend) => (
           <FlexBetween
             onClick={async () => {

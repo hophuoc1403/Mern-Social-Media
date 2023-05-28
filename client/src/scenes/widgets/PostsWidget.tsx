@@ -7,7 +7,7 @@ import { useScroll } from "../../hooks/useScroll";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SkeletonPost from "components/loading/SkeletonPost";
 import { Link, useParams } from "react-router-dom";
-import {Typography} from "@mui/material";
+import { Typography } from "@mui/material";
 
 function arrayEquals(a: any, b: any) {
   return (
@@ -50,7 +50,7 @@ const PostsWidget = ({
 
   return (
     <>
-      {initialLoading ? (
+      {characters && initialLoading ? (
         <>
           <SkeletonPost />
           <SkeletonPost />
@@ -63,7 +63,7 @@ const PostsWidget = ({
           hasMore={hasNextPage ? !!hasNextPage : false}
           loader={<SkeletonPost />}
           endMessage={
-            <p style={{ textAlign: "center" }}>
+            <p style={{ textAlign: "center", marginTop: "20px" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }

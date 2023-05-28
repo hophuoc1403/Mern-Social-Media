@@ -9,8 +9,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import {  useMemo, useState } from "react";
-import {  likePost, sharePost } from "../../service/post.service";
+import { useMemo, useState } from "react";
+import { likePost, sharePost } from "../../service/post.service";
 import { addNewestPost, setPost } from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import Friend from "../../components/Friend";
@@ -27,9 +27,8 @@ import { style } from "components/EditPostModal";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useTrackedStore } from "../../hooks";
 import Comment from "../../components/comment/Comment";
-import { Markup } from 'interweave';
+import { Markup } from "interweave";
 
 const PostWidget = ({
   createdAt,
@@ -42,12 +41,12 @@ const PostWidget = ({
   likes,
   commentCount,
 }: IPost) => {
+  console.log(user);
+
   const [isComment, setIsComment] = useState<boolean>(false);
   const userName = user.firstName + " " + user.lastName;
   const dispatch = useAppDispatch();
   const loggedInUserId: string = useAppSelector((state: any) => state.user.id);
-  const socket = useTrackedStore().socket.socket();
-  const { user: currentUser } = useAppSelector((state: any) => state);
   const [isShare, setIsShare] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [valueSharedContent, setValueSharedContent] = useState<string>("");
@@ -57,6 +56,8 @@ const PostWidget = ({
   const { palette } = useTheme();
   // @ts-ignore
   const main = palette.neutral.main;
+
+  console.log({ id, post });
 
   const isLiked = useMemo(() => {
     return likes.find((like) => {
@@ -103,10 +104,6 @@ const PostWidget = ({
       console.log(e);
     }
   };
-
-  // useEffect(() => {
-  //   // refec
-  // });
 
   return (
     <motion.div
@@ -165,17 +162,24 @@ const PostWidget = ({
           />
 
           <Box
+            sx={{ cursor: "pointer" }}
             onClick={() => {
-              location.pathname.includes("home") &&
-                navigate(`/post/${post.id}`);
+              location.pathname.includes("home") && navigate(`/post/${id}`);
             }}
           >
             <Typography
               color={main}
-              sx={{ mt: "1rem", wordBreak: "break-word" }}
+              sx={{
+                mt: "1rem",
+                wordBreak: "break-word",
+                WebkitLineClamp: 2,
+                display: "-webkit-box",
+                textOverflow: "ellipsis",
+                overflow: "clip",
+                maxHeight: "60px",
+              }}
             >
               <Markup content={post.description} />
-
             </Typography>
             {post.picturePath && (
               <img
