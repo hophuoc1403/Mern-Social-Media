@@ -6,12 +6,15 @@ import { SearchOutlined } from "@mui/icons-material";
 import { useDebounce } from "usehooks-ts";
 import { searchPost } from "../../service/post.service";
 import PostWidget from "../widgets/PostWidget";
+import {useSearchParams} from "react-router-dom";
 
 const SearchPost = () => {
   const [searchingVal, setSearchingVal] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const debouncedValue = useDebounce<string>(searchingVal, 1000);
   const [posts, setPosts] = useState<IPost[]>([]);
+  let [searchParams] = useSearchParams();
+
 
   const handleSearchPost = async () => {
     if (debouncedValue !== "") {
@@ -21,6 +24,11 @@ const SearchPost = () => {
     }
     setPosts([]);
   };
+  useEffect(() => {
+    if(searchParams.get("q")){
+      setSearchingVal(searchParams.get("q") as string)
+    }
+  },[searchParams])
 
   useEffect(() => {
     setIsSearching(false);

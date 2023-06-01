@@ -105,7 +105,7 @@ function App() {
                     <img
                       src={"http://localhost:3001/" + user.picturePath}
                       alt=""
-                      style={{objectFit: "cover", height: "120px"}}
+                      style={{objectFit: "cover", height: "120px",width:"160px"}}
                       onClick={(e) => {
                         e.stopPropagation();
                         setIsAddStr(true);
@@ -130,9 +130,11 @@ function App() {
         <Modal open={!!selectStr} onClose={() => setSelectStr(null)}>
           <Box sx={style}>
             <Stack flexDirection={"row"} gap={3} alignItems={"center"}>
-              {+selectStr > 0 && <IconButton
-                  sx={{cursor: "pointer"}}
-                  onClick={() => setSelectStr((+selectStr - 1).toString())}><ArrowBackOutlined/></IconButton>}
+              <Box width={50}>
+                {+selectStr > 0 && <IconButton
+                    sx={{cursor: "pointer"}}
+                    onClick={() => setSelectStr((+selectStr - 1).toString())}><ArrowBackOutlined/></IconButton>}
+              </Box>
               <Box>
                 <Typography variant={"h3"}>
                   {stories[+selectStr].user.lastName} {stories[+selectStr].user.firstName}
@@ -150,10 +152,11 @@ function App() {
                   height={400}
                 />
               </Box>
+              <Box width={50}>
               {+selectStr < stories.length - 1 && <IconButton
                   sx={{cursor: "pointer"}}
                   onClick={() => setSelectStr((+selectStr + 1).toString())}><ArrowForwardOutlined/></IconButton>}
-
+              </Box>
             </Stack>
           </Box>
         </Modal>

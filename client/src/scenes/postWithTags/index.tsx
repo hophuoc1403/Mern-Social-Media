@@ -17,15 +17,20 @@ const PostWithTags = () => {
 
   useEffect(() => {
     const handleGetTags = async () => {
-      setIsLoading(true);
-      const response = await getTags();
-      setTags(response.data);
-      setSelectedTags(response.data[0].id);
+      try{
+        setIsLoading(true);
+        const response = await getTags();
+        setTags(response.data);
+        setSelectedTags(response.data[0].id);
 
-      const getPostWithTagRes = await getPostByTags(response.data[0].id);
-      const posts = getPostWithTagRes.data.posts;
-      dispatch(setPosts({ posts }));
-      setIsLoading(false);
+        const getPostWithTagRes = await getPostByTags(response.data[0].id);
+        const posts = getPostWithTagRes.data.posts;
+        dispatch(setPosts({ posts }));
+      }catch (e) {
+
+      }finally {
+        setIsLoading(false);
+      }
     };
 
     handleGetTags();
@@ -33,19 +38,23 @@ const PostWithTags = () => {
 
   useEffect(() => {
     const getPost = async () => {
-      setIsLoading(true);
-      if (selectedTags) {
-        const getPostWithTagRes = await getPostByTags(selectedTags);
-        const posts = getPostWithTagRes.data.posts;
-        dispatch(setPosts({ posts }));
+      try{
+        setIsLoading(true);
+        if (selectedTags) {
+          const getPostWithTagRes = await getPostByTags(selectedTags);
+          const posts = getPostWithTagRes.data.posts;
+          dispatch(setPosts({ posts }));
+          setIsLoading(false);
+        }
+      }catch (e) {
+
+      }finally {
         setIsLoading(false);
       }
     };
 
     getPost();
   }, [selectedTags]);
-
-  console.log(posts);
 
   return (
     <MainLayout>

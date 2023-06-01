@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { addComment } from "../../service/post.service";
 import { useAppSelector } from "../../index";
 import SendIcon from "@mui/icons-material/Send";
+import {useTrackedStore} from "../../hooks";
 
 interface InputReplyProps {
   replyFor?: IComment;
@@ -15,6 +16,7 @@ interface InputReplyProps {
 
 const InputReply = ({ replyFor, postId, setComment }: InputReplyProps) => {
   const user = useAppSelector((state) => state.user);
+  const socket = useTrackedStore().socket.socket();
 
   const [replyVal, setReplyVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +28,14 @@ const InputReply = ({ replyFor, postId, setComment }: InputReplyProps) => {
         postId,
         message: replyVal,
         commentRoot: replyFor ? replyFor.id : undefined,
+      });
+      socket!.emit("sendNotification", {
+        senderName: user.firstName + " " + user.lastName,
+        receiverName: replyFor?.user.lastName,
+        type: "comment",
+        senderId: user.id,
+        postId,
+        receiverId: user.id,
       });
       setComment((state) => ({
         meta: { ...state!.meta, totalItems: state!.meta.totalItems + 1 },

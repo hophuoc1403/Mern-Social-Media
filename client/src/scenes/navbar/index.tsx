@@ -10,10 +10,9 @@ import {
   MenuItem,
   ButtonBase,
   Badge,
-  Tooltip,
+  Tooltip, Avatar,
 } from "@mui/material";
 import {
-  Search,
   Notifications,
   Help,
   Message,
@@ -33,8 +32,6 @@ import Menu from "@mui/material/Menu";
 import { useAppDispatch, useAppSelector } from "index";
 import { getNotifications, searchPost} from "service/post.service";
 import useDebounce from "hooks/useDebounce";
-import ModalSearch from "components/ModalSearch";
-import { LoadingButton } from "@mui/lab";
 import { motion } from "framer-motion";
 import ChatBox from "components/chat/ChatBox";
 import { actions, useTrackedStore } from "../../hooks";
@@ -42,6 +39,7 @@ import NotificationBox from "../../components/Notification";
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
 import { SidebarContext } from "../../components/contexts/SideBarContext";
+import HeaderSearch from "../../components/searchHeader";
 
 export enum NotiType {
   LIKE = "like",
@@ -170,39 +168,42 @@ const NavbarPage = () => {
             },
           }}
         >
-          PhuocMedia
+         <Avatar src={"/logo.png"} variant={"square"} sx={{width:"130px"}}/>
         </Typography>
-        {isNonMobileScreens && (
-          <FlexBetween
-            sx={{
-              backgroundColor: neutralLight,
-              borderRadius: "50px",
-              position: "relative",
-            }}
-            padding={"0.2rem 0.1rem"}
-          >
-            <InputBase
-              id="search"
-              value={searchVal}
-              onChange={(e) => {
-                setSearchVal(e.target.value);
-              }}
-              placeholder={"search ..."}
-              sx={{ paddingInline: "1rem" }}
-            />
-            <LoadingButton
-              className="p-0"
-              sx={{ paddingRight: "1rem", minWidth: "max-content" }}
-              loading={status === "pending"}
-            >
-              {" "}
-              <Search />
-            </LoadingButton>
-            {isOpenSearchModal && (
-              <ModalSearch onClose={() => setIsOpenSearchModal(false)} />
-            )}
-          </FlexBetween>
-        )}
+        {
+          // isNonMobileScreens && (
+          // <FlexBetween
+          //   sx={{
+          //     backgroundColor: neutralLight,
+          //     borderRadius: "50px",
+          //     position: "relative",
+          //   }}
+          //   padding={"0.2rem 0.1rem"}
+          // >
+          //   <InputBase
+          //     id="search"
+          //     value={searchVal}
+          //     onChange={(e) => {
+          //       setSearchVal(e.target.value);
+          //     }}
+          //     placeholder={"search ..."}
+          //     sx={{ paddingInline: "1rem" }}
+          //   />
+          //   <LoadingButton
+          //     className="p-0"
+          //     sx={{ paddingRight: "1rem", minWidth: "max-content" }}
+          //     loading={status === "pending"}
+          //   >
+          //     {" "}
+          //     <Search />
+          //   </LoadingButton>
+          //   {isOpenSearchModal && (
+          //     <ModalSearch onClose={() => setIsOpenSearchModal(false)} />
+          //   )}
+          // </FlexBetween>
+          <HeaderSearch />
+        // )
+        }
         <Box
           component="span"
           sx={{

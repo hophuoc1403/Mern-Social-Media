@@ -6,6 +6,7 @@ import { CommentBankOutlined, ThumbUpAltOutlined } from "@mui/icons-material";
 
 const NotificationBox = ({ notification }: { notification: Notification }) => {
   const { palette } = useTheme();
+  console.log(notification.type)
   return (
     <>
       <Box
