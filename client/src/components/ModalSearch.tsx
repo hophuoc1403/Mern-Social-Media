@@ -8,6 +8,7 @@ import { useTheme } from "@emotion/react";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
+import {useNavigate} from "react-router-dom";
 
 interface ModalSearchProps {
   onClose: () => void;
@@ -16,6 +17,7 @@ interface ModalSearchProps {
 const ModalSearch = ({ onClose }: ModalSearchProps) => {
   const { postsSearched } = useAppSelector((state) => state);
   const theme = useTheme();
+  const navigate = useNavigate()
 
   // @ts-ignore
   const background = theme.palette.background.default;
@@ -26,7 +28,7 @@ const ModalSearch = ({ onClose }: ModalSearchProps) => {
       left:"0",
       maxWidth: "100%",
       maxHeight: "300px",
-      overflow: "scroll",
+      overflow: "auto",
       background: background,
       overflowX:'hidden'
     }}>
@@ -41,10 +43,13 @@ const ModalSearch = ({ onClose }: ModalSearchProps) => {
               {postsSearched.length > 0 ? postsSearched.map((post) => {
                 return (
                   <>
-                  <FlexBetween sx={{padding:1,my:1}}>
+                  <FlexBetween onClick={() => {
+                    onClose()
+                    navigate(`/post/${post.id}`)
+                  }} sx={{padding:1,my:1}}>
                     <MenuItem>
                     <Typography sx={{ ml: 2,wordBreak:"break-word" }} variant="body2" >
-                      {post.description}
+                      {post.post.description}
                     </Typography>
                     </MenuItem>
                   </FlexBetween>

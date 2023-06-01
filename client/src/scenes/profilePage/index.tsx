@@ -43,7 +43,6 @@ const ProfilePage = () => {
     getUserSelected().then((r) => r);
   }, []);
 
-
   const { data, fetchNextPage, status, hasNextPage } = useInfiniteQuery(
     ["free-posts" + userId],
     async ({ pageParam = 1 }) => {

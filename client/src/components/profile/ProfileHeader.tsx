@@ -6,23 +6,23 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "index";
-import { makeStyles } from "tss-react/mui";
+import {useAppDispatch, useAppSelector} from "index";
+import {makeStyles} from "tss-react/mui";
 import UserImage from "../UserImage";
 import FlexBetween from "../FlexBetween";
-import { CameraAlt, EditOffOutlined } from "@mui/icons-material";
-import { useState } from "react";
+import {CameraAlt, EditOffOutlined} from "@mui/icons-material";
+import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { styled } from "@mui/system";
-import { addOrRemoveFriend, changeAvatar } from "../../service/user.service";
-import { setAvatar } from "../../state";
-import { toast } from "react-toastify";
+import {styled} from "@mui/system";
+import {addOrRemoveFriend, changeAvatar} from "../../service/user.service";
+import {setAvatar, setUSer} from "../../state";
+import {toast} from "react-toastify";
 import useProfileStore from "hooks/stateProfile.store";
-import { useTheme } from "@emotion/react";
+import {useTheme} from "@emotion/react";
 import useChatStore from "../../hooks/stateChat.store";
-import { useTrackedStore } from "../../hooks";
+import {useTrackedStore} from "../../hooks";
 
-const ModalStyle = styled(Box)(({ theme }) => ({
+const ModalStyle = styled(Box)(({theme}) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -34,19 +34,20 @@ const ModalStyle = styled(Box)(({ theme }) => ({
   width: "max-content",
 }));
 
-const ProfileHeader = ({ user }: { user: IUser }) => {
-  const { classes } = useStyles();
+const ProfileHeader = ({user}: { user: IUser }) => {
+  const {classes} = useStyles();
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { user: userRoot } = useAppSelector((state) => state);
-  const { handleOpenModal } = useProfileStore();
-  const { setIsOpenChat } = useChatStore();
+  const {user: userRoot} = useAppSelector((state) => state);
+  const {handleOpenModal} = useProfileStore();
+  const {setIsOpenChat} = useChatStore();
   const socket = useTrackedStore().socket.socket();
-  const { setUserSelected } = useProfileStore();
+  const {setUserSelected} = useProfileStore();
+  const [isDoneUploadAva,setIsDoneUploadAva] = useState(false)
 
   // check is friend
   const [isFriend, setIsFriend] = useState<boolean>(() => {
@@ -54,14 +55,17 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
       return false;
     }
     // @ts-ignore
-    return !!user.friends.find((friend) => friend.id === userRoot.id);
+    return user.friends
+      ? !!user.friends.find((friend) => friend.id === userRoot.id)
+      : false;
   });
 
   const handleUploadAvatar = async (avatar: any) => {
+    setIsDoneUploadAva(false)
     const file = avatar.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = (e: any) => {
-      const { result } = e.target;
+      const {result} = e.target;
       setImageUrl(result);
     };
     if (file) {
@@ -79,14 +83,14 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
     try {
       setLoading(true);
       const form = new FormData();
-      form.append("picture", fileImage as File);
-      form.append("picturePath", fileImage!.name);
-      await changeAvatar(form);
-      await new Promise((_) => setTimeout(_, 1500));
-      dispatch(setAvatar({ avatar: fileImage!.name }));
+      form.append("picturePath", fileImage as File);
+      const res = await changeAvatar(form);
+      await new Promise((_) => setTimeout(_, 2000));
+      dispatch(setUSer({user: res.data.user}));
       toast.success("update avatar successfully");
+      setIsDoneUploadAva(true)
     } catch (e) {
-      console.log({ error: e });
+      console.log({error: e});
       toast.error("update avatar fail");
     } finally {
       setLoading(false);
@@ -103,9 +107,11 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
       const response = await addOrRemoveFriend(user.id, userRoot.id);
       const friends: IUser[] = response.data;
       // @ts-ignore
-      const isFriends = friends.find((friend) => friend.id === userRoot.id);
+      const isFriends = user.friends
+        ? friends.find((friend) => friend.id === userRoot.id)
+        : false;
       isFriends &&
-        socket?.emit("createRoom", { members: [userRoot.id, user.id] });
+      socket?.emit("createRoom", {members: [userRoot.id, user.id]});
       setIsFriend(!!isFriends);
       setTimeout((_: any): any => {
         toast.update(id, {
@@ -117,10 +123,10 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
           autoClose: 4000,
         });
       }, 1000);
-      const userWithNewFriend = { ...user, friends };
+      const userWithNewFriend = {...user, friends};
       setUserSelected(userWithNewFriend);
     } catch (e) {
-      console.log({ error: e });
+      console.log({error: e});
     }
   };
 
@@ -152,12 +158,12 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
       </Box>
       <FlexBetween mx={"15%"}>
         <FlexBetween>
-          <Box sx={{ marginLeft: "5rem", transform: "translateY(-15%)" }}>
+          <Box sx={{marginLeft: "5rem", transform: "translateY(-15%)"}}>
             <Badge
               badgeContent={
                 <label
                   htmlFor="icon-button-file"
-                  style={{ transform: "translate(-80%,350%)" }}
+                  style={{transform: "translate(-80%,350%)"}}
                 >
                   <input
                     onChange={async (avatar: any) => {
@@ -166,19 +172,20 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
                     type="file"
                     accept="image/*"
                     id="icon-button-file"
-                    style={{ display: "none" }}
+                    style={{display: "none"}}
                   />
 
                   <IconButton aria-label="upload picture" component="span">
-                    <CameraAlt sx={{ fontSize: 20 }} />
+                    <CameraAlt sx={{fontSize: 20}}/>
                   </IconButton>
                 </label>
               }
             >
               <UserImage
-                style={{ border: "6px solid #242526" }}
-                image={`${user.picturePath}`}
+                style={{border: "6px solid #242526"}}
+                image={isDoneUploadAva ? imageUrl : `${user.picturePath}`}
                 size={150}
+                isUrlOnl={isDoneUploadAva}
               />
             </Badge>
           </Box>
@@ -186,27 +193,28 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
             <Typography
               fontWeight={"bold"}
               variant={"h3"}
-              sx={{ marginBottom: ".3rem" }}
+              sx={{marginBottom: ".3rem"}}
             >
               {user.firstName + " " + user.lastName}
             </Typography>
             <Typography variant={"body1"}>
-              {user.friends.length} friends
+              {user.friends && user.friends.length} friends
             </Typography>
             <Box mt={1} display={"flex"}>
-              {user.friends.map((friend: IUser) => (
-                <UserImage
-                  image={friend.picturePath}
-                  size={50}
-                  style={{ border: "3px solid #242526" }}
-                />
-              ))}
+              {user.friends &&
+                user.friends.map((friend: IUser) => (
+                  <UserImage
+                    image={friend.picturePath}
+                    size={50}
+                    style={{border: "3px solid #242526"}}
+                  />
+                ))}
             </Box>
           </Box>
         </FlexBetween>
         {user.id === userRoot.id ? (
           <Button variant={"contained"} onClick={handleOpenModal}>
-            <EditOffOutlined />
+            <EditOffOutlined/>
             Edit profile
           </Button>
         ) : (
@@ -267,7 +275,7 @@ const ProfileHeader = ({ user }: { user: IUser }) => {
               size="medium"
               color="primary"
               variant="contained"
-              style={{ marginLeft: 20 }}
+              style={{marginLeft: 20}}
             >
               Upload
             </LoadingButton>

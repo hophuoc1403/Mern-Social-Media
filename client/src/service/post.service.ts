@@ -73,10 +73,6 @@ export const getNotifications = async ({ userId }: { userId: number }) => {
   return response;
 };
 
-export const findPost = async ({ key }: { key: string }) => {
-  const response = await getMethodAPI(`/posts/query?key=${key}`);
-  return response;
-};
 
 export const sharePost = async ({
   postId,

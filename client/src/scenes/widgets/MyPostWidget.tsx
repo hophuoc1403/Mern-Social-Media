@@ -267,7 +267,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
         </LoadingButton>
       </FlexBetween>
       {isOpenTag && (
-        <div>
+        <div style={{ marginTop: 20 }}>
           <Autocomplete
             multiple
             id="tags-standard"

@@ -42,12 +42,27 @@ function App() {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    setSocket(io("http://localhost:3001"));
+    const handleGetUser = async () => {
+      const res = await getSelfInfo();
+
+      dispatch(setUSer({ user: res.data }));
+    };
+    if (user.id) {
+      handleGetUser().then((r) => r);
+      handleGetFriends().then((r) => r);
+    }
+  }, [user.id]);
+
   const handleGetFriends = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
         const res = await getFriends(user.id);
         const friendList: IUser[] = res.data.friends;
+        console.log(friendList);
+
         dispatch(setFriends({ friends: friendList }));
       }
     } catch (e) {
@@ -61,16 +76,6 @@ function App() {
     setIsNavigating(true);
     setTimeout(() => setIsNavigating(false), 2000);
   }, [location]);
-
-  useEffect(() => {
-    setSocket(io("http://localhost:3001"));
-    const handleGetUser = async () => {
-      const res = await getSelfInfo();
-      dispatch(setUSer({ user: res.data }));
-    };
-    handleGetUser().then((r) => r);
-    handleGetFriends().then((r) => r);
-  }, [user.id]);
 
   // @ts-ignore
   const mode = useSelector((state) => state.mode);

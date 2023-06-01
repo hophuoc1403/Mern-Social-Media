@@ -35,7 +35,7 @@ export const authSlice = createSlice({
       state.user = {
         ...state.user,
         ...action.payload.user,
-        friends: state.user.friends,
+        friends: [],
       };
     },
     setMode: (state) => {
@@ -53,7 +53,6 @@ export const authSlice = createSlice({
       state.user.friends = action.payload.friends;
     },
     setPosts: (state, action: { payload: { posts: IPost[] } }) => {
-
       state.posts = action.payload.posts;
     },
     setAvatar: (state, action: { payload: { avatar: string } }) => {
@@ -62,7 +61,11 @@ export const authSlice = createSlice({
     setPost: (state, action: { payload: { postid: number; post: IPost } }) => {
       const updatedPost = state.posts.map((post) => {
         if (post.id === action.payload.postid) {
-          return { ...post, ...action.payload.post, comment: post.commentCount };
+          return {
+            ...post,
+            ...action.payload.post,
+            comment: post.commentCount,
+          };
         }
         return post;
       });

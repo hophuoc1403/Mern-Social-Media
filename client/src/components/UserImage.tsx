@@ -4,9 +4,10 @@ interface UserImageProps {
   image: string;
   size: number;
   style?: any;
+  isUrlOnl?:boolean
 }
 
-const UserImage = ({ image, size, style }: UserImageProps) => {
+const UserImage = ({ image, size, style,isUrlOnl }: UserImageProps) => {
   return (
     <Box>
       <img
@@ -18,7 +19,7 @@ const UserImage = ({ image, size, style }: UserImageProps) => {
           height: size,
           width: size,
         }}
-        src={`http://localhost:3001/${image}`}
+        src={`${isUrlOnl ? '' : 'http://localhost:3001/'}${image}`}
       />
     </Box>
   );

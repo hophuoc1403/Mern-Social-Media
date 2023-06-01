@@ -119,7 +119,7 @@ const PostWidget = ({
         {userRoot && (
           <Box>
             <Friend
-              postId={id}
+              postId={post.id}
               description={sharedContent ? sharedContent : ""}
               postPicturePath={post.picturePath}
               friendId={user.id}
@@ -162,7 +162,7 @@ const PostWidget = ({
           <Box
             sx={{ cursor: "pointer" }}
             onClick={() => {
-              location.pathname.includes("home") && navigate(`/post/${id}`);
+              !location.pathname.includes("post/") && navigate(`/post/${id}`);
             }}
           >
             <Typography

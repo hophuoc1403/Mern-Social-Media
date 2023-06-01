@@ -1,4 +1,4 @@
-import {  useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import MyPostWidget from "../widgets/MyPostWidget";
 import PostsWidget from "../widgets/PostsWidget";
 import { useEffect } from "react";
@@ -7,6 +7,7 @@ import { getFreePosts } from "service/post.service";
 import { useScroll } from "hooks/useScroll";
 import { useTrackedStore } from "../../hooks";
 import MainLayout from "../../layouts/MainLayout";
+import Stories from "components/stories";
 
 const HomePage = () => {
   const { picturePath, firstName, lastName } = useAppSelector(
@@ -31,16 +32,16 @@ const HomePage = () => {
   //   handleGetAllPost();
   // }, []);
 
-
   return (
     <MainLayout>
-          <MyPostWidget picturePath={picturePath} />
-          <PostsWidget
-            status={status}
-            characters={characters}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-          />
+      <Stories />
+      <MyPostWidget picturePath={picturePath} />
+      <PostsWidget
+        status={status}
+        characters={characters}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+      />
     </MainLayout>
   );
 };

@@ -84,7 +84,7 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
     };
     socket?.on("sendMessage", handler);
     return () => {
-      socket!.off("sendMessage", handler);
+      socket?.off("sendMessage", handler);
     };
   }, []);
 

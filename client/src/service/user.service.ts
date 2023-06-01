@@ -24,7 +24,7 @@ export const addOrRemoveFriend = async (id: number, friendId: number) => {
 };
 
 export const changeAvatar = async (form: FormData) => {
-  const response = await patchMethod(`/users/avatar`, form);
+  const response = await patchMethod(`/users/update-avatar`, form);
   return response;
 };
 

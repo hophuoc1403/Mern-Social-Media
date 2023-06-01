@@ -31,7 +31,7 @@ import { setLogout, setMode, setPostsSearched } from "../../state";
 import UserImage from "../../components/UserImage";
 import Menu from "@mui/material/Menu";
 import { useAppDispatch, useAppSelector } from "index";
-import { findPost, getNotifications } from "service/post.service";
+import { getNotifications, searchPost} from "service/post.service";
 import useDebounce from "hooks/useDebounce";
 import ModalSearch from "components/ModalSearch";
 import { LoadingButton } from "@mui/lab";
@@ -75,8 +75,8 @@ const NavbarPage = () => {
   const [isOpenSearchModal, setIsOpenSearchModal] = useState<boolean>(false);
   useEffect(() => {
     const handleSearch = async () => {
-      const res = await findPost({ key: searchDebounced });
-      dispatch(setPostsSearched({ posts: res.data }));
+      const res = await searchPost(searchDebounced);
+      dispatch(setPostsSearched({ posts: res.posts }));
       setIsOpenSearchModal(true);
     };
     if (searchVal !== "") {
@@ -120,7 +120,7 @@ const NavbarPage = () => {
     socket?.on("getNotification", handler);
 
     return () => {
-      socket!.off("getNotification", handler);
+      socket?.off("getNotification", handler);
     };
   }, []);
 
@@ -320,7 +320,7 @@ const NavbarPage = () => {
               open={open2}
               onClose={handleClose2}
             >
-              <Box>
+              <Box sx={{maxHeight:"400px",overflowY:"auto"}}>
                 {notifications.length > 0
                   ? notifications.map((notification) => (
                       <NotificationBox notification={notification} />

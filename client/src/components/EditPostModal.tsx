@@ -71,7 +71,7 @@ const EditPostModal = ({
       const res = await updatePost(id, formData);
 
       const post: IPost = res.data.post;
-      dispatch(setPost({ post, postid: id }));
+      dispatch(setPost({ post, postid: post.id }));
       setIsEditPost(false);
       setValuePost("");
       setImage(null);
