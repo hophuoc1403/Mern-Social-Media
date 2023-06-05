@@ -160,7 +160,7 @@ const NavbarPage = () => {
             },
           }}
         >
-          <Avatar src={"/logo.png"} variant={"square"} sx={{width: "130px"}}/>
+          <Avatar src={"/logo.png"} variant={"square"} sx={{width: "100px",height:"50px"}}/>
         </Typography>
         {
           // isNonMobileScreens && (

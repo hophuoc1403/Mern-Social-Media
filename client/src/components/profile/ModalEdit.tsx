@@ -11,8 +11,9 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import { editProfile } from "service/user.service";
 import { setUSer } from "state";
+import {Stack} from "@mui/system";
 
-const style = {
+export const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
@@ -134,7 +135,9 @@ const ModalEdit = () => {
             sx={{marginBlock:'1.5rem'}}
           />
 
-          <Button type="submit">Update</Button>
+          <Stack alignItems={"flex-end"}>
+            <Button type="submit">Update</Button>
+          </Stack>
         </form>
       </Box>
     </Modal>

@@ -196,16 +196,16 @@ function SidebarMenu() {
               >
                 <SubMenuWrapper>
                   <List component="div">
-                    <ListItem onClick={handleClick(key)}>
-                      <Button
-                        className={currentRoute === '="/' ? "active" : ""}
-                        disableRipple
-                        component="a"
-                        startIcon={Icon && <Icon />}
-                      >
-                        {label}
-                      </Button>
-                    </ListItem>
+                    {/*<ListItem onClick={handleClick(key)}>*/}
+                    {/*  <Button*/}
+                    {/*    className={currentRoute === '="/' ? "active" : ""}*/}
+                    {/*    disableRipple*/}
+                    {/*    component="a"*/}
+                    {/*    startIcon={Icon && <Icon />}*/}
+                    {/*  >*/}
+                    {/*    {label}*/}
+                    {/*  </Button>*/}
+                    {/*</ListItem>*/}
                     {/*<Collapse in={isOpen} timeout="auto" unmountOnExit>*/}
                     <List
                       style={{ padding: "3px 4px 0 8px" }}

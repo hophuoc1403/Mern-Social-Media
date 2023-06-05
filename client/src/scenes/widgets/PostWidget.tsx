@@ -5,7 +5,7 @@ import {
   Divider,
   IconButton,
   Modal,
-  TextField,
+  TextField, Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -30,6 +30,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
 import { Markup } from "interweave";
 import { useTrackedStore } from "hooks";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import ReportPost from "../../components/posts/ReportPost";
+
+interface PostWidgetProps extends IPost{
+  isDetail? : boolean
+}
 
 const PostWidget = ({
   createdAt,
@@ -41,7 +47,8 @@ const PostWidget = ({
   sharedContent,
   likes,
   commentCount,
-}: IPost) => {
+  isDetail
+}: PostWidgetProps) => {
   const [isComment, setIsComment] = useState<boolean>(false);
   const userName = user.firstName + " " + user.lastName;
   const dispatch = useAppDispatch();
@@ -53,6 +60,7 @@ const PostWidget = ({
   const navigate = useNavigate();
   const socket = useTrackedStore().socket.socket();
   const { user: currentUser } = useAppSelector((state) => state);
+  const [isOpenReport,setIsOpenReport] = useState(false)
 
   const { palette } = useTheme();
   // @ts-ignore
@@ -147,6 +155,7 @@ const PostWidget = ({
           }}
         >
           <Friend
+            status={user.status}
             postId={post.id}
             description={post.description}
             postPicturePath={post.picturePath}
@@ -174,7 +183,7 @@ const PostWidget = ({
                 display: "-webkit-box",
                 textOverflow: "ellipsis",
                 overflow: "clip",
-                maxHeight: "60px",
+                maxHeight: isDetail  ? "max-content" : "60px",
               }}
             >
               <Markup content={post.description} />
@@ -225,9 +234,17 @@ const PostWidget = ({
           </FlexBetween>
 
           {user.id !== +loggedInUserId && (
-            <IconButton onClick={() => setIsShare(true)}>
-              <ShareOutlined />
-            </IconButton>
+            <Box>
+              <IconButton onClick={() => setIsShare(true)}>
+                <ShareOutlined />
+              </IconButton>
+              <Tooltip title={"report this post"}>
+                <IconButton onClick={() => {setIsOpenReport(true)}}>
+                  <ReportProblemIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+
           )}
         </Box>
         <Divider sx={{ my: 2 }} />
@@ -264,6 +281,8 @@ const PostWidget = ({
           </FlexBetween>
         </Box>
       </Modal>
+
+      <ReportPost handleClose={() => setIsOpenReport(false)} postId={id} isOpen={isOpenReport} />
     </motion.div>
   );
 };

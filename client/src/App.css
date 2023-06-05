@@ -249,3 +249,7 @@ body::-webkit-scrollbar-thumb {
   background-color:#151521!important;
 
 }
+
+.react-calendar{
+  background-color: transparent !important;
+}

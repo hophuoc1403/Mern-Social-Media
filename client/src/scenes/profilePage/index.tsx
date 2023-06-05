@@ -32,9 +32,8 @@ const ProfilePage = () => {
       } else {
         const response = await getUser(+userId!);
         const friendResponse = await getFriends(+userId!);
-
         const userSelectedRes: IUser = {
-          ...response.data.user,
+          ...response.data,
           friends: friendResponse.data.friends,
         };
         setUserSelected(userSelectedRes);

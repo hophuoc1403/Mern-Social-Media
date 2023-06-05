@@ -9,6 +9,7 @@ import React from "react";
 import Navbar from "../scenes/navbar";
 import AdvertWidget from "../scenes/widgets/AdvertWidget";
 import FriendListWidget from "../scenes/widgets/FriendListWidget";
+import Weather from "./weather";
 
 const MainLayout = ({children}:{children:React.ReactNode}) => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -46,6 +47,7 @@ const MainLayout = ({children}:{children:React.ReactNode}) => {
         {isNonMobileScreens && (
           <Box flexBasis={"22%"}>
             <Box style={{ position: "sticky", top: "95px" }}>
+              <Weather />
               <AdvertWidget />
               <Box m={"1rem 0"}>
                 <FriendListWidget />

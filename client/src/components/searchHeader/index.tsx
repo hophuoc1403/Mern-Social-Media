@@ -27,6 +27,7 @@ import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import {useDebounce} from "usehooks-ts";
 import {useNavigate} from "react-router-dom";
 import {searchPost} from "../../service/post.service";
+import {Markup} from "interweave";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: ReactElement<any, any> },
@@ -199,7 +200,19 @@ function HeaderSearch() {
                                     sx={{fontWeight: 'bold'}}
                                     variant="body2"
                                 >
-                                  {item.post.description}
+                                    <Typography
+                                        sx={{
+                                          mt: "1rem",
+                                          wordBreak: "break-word",
+                                          WebkitLineClamp: 2,
+                                          display: "-webkit-box",
+                                          textOverflow: "ellipsis",
+                                          overflow: "clip",
+                                          maxHeight:"60px",
+                                        }}
+                                    >
+                                        <Markup content={item.post.description} />
+                                    </Typography>
                                 </Link>
                             </Box>
                             <Typography

@@ -3,18 +3,18 @@ import {
   Box,
   Button,
   IconButton,
-  Modal,
+  Modal, Stack, TextField,
   Typography,
 } from "@mui/material";
 import {useAppDispatch, useAppSelector} from "index";
 import {makeStyles} from "tss-react/mui";
 import UserImage from "../UserImage";
 import FlexBetween from "../FlexBetween";
-import {CameraAlt, EditOffOutlined} from "@mui/icons-material";
+import {BorderColor, CameraAlt, EditOffOutlined} from "@mui/icons-material";
 import {useState} from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {styled} from "@mui/system";
-import {addOrRemoveFriend, changeAvatar} from "../../service/user.service";
+import {addOrRemoveFriend, changeAvatar, editProfile} from "../../service/user.service";
 import {setAvatar, setUSer} from "../../state";
 import {toast} from "react-toastify";
 import useProfileStore from "hooks/stateProfile.store";
@@ -44,10 +44,12 @@ const ProfileHeader = ({user}: { user: IUser }) => {
   const theme = useTheme();
   const {user: userRoot} = useAppSelector((state) => state);
   const {handleOpenModal} = useProfileStore();
-  const {setIsOpenChat} = useChatStore();
+  const {setIsOpenChat,setMemberInfo} = useChatStore();
   const socket = useTrackedStore().socket.socket();
   const {setUserSelected} = useProfileStore();
-  const [isDoneUploadAva,setIsDoneUploadAva] = useState(false)
+  const [isDoneUploadAva, setIsDoneUploadAva] = useState(false)
+
+  const [isEditStatus, setIsEditStatus] = useState(false)
 
   // check is friend
   const [isFriend, setIsFriend] = useState<boolean>(() => {
@@ -190,13 +192,38 @@ const ProfileHeader = ({user}: { user: IUser }) => {
             </Badge>
           </Box>
           <Box ml={2}>
-            <Typography
-              fontWeight={"bold"}
-              variant={"h3"}
-              sx={{marginBottom: ".3rem"}}
-            >
-              {user.firstName + " " + user.lastName}
-            </Typography>
+            <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
+              <Typography
+                fontWeight={"bold"}
+                variant={"h3"}
+                sx={{marginBottom: ".3rem"}}
+              >
+                {user.firstName + " " + user.lastName}
+              </Typography>
+              {user.id === userRoot.id && <>
+                {!isEditStatus && <>
+                  {
+                    user.status ? <Stack flexDirection={"row"} gap={1}>
+                      <Typography fontWeight={500} variant={"body1"}>{userRoot.status}</Typography>
+                      <BorderColor fontSize={"small"} onClick={() => setIsEditStatus(true)} sx={{cursor: "pointer"}}/>
+                    </Stack> : <Button onClick={() => setIsEditStatus(true)}>Add status</Button>
+                  }
+                </>}
+                {isEditStatus && <TextField
+                    size={"small"}
+                    label={"Edit status"}
+                    defaultValue={userRoot.status ?? ''}
+                    onKeyDown={async (e:any) => {
+                      if (e.key === "Enter") {
+                        const response = await editProfile({status: e.target.value})
+                        dispatch(setUSer({user: response.data}));
+                        setIsEditStatus(false)
+                      }
+                    }
+                    }
+                />}
+              </>}
+            </Stack>
             <Typography variant={"body1"}>
               {user.friends && user.friends.length} friends
             </Typography>
@@ -219,7 +246,10 @@ const ProfileHeader = ({user}: { user: IUser }) => {
           </Button>
         ) : (
           <Box className={"flex gap-2"}>
-            <Button onClick={() => setIsOpenChat(true)} variant={"contained"}>
+            <Button onClick={() => {
+              setMemberInfo(user)
+              setIsOpenChat(true)
+            }} variant={"contained"}>
               Message
             </Button>{" "}
             <Button onClick={patchFriend} variant={"contained"}>

@@ -1,3 +1,5 @@
+declare module 'react-open-weather';
+
 interface IUser {
   id: number;
   firstName: string;
@@ -9,6 +11,8 @@ interface IUser {
   impressions: string;
   picturePath: string;
   updatedAt: string;
+
+  status?: string
 }
 
 interface ISinglePost {
@@ -40,7 +44,7 @@ interface IComment {
   user: IUser;
   post: IPost;
   parentCommentId: number | null;
-  createdAt:string
+  createdAt: string
 }
 
 interface Like {

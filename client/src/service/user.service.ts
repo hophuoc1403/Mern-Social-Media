@@ -29,10 +29,11 @@ export const changeAvatar = async (form: FormData) => {
 };
 
 export const editProfile = async (payload: {
-  firstName: string;
-  lastName: string;
-  location: string;
-  occupation: string;
+  firstName?: string;
+  lastName?: string;
+  location?: string;
+  occupation?: string;
+  status?:string
 }) => {
   const response = await patchMethod(`/users/update`, payload);
   return response;

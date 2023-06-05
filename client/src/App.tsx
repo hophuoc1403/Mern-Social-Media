@@ -9,6 +9,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { useAppDispatch, useAppSelector } from "./index";
 import "react-quill/dist/quill.snow.css";
+import 'react-calendar/dist/Calendar.css';
 
 import ToastProvider from "./components/ToastProvider";
 import { io } from "socket.io-client";
@@ -30,6 +31,7 @@ import { SidebarProvider } from "components/contexts/SideBarContext";
 import AddPost from "./scenes/addPost";
 import PostWithTags from "scenes/postWithTags";
 import SharedPost from "scenes/sharedPost";
+import Activities from "./scenes/activities";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -147,6 +149,7 @@ function App() {
                 <Route path={"/add-post"} element={<AddPost />} />
                 <Route path={"/post-tags"} element={<PostWithTags />} />
                 <Route path={"/shared-post"} element={<SharedPost />} />
+                <Route path={"/activities"} element={<Activities />}/>
               </Routes>
               {isOpenChat && <ChatExc isShow={true} />}
             </ToastProvider>

@@ -47,6 +47,10 @@ export const updatePost = async (id: number, data: FormData) => {
   return response;
 };
 
+export const reportPost = async (payload:{userId:number,postId:number,description:string,title:string}) => {
+  await postMethodAPI('/posts/report',payload)
+}
+
 export const addComment = async ({
   postId,
   message,

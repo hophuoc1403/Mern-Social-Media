@@ -153,6 +153,7 @@ const Form = () => {
     <Box
       sx={{
         maxWidth: "700px",
+        width:"100%",
         margin: "0 auto",
         border: `1px solid ${palette.primary.light}`,
       }}
@@ -280,6 +281,7 @@ const Form = () => {
                 helperText={touched.email && errors.email}
                 onChange={handleChange}
                 sx={{ gridColumn: "span 4" }}
+                InputLabelProps={{shrink: true}}
               />{" "}
               <TextField
                 label={"password"}
@@ -291,6 +293,7 @@ const Form = () => {
                 helperText={touched.password && errors.password}
                 onChange={handleChange}
                 sx={{ gridColumn: "span 4" }}
+                InputLabelProps={{shrink: true}}
               />
             </Box>
 

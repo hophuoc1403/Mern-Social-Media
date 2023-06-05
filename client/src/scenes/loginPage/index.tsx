@@ -1,4 +1,4 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {Avatar, Box, Typography, useMediaQuery, useTheme} from "@mui/material";
 import Form from "./Form";
 import AccountLayout from "../../layouts/AccountLayout";
 
@@ -10,15 +10,20 @@ const LoginPage = () => {
   return (
     <Box
       minHeight={"100vh"}
-      width={isNonMobileScreens ? "50%" : "93%%"}
+      width={isNonMobileScreens ? "50%" : "100%"}
       p={"2rem"}
       m={"2rem auto"}
-      borderRadius={"1.5rem"}
-      sx={{ backgroundColor: theme.palette.background.default }}
+        sx={{ backgroundColor: theme.palette.background.default }}
+      color={theme.palette.primary.main}
+      display={"flex"}
+      flexDirection={"column"}
+      alignItems={"center"}
     >
-      <Typography fontWeight={"500"} variant={"h5"} sx={{ mb: "1.5rem" }}>
-        Welcome to Phuoc media, subscribe to new social
+      <Avatar src={"/logo.png"} sizes={"70px"} sx={{width:"120px",height:"70px",mb:2,objectFit:"cover"}} variant={"rounded"}/>
+      <Typography fontWeight={"500"} variant={"h3"} sx={{ mb: "1.5rem" }}>
+        Welcome to Social Dozen
       </Typography>
+
       <Form></Form>
     </Box>
   );

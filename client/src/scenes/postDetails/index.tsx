@@ -23,9 +23,11 @@ const PostDetails = () => {
       <Navbar />
       <Box width={"100%"} display={"flex"} justifyContent={"center"} px={"6%"}>
         <Box flexBasis={"80%"}>
-          {posts.map((post) => {
+          {posts.map((post,index) => {
+            let isFirst = 0
             if (post.id === (+id! as number)) {
-              return <PostWidget key={post.id} {...post} />;
+              isFirst++
+              return isFirst === 1 && <PostWidget key={post.id} {...post} isDetail={true}/>;
             }
             return <></>;
           })}

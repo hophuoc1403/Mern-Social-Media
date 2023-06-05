@@ -4,32 +4,34 @@ import {
   ButtonBase,
   Divider,
   IconButton,
-  Popover,
+  Popover, Stack,
   Typography,
   useTheme,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import {
   addOrRemoveFriend,
 } from "../service/user.service";
-import { setFriends, setPosts, setUSer } from "../state";
+import {setFriends, setPosts} from "../state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import {
   DeleteOutlined,
   PersonAddOutlined,
   PersonRemoveOutlined,
-  SyncLockRounded,
 } from "@mui/icons-material";
-import React, {  useMemo, useState } from "react";
-import { toast } from "react-toastify";
+import React, {useMemo, useState} from "react";
+import {toast} from "react-toastify";
 import moment from "moment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import EditPostModal from "./EditPostModal";
-import { useAppSelector } from "index";
-import { useTrackedStore } from "../hooks";
+import {useAppSelector} from "index";
+import {useTrackedStore} from "../hooks";
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import {deletePost} from "../service/post.service";
+
 
 interface FriendPops {
   friendId: number;
@@ -40,23 +42,26 @@ interface FriendPops {
   description: string;
   postPicturePath: string;
   isSharePost?: boolean;
+  status?: string | null
 }
 
-const Friend = ({
-  postId,
-  friendId,
-  userPicturePath,
-  subtitle,
-  name,
-  description,
-  postPicturePath,
-  isSharePost,
-}: FriendPops) => {
+const Friend = (
+  {
+    postId,
+    friendId,
+    userPicturePath,
+    subtitle,
+    name,
+    description,
+    postPicturePath,
+    isSharePost,
+    status
+  }: FriendPops) => {
   const [isEditPost, setIsEditPost] = useState<boolean>(false);
-  const { palette } = useTheme();
+  const {palette} = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id: userId, friends } = useAppSelector((state) => state.user);
+  const {id: userId, friends} = useAppSelector((state) => state.user);
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   // @ts-ignore
@@ -96,7 +101,7 @@ const Friend = ({
       const friends: IUser[] = response.data.friends;
       // @ts-ignore
       const isFriend = friends.find((friend) => friend.id === friendId);
-      isFriend && socket?.emit("createRoom", { members: [userId, friendId] });
+      isFriend && socket?.emit("createRoom", {members: [userId, friendId]});
       setTimeout((_: any): any => {
         toast.update(id, {
           render: isFriend
@@ -108,9 +113,9 @@ const Friend = ({
         });
       }, 1000);
 
-      dispatch(setFriends({ friends }));
+      dispatch(setFriends({friends}));
     } catch (e) {
-      console.log({ error: e });
+      console.log({error: e});
     }
   };
 
@@ -122,10 +127,9 @@ const Friend = ({
         className: "rotateY animated",
       });
       try {
-        // const response = await deletePost(postId);
-        // const posts:IPost[] = response.data
+        await deletePost(postId);
         dispatch(
-          setPosts({ posts: posts.filter((item) => item.id !== postId) })
+          setPosts({posts: posts.filter((item) => item.id !== postId)})
         );
         setTimeout((_: any) => {
           toast.update(id, {
@@ -138,7 +142,7 @@ const Friend = ({
       } catch (e) {
         console.log(e);
         toast.update(id, {
-          render: " post failed",
+          render: "Delete failed",
           type: toast.TYPE.ERROR,
           className: "rotateY animated",
           autoClose: 4000,
@@ -155,27 +159,32 @@ const Friend = ({
       width={"100%"}
     >
       <FlexBetween justifyContent={"space-between"}>
-        <UserImage image={userPicturePath} size={55} />
+        <UserImage image={userPicturePath} size={55}/>
         <Box
           ml={"1rem"}
           onClick={async () => {
             navigate(`/profile/${friendId}`);
           }}
-          sx={{ cursor: "pointer" }}
+          sx={{cursor: "pointer"}}
         >
-          <Typography
-            color={main}
-            variant={"h5"}
-            fontWeight={500}
-            sx={{
-              "&:hover": { color: palette.primary.light },
-            }}
-          >
-            {name}
-          </Typography>
+          <Stack flexDirection={"row"} gap={1}>
+            <Typography
+              color={main}
+              variant={"h5"}
+              fontWeight={500}
+              sx={{
+                "&:hover": {color: palette.primary.light},
+              }}
+            >
+              {name}
+            </Typography>
+            <Typography variant={"body1"} fontWeight={500} color={medium}>
+              {status}
+            </Typography>
+          </Stack>
           <Typography color={medium} fontSize={"0.75rem"}>
+            <AccessAlarmIcon sx={{mr: .5}}/>
             {moment(subtitle).fromNow()}
-            <SyncLockRounded />
           </Typography>
         </Box>
       </FlexBetween>
@@ -183,16 +192,16 @@ const Friend = ({
       {isFriend ? (
         <IconButton
           onClick={() => patchFriend()}
-          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+          sx={{backgroundColor: primaryLight, p: "0.6rem"}}
         >
-          <PersonRemoveOutlined />{" "}
+          <PersonRemoveOutlined/>{" "}
         </IconButton>
       ) : userId !== friendId ? (
         <IconButton
-          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+          sx={{backgroundColor: primaryLight, p: "0.6rem"}}
           onClick={() => patchFriend()}
         >
-          <PersonAddOutlined />
+          <PersonAddOutlined/>
         </IconButton>
       ) : (
         !isSharePost && (
@@ -202,7 +211,7 @@ const Friend = ({
               handleClick(e);
             }}
           >
-            <MoreVertIcon />
+            <MoreVertIcon/>
           </ButtonBase>
         )
       )}
@@ -218,23 +227,23 @@ const Friend = ({
         }}
       >
         <Button
-          sx={{ padding: "0.75rem" }}
+          sx={{padding: "0.75rem"}}
           onClick={async () => {
             await handleDeletePost();
           }}
         >
-          <DeleteOutlined />
+          <DeleteOutlined/>
           <Typography color={"red"}>Delete</Typography>
         </Button>
-        <Divider />
+        <Divider/>
         <Button
-          sx={{ padding: "0.75rem", width: "100%" }}
+          sx={{padding: "0.75rem", width: "100%"}}
           onClick={async () => {
             setIsEditPost(true);
             setAnchorEl(null);
           }}
         >
-          <ModeEditOutlineIcon />
+          <ModeEditOutlineIcon/>
           <Typography>Edit</Typography>
         </Button>
       </Popover>

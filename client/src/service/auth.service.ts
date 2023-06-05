@@ -1,4 +1,4 @@
-import { postMethodAPI } from "./base.service";
+import {postMethodAPI} from "./base.service";
 
 export const register = async (data: FormData) => {
   const response = await postMethodAPI("/auth/sign-up", data, true);
@@ -6,14 +6,15 @@ export const register = async (data: FormData) => {
   return response;
 };
 
-export const login = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const response = await postMethodAPI("/auth/sign-in", { email, password });
+export const login = async (
+  {
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+  const response = await postMethodAPI("/auth/sign-in", {email, password});
   return response;
 };
 
@@ -26,5 +27,5 @@ export const resetPassword = async (payload: {
 };
 
 export const verifyAccount = async (payload: { email: string }) => {
-  const response = await postMethodAPI("/auth/email/send", payload);
+  await postMethodAPI("/auth/verify-account", payload);
 };
