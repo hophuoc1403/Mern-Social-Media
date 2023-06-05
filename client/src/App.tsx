@@ -32,6 +32,7 @@ import AddPost from "./scenes/addPost";
 import PostWithTags from "scenes/postWithTags";
 import SharedPost from "scenes/sharedPost";
 import Activities from "./scenes/activities";
+import CalendarPage from "./layouts/weather";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -63,7 +64,6 @@ function App() {
       if (accessToken) {
         const res = await getFriends(user.id);
         const friendList: IUser[] = res.data.friends;
-        console.log(friendList);
 
         dispatch(setFriends({ friends: friendList }));
       }
@@ -88,7 +88,7 @@ function App() {
 
   return (
     <>
-      <Particles />
+      {/*<Particles />*/}
       <div className={mode === "dark" ? "App" : "app"}>
         <ThemeProvider theme={theme}>
           <SidebarProvider>
@@ -112,7 +112,7 @@ function App() {
                         </Suspense>
                       )
                     ) : (
-                      <Navigate to={"/"} />
+                      <Navigate to={"/account/login"} />
                     )
                   }
                 />
@@ -150,6 +150,7 @@ function App() {
                 <Route path={"/post-tags"} element={<PostWithTags />} />
                 <Route path={"/shared-post"} element={<SharedPost />} />
                 <Route path={"/activities"} element={<Activities />}/>
+                <Route path={"/calendar"} element={<CalendarPage />}/>
               </Routes>
               {isOpenChat && <ChatExc isShow={true} />}
             </ToastProvider>

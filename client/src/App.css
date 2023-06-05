@@ -253,3 +253,12 @@ body::-webkit-scrollbar-thumb {
 .react-calendar{
   background-color: transparent !important;
 }
+
+.rbc-off-range-bg{
+  background-color: transparent !important;
+
+}
+
+.rbc-today{
+  background-color: #3e54ac !important;
+}

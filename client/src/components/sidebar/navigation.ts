@@ -10,7 +10,7 @@ import AllInboxIcon from "@mui/icons-material/AllInbox";
 export const navigations = [
   {
     subheader: "Main",
-    key: "home",
+    key: "homáde",
     label: "Home",
     href: "/home",
     icon: WebOutlinedIcon,
@@ -49,17 +49,33 @@ export const navigations = [
     icon: WebOutlinedIcon,
     children: [
       {
-        key: "service-price1",
+        key: "service-price1ádsads",
         href: "/shared-post",
         label: "Shared post",
         icon: ShareOutlined,
       },
       {
-        key: "service-price13",
+        key: "service-price13ádhsad",
         href: "/activities",
         label: "Activities",
         icon: Attachment,
       },
     ],
   },
+  {
+    subheader: "Utilities",
+    key: "homesadsa",
+    label: "Utilities",
+    href: "/home",
+    icon: WebOutlinedIcon,
+    children: [
+
+      {
+        key: "service-price13ádhsasadasd",
+        href: "/calendar",
+        label: "Calendar",
+        icon: Attachment,
+      },
+    ],
+  }
 ];
