@@ -1,7 +1,6 @@
 const LoadingPage = () => {
   return (
     <div style={{ marginTop: "50px", height: "100vh" }}>
-      <h2>Phuoc Loading ....</h2>
       <div className="mosaic-loader" style={{ margin: "0 auto" }}>
         <div className="cell d-0"></div>
         <div className="cell d-1"></div>

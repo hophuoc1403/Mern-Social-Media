@@ -28,6 +28,8 @@ import {useDebounce} from "usehooks-ts";
 import {useNavigate} from "react-router-dom";
 import {searchPost} from "../../service/post.service";
 import {Markup} from "interweave";
+import {useAppDispatch} from "../../index";
+import {setPosts} from "../../state";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: ReactElement<any, any> },
@@ -75,6 +77,7 @@ function HeaderSearch() {
   const navigate = useNavigate()
   const [isSearching, setIsSearching] = useState(false)
   const [products,setProducts] = useState<IPost[]>([])
+  const dispatch = useAppDispatch()
 
   const handleSearchProduct = async (name:string) => {
     const res =( await searchPost(name)).posts
@@ -115,6 +118,7 @@ function HeaderSearch() {
   };
 
   const handleGoToAllResults = async () => {
+    dispatch(setPosts({posts:products}))
     navigate(`/search?q=${searchValue}`)
       setOpen(false);
       setSearchValue('')
@@ -151,6 +155,7 @@ function HeaderSearch() {
             }}
             onKeyDown={ (e) => {
               if (e.key === "Enter") {
+                dispatch(setPosts({posts:products}))
                 setOpen(false)
                 handleGoToAllResults()
               }
@@ -188,6 +193,7 @@ function HeaderSearch() {
               {!isSearching && products.map((item, index) => (
                 <>{index <= 5 &&
                     <ListItem onClick={() => {
+                      dispatch(setPosts({posts:products}))
                       setOpen(false)
                       navigate(`/post/${item.id}`)
                     }} key={item.id}

@@ -134,6 +134,9 @@ const ProfileHeader = ({user}: { user: IUser }) => {
 
   // @ts-ignore
   const mode = theme.palette.mode;
+  const listBg = ["https://c4.wallpaperflare.com/wallpaper/843/56/876/night-artwork-futuristic-city-cyberpunk-wallpaper-preview.jpg","https://c4.wallpaperflare.com/wallpaper/990/547/605/digital-art-futuristic-city-car-artwork-wallpaper-preview.jpg",
+  "https://c4.wallpaperflare.com/wallpaper/985/136/886/building-lights-illustration-romain-trystram-cityscape-hd-wallpaper-thumb.jpg","https://c4.wallpaperflare.com/wallpaper/946/379/721/artwork-landscape-mountains-forest-wallpaper-thumb.jpg"]
+
 
   return (
     <Box
@@ -154,7 +157,7 @@ const ProfileHeader = ({user}: { user: IUser }) => {
             borderRadius: ".5rem",
             boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px",
           }}
-          src={`http://localhost:3001/${user.picturePath}`}
+          src={listBg[Math.floor(Math.random() * 3)]}
           alt=""
         />
       </Box>

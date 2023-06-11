@@ -3,22 +3,23 @@ import { useAppDispatch, useAppSelector } from "index";
 import MainLayout from "layouts/MainLayout";
 import { useEffect, useState } from "react";
 import PostWidget from "scenes/widgets/PostWidget";
-import { getPostByTags, getSharedPost, getTags } from "service/post.service";
+import {getFreePosts, getPostByTags, getSavedPost, getSharedPost, getTags} from "service/post.service";
 import { setPosts } from "state";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import NoData from "../../components/shared/NoData";
 
-const SharedPost = () => {
+const SavedPost = () => {
   const posts = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const user = useAppSelector(state => state.user)
 
   useEffect(() => {
     const handleGetSharedPost = async () => {
       setIsLoading(true);
-      const getPostRes = await getSharedPost();
-      const posts = getPostRes.data.posts;
+      const getPostRes = await getFreePosts(1);
+      const posts = getPostRes.items;
       dispatch(setPosts({ posts }));
       setIsLoading(false);
     };
@@ -28,7 +29,7 @@ const SharedPost = () => {
 
   return (
     <MainLayout>
-      <Typography variant="h3">Shared Post</Typography>
+      <Typography variant="h3">Saved Post</Typography>
       {isLoading ? (
         <>
           <Backdrop
@@ -52,4 +53,4 @@ const SharedPost = () => {
   );
 };
 
-export default SharedPost;
+export default SavedPost;

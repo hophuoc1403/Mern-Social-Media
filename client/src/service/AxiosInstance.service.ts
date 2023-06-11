@@ -90,7 +90,6 @@ axiosInstance.interceptors.response.use(
         return;
       }
       const { status } = err.response;
-      console.log(status);
       if (status === 401) {
         console.log("err 401");
       }

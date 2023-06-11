@@ -9,9 +9,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useMemo, useState } from "react";
-import { likePost, sharePost } from "../../service/post.service";
-import { addNewestPost, setPost } from "../../state";
+import {useMemo, useState} from "react";
+import {likePost, savePost, sharePost} from "../../service/post.service";
+import {addNewestPost, setPost} from "../../state";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import Friend from "../../components/Friend";
 import FlexBetween from "../../components/FlexBetween";
@@ -21,34 +21,38 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "index";
-import { motion } from "framer-motion";
-import { style } from "components/EditPostModal";
-import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "index";
+import {motion} from "framer-motion";
+import {style} from "components/EditPostModal";
+import {LoadingButton} from "@mui/lab";
+import {toast} from "react-toastify";
+import {useLocation, useNavigate} from "react-router-dom";
 import Comment from "../../components/comment/Comment";
-import { Markup } from "interweave";
-import { useTrackedStore } from "hooks";
+import {Markup} from "interweave";
+import {useTrackedStore} from "hooks";
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import ReportPost from "../../components/posts/ReportPost";
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import parse from 'html-react-parser';
 
-interface PostWidgetProps extends IPost{
-  isDetail? : boolean
+
+interface PostWidgetProps extends IPost {
+  isDetail?: boolean
 }
 
-const PostWidget = ({
-  createdAt,
-  id,
-  post,
-  tags,
-  user,
-  userRoot,
-  sharedContent,
-  likes,
-  commentCount,
-  isDetail
-}: PostWidgetProps) => {
+const PostWidget = (
+  {
+    createdAt,
+    id,
+    post,
+    tags,
+    user,
+    userRoot,
+    sharedContent,
+    likes,
+    commentCount,
+    isDetail
+  }: PostWidgetProps) => {
   const [isComment, setIsComment] = useState<boolean>(false);
   const userName = user.firstName + " " + user.lastName;
   const dispatch = useAppDispatch();
@@ -59,10 +63,14 @@ const PostWidget = ({
   const location = useLocation();
   const navigate = useNavigate();
   const socket = useTrackedStore().socket.socket();
-  const { user: currentUser } = useAppSelector((state) => state);
-  const [isOpenReport,setIsOpenReport] = useState(false)
+  const {user: currentUser} = useAppSelector((state) => state);
+  const [isOpenReport, setIsOpenReport] = useState(false)
+  const [isSavedPost, setIsSavedPost] = useState(false)
 
-  const { palette } = useTheme();
+  const contentParseHtml = parse(post.description ?? '');
+
+
+  const {palette} = useTheme();
   // @ts-ignore
   const main = palette.neutral.main;
 
@@ -76,21 +84,31 @@ const PostWidget = ({
     try {
       const response = await likePost(postId);
       const post: IPost = response.data.post;
-      dispatch(setPost({ postid: post.id, post }));
+      dispatch(setPost({postid: post.id, post}));
       !isLiked &&
-        socket!.emit("sendNotification", {
-          senderName: currentUser.firstName + " " + currentUser.lastName,
-          receiverName: userName,
-          type: "like",
-          senderId: currentUser.id,
-          postId: id,
-          receiverId: user.id,
-        });
+      socket!.emit("sendNotification", {
+        senderName: currentUser.firstName + " " + currentUser.lastName,
+        receiverName: userName,
+        type: "like",
+        senderId: currentUser.id,
+        postId: id,
+        receiverId: user.id,
+      });
     } catch (e) {
       console.log(e);
       toast.error("Like post failed :<");
     }
   };
+
+  const handleSavePost = async () => {
+    try {
+      savePost({userId: currentUser.id, postId: id})
+      toast.success("Save post success ");
+      setIsSavedPost(true)
+    } catch (e) {
+    }
+
+  }
 
   const handleSharePost = async () => {
     try {
@@ -101,10 +119,10 @@ const PostWidget = ({
         userRoot: +user.id,
       });
 
-      dispatch(addNewestPost({ post: res.data.post }));
+      dispatch(addNewestPost({post: res.data.post}));
       await new Promise((_) => setTimeout(_, 1000));
       toast.success("Share post successfully <3");
-      setIsLoading(true);
+      setIsLoading(false);
       setIsShare(false);
     } catch (e) {
       console.log(e);
@@ -115,7 +133,7 @@ const PostWidget = ({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
+      viewport={{once: true}}
     >
       <WidgetWrapper
         mt={"2rem"}
@@ -137,7 +155,7 @@ const PostWidget = ({
             />
             <Typography
               color={main}
-              sx={{ mt: "1rem", wordBreak: "break-word" }}
+              sx={{mt: "1rem", wordBreak: "break-word"}}
               onClick={() => {
                 location.pathname.includes("home") && navigate(`/post/${id}`);
               }}
@@ -169,7 +187,7 @@ const PostWidget = ({
           />
 
           <Box
-            sx={{ cursor: "pointer" }}
+            sx={{cursor: "pointer"}}
             onClick={() => {
               !location.pathname.includes("post/") && navigate(`/post/${id}`);
             }}
@@ -183,20 +201,20 @@ const PostWidget = ({
                 display: "-webkit-box",
                 textOverflow: "ellipsis",
                 overflow: "clip",
-                maxHeight: isDetail  ? "max-content" : "60px",
+                maxHeight: isDetail ? "max-content" : "60px",
               }}
             >
-              <Markup content={post.description} />
+              <Markup content={post.description}/>
             </Typography>
             {post.picturePath && (
               <img
                 width={"100%"}
-                height={"500px"}
                 alt={"post"}
                 style={{
                   borderRadius: "0.75rem",
                   marginTop: "0.75rem",
                   objectFit: "cover",
+                  maxHeight: "500px"
                 }}
                 src={`http://localhost:3001/${post.picturePath}`}
               />
@@ -205,9 +223,9 @@ const PostWidget = ({
         </Box>
 
         {tags.length > 0 && (
-          <Box sx={{ mt: "1rem" }}>
+          <Box sx={{mt: "1rem"}}>
             {tags.map((item) => (
-              <Chip label={"#" + item.name} sx={{ mr: ".5rem" }} />
+              <Chip label={"#" + item.name} sx={{mr: ".5rem"}}/>
             ))}
           </Box>
         )}
@@ -215,19 +233,19 @@ const PostWidget = ({
         <Box
           mt={"1rem"}
           display={"flex"}
-          sx={{ justifyContent: "space-between" }}
+          sx={{justifyContent: "space-between"}}
         >
           <FlexBetween gap={"1rem"}>
             <FlexBetween gap={"0.3rem"}>
               <IconButton onClick={() => patchLike(id)}>
-                {isLiked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
+                {isLiked ? <FavoriteOutlined/> : <FavoriteBorderOutlined/>}
               </IconButton>
               <Typography>{likes.length}</Typography>
             </FlexBetween>
 
             <FlexBetween gap={"0.3rem"}>
               <IconButton onClick={() => setIsComment(!isComment)}>
-                <ChatBubbleOutlineOutlined />
+                <ChatBubbleOutlineOutlined/>
               </IconButton>
               <Typography>{commentCount}</Typography>
             </FlexBetween>
@@ -236,19 +254,28 @@ const PostWidget = ({
           {user.id !== +loggedInUserId && (
             <Box>
               <IconButton onClick={() => setIsShare(true)}>
-                <ShareOutlined />
+                <ShareOutlined/>
               </IconButton>
               <Tooltip title={"report this post"}>
-                <IconButton onClick={() => {setIsOpenReport(true)}}>
-                  <ReportProblemIcon />
+                <IconButton color={"warning"} onClick={() => {
+                  setIsOpenReport(true)
+                }}>
+                  <ReportProblemIcon/>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Save this post"}>
+                <IconButton color={isSavedPost ? "info" : "default"} onClick={() => {
+                  handleSavePost()
+                }}>
+                  <BookmarkAddIcon/>
                 </IconButton>
               </Tooltip>
             </Box>
 
           )}
         </Box>
-        <Divider sx={{ my: 2 }} />
-        {isComment && <Comment postId={id} />}
+        <Divider sx={{my: 2}}/>
+        {isComment && <Comment postId={id}/>}
       </WidgetWrapper>
 
       <Modal
@@ -266,9 +293,10 @@ const PostWidget = ({
             onChange={(e) => setValueSharedContent(e.target.value)}
             fullWidth
             placeholder="what's on your mind ? ...."
+            autoFocus
           />
 
-          <FlexBetween sx={{ marginInline: "3rem", marginTop: "1rem" }}>
+          <FlexBetween sx={{marginInline: "3rem", marginTop: "1rem"}}>
             <LoadingButton
               loading={isLoading}
               onClick={() => handleSharePost()}
@@ -282,7 +310,7 @@ const PostWidget = ({
         </Box>
       </Modal>
 
-      <ReportPost handleClose={() => setIsOpenReport(false)} postId={id} isOpen={isOpenReport} />
+      <ReportPost handleClose={() => setIsOpenReport(false)} postId={id} isOpen={isOpenReport}/>
     </motion.div>
   );
 };

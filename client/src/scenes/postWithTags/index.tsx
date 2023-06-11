@@ -7,6 +7,7 @@ import { getPostByTags, getTags } from "service/post.service";
 import { setPosts } from "state";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import NoData from "../../components/shared/NoData";
 
 const PostWithTags = () => {
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
@@ -93,9 +94,7 @@ const PostWithTags = () => {
           {posts.length > 0 ? (
             posts.map((post: IPost) => <PostWidget key={post.id} {...post} />)
           ) : (
-            <Typography textAlign={"center"} mt={3} variant={"h3"}>
-              No data found{" "}
-            </Typography>
+            <NoData />
           )}
         </>
       )}

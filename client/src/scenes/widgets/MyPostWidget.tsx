@@ -149,7 +149,7 @@ const MyPostWidget = ({ picturePath }: MyPostWidgetProps) => {
       {isImage && (
         <motion.div
           variants={variants}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.95 }}
           animate={isImage ? "open" : "closed"}
         >

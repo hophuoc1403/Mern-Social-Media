@@ -16,7 +16,7 @@ const Comment = ({ postId }: CommentProps) => {
 
   const handleGetComment = async (page: number) => {
     const data = await getComment(postId, page);
-    setComments(data);
+    setComments({...data,items:data.items});
   };
   useEffect(() => {
     handleGetComment(1);

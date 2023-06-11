@@ -1,6 +1,7 @@
 import {Avatar, Box, Typography, useMediaQuery, useTheme} from "@mui/material";
 import Form from "./Form";
 import AccountLayout from "../../layouts/AccountLayout";
+import {GoogleLogin} from "@react-oauth/google";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -23,8 +24,8 @@ const LoginPage = () => {
       <Typography fontWeight={"500"} variant={"h3"} sx={{ mb: "1.5rem" }}>
         Welcome to Social Dozen
       </Typography>
+      <Form />
 
-      <Form></Form>
     </Box>
   );
 };

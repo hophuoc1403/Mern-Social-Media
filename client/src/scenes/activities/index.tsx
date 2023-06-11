@@ -26,14 +26,14 @@ const Activities = () => {
   return <MainLayout >
     <Box>
       {activities.map(item => (
-        <Button fullWidth sx={{my:2,px:2,py:2}}>
+        <Button fullWidth sx={{my:2,px:2,py:2,borderRadius:"10px"}}>
           <Stack onClick={() => navigate(`/post/${item.post.id}`)} flexDirection={"row"} justifyContent={"space-between"} sx={{width:"100%"}} alignItems={"center"} >
             <Box textAlign={"left"}>
               <Stack flexDirection={"row"} sx={{mb:1}}>
                 <Avatar src={"http://localhost:3001/" + item.user.picturePath} sx={{mr:1}}/>
                 <Chip label={item.type} />
               </Stack>
-              <Typography >{item.senderName + " " + item.message}</Typography>
+              <Typography > <strong>{item.senderName}</strong>  <span style={{color:"white"}}>{ " " + item.message}</span></Typography>
             </Box>
             <Box>
               <Typography>{moment(item.post.createdAt).fromNow()}</Typography>

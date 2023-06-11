@@ -33,6 +33,10 @@ import PostWithTags from "scenes/postWithTags";
 import SharedPost from "scenes/sharedPost";
 import Activities from "./scenes/activities";
 import CalendarPage from "./layouts/weather";
+import SavedPost from "./scenes/savedPost";
+import ScrollToTop from "react-scroll-up"
+import Topics from "./scenes/topics";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 // use lazy load so that route come with <Suspense />
 // import ProfilePage from "./scenes/profilePage";
@@ -86,77 +90,87 @@ function App() {
   const isAppLoading = useTrackedStore().socket.isAppLoading();
   const { isOpenChat } = useChatStore();
 
+
   return (
     <>
       {/*<Particles />*/}
-      <div className={mode === "dark" ? "App" : "app"}>
-        <ThemeProvider theme={theme}>
-          <SidebarProvider>
-            <CssBaseline />
-            <ToastProvider>
-              {isNavigating && <ProgressLoading />}
-              <Routes>
-                <Route
-                  path={"/"}
-                  element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
-                />
-                <Route
-                  path={"/home"}
-                  element={
-                    isAuth ? (
-                      isAppLoading ? (
-                        <LoadingPage />
-                      ) : (
-                        <Suspense fallback={<LoadingPage />}>
-                          <HomePage />
-                        </Suspense>
-                      )
-                    ) : (
-                      <Navigate to={"/account/login"} />
-                    )
-                  }
-                />
-                <Route
-                  path={"/profile/:userId"}
-                  element={
-                    isAuth ? (
-                      isAppLoading ? (
-                        <LoadingPage />
-                      ) : (
-                        <Suspense fallback={<LoadingPage />}>
-                          <ProfilePage />
-                        </Suspense>
-                      )
-                    ) : (
-                      <Navigate to={"/"} />
-                    )
-                  }
-                />
-                <Route path={"/account/"} element={<AccountLayout />}>
-                  <Route index path={"login"} element={<LoginPage />} />
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''} >
+
+        <div className={mode === "dark" ? "App" : "app"}>
+          <ThemeProvider theme={theme}>
+            <ScrollToTop showUnder={160}>
+              <img style={{width:"50px"}} src={"/scroll-up.png"}/>
+            </ScrollToTop>
+            <SidebarProvider>
+              <CssBaseline />
+              <ToastProvider>
+                {isNavigating && <ProgressLoading />}
+                <Routes>
                   <Route
-                    path={"forget-password"}
-                    element={<ForgetPassword />}
+                    path={"/"}
+                    element={!isAuth ? <LoginPage /> : <Navigate to={"/home"} />}
                   />
                   <Route
-                    path={"new-password/:token"}
-                    element={<ResetPassword />}
+                    path={"/home"}
+                    element={
+                      isAuth ? (
+                        isAppLoading ? (
+                          <LoadingPage />
+                        ) : (
+                          <Suspense fallback={<LoadingPage />}>
+                            <HomePage />
+                          </Suspense>
+                        )
+                      ) : (
+                        <Navigate to={"/account/login"} />
+                      )
+                    }
                   />
-                </Route>
-                <Route path={"oauth-verify"} element={<Oauth />} />
-                <Route path={"/search"} element={<SearchPost />} />
-                <Route path={"/post/:id"} element={<PostDetails />} />
-                <Route path={"/add-post"} element={<AddPost />} />
-                <Route path={"/post-tags"} element={<PostWithTags />} />
-                <Route path={"/shared-post"} element={<SharedPost />} />
-                <Route path={"/activities"} element={<Activities />}/>
-                <Route path={"/calendar"} element={<CalendarPage />}/>
-              </Routes>
-              {isOpenChat && <ChatExc isShow={true} />}
-            </ToastProvider>
-          </SidebarProvider>
-        </ThemeProvider>
-      </div>
+                  <Route
+                    path={"/profile/:userId"}
+                    element={
+                      isAuth ? (
+                        isAppLoading ? (
+                          <LoadingPage />
+                        ) : (
+                          <Suspense fallback={<LoadingPage />}>
+                            <ProfilePage />
+                          </Suspense>
+                        )
+                      ) : (
+                        <Navigate to={"/"} />
+                      )
+                    }
+                  />
+                  <Route path={"/account/"} element={<AccountLayout />}>
+                    <Route index path={"login"} element={<LoginPage />} />
+                    <Route
+                      path={"forget-password"}
+                      element={<ForgetPassword />}
+                    />
+                    <Route
+                      path={"new-password/:token"}
+                      element={<ResetPassword />}
+                    />
+                  </Route>
+                  <Route path={"oauth-verify"} element={<Oauth />} />
+                  <Route path={"/search"} element={<SearchPost />} />
+                  <Route path={"/post/:id"} element={<PostDetails />} />
+                  <Route path={"/add-post"} element={<AddPost />} />
+                  <Route path={"/post-tags"} element={<PostWithTags />} />
+                  <Route path={"/shared-post"} element={<SharedPost />} />
+                  <Route path={"/activities"} element={<Activities />}/>
+                  <Route path={"/calendar"} element={<CalendarPage />}/>
+                  <Route path={"/saved-post"} element={<SavedPost />}/>
+                  <Route path={"/topic"} element={<Topics />}/>
+                </Routes>
+                {isOpenChat && <ChatExc isShow={true} />}
+              </ToastProvider>
+            </SidebarProvider>
+          </ThemeProvider>
+        </div>
+      </GoogleOAuthProvider>
+
     </>
   );
 }

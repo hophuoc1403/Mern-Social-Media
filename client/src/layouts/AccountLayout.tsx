@@ -13,15 +13,6 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
       width={"100%"}
       minHeight={"100vh"}
     >
-      <Box>
-        <Typography
-          fontWeight={"bold"}
-          fontSize={"clamp(1rem,2rem,2.25rem)"}
-          color={"primary"}
-        >
-          PhuocMedia
-        </Typography>
-      </Box>
       <Outlet />
     </Box>
   );

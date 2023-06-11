@@ -71,6 +71,7 @@ const NavbarPage = () => {
   const [chatRef, setChatRef] = useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [lengthNotification, setLengthNotification] = useState<number>(0)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,6 +83,7 @@ const NavbarPage = () => {
   const open2 = Boolean(anchorEl2);
   const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl2(event.currentTarget);
+    setLengthNotification(0)
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
@@ -100,6 +102,7 @@ const NavbarPage = () => {
           ...prev,
         ]);
       }
+      setLengthNotification(lengthNotification + 1)
     };
     socket?.on("getNotification", handler);
 
@@ -117,8 +120,9 @@ const NavbarPage = () => {
 
   useEffect(() => {
     const handleGetNotifications = async () => {
-      const res = await getNotifications({userId: user.id});
+      const res: any = await getNotifications({userId: user.id});
       setNotifications(res.data.notifications);
+      setLengthNotification(res.data.notifications.length)
     };
     handleGetNotifications();
   }, [user]);
@@ -160,7 +164,7 @@ const NavbarPage = () => {
             },
           }}
         >
-          <Avatar src={"/logo.png"} variant={"square"} sx={{width: "100px",height:"50px"}}/>
+          <Avatar src={"/logo.png"} variant={"square"} sx={{width: "100px", height: "50px"}}/>
         </Typography>
         {
           // isNonMobileScreens && (
@@ -232,7 +236,7 @@ const NavbarPage = () => {
             aria-controls={!!chatRef ? "chat-box" : undefined}
             aria-haspopup="true"
             aria-expanded={!!chatRef ? "true" : undefined}
-          > <Badge badgeContent={chatNewAmount ?? "" } color="secondary">
+          > <Badge badgeContent={chatNewAmount ?? ""} color="secondary">
             <Message sx={{fontSize: "25px"}}/>
           </Badge>
           </IconButton>
@@ -243,7 +247,7 @@ const NavbarPage = () => {
             aria-expanded={open2 ? "true" : undefined}
             onClick={handleClick2}
           >
-            <Badge badgeContent={notifications.length} color="secondary">
+            <Badge badgeContent={lengthNotification} color="secondary">
               <Notifications sx={{fontSize: "25px"}}/>
             </Badge>
           </IconButton>

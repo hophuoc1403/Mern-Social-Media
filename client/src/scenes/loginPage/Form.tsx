@@ -16,9 +16,10 @@ import { Formik } from "formik";
 import { setLogin } from "../../state";
 import FlexBetween from "../../components/FlexBetween";
 import { EditOutlined } from "@mui/icons-material";
-import { login, register } from "../../service/auth.service";
+import {login, OAuthSignIn, register} from "../../service/auth.service";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {GoogleLogin} from "@react-oauth/google";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required(),
@@ -105,7 +106,7 @@ const Form = () => {
             className: "rotateY animated",
             autoClose: 4000,
           });
-        }, 1000);
+        }, 500);
       }
     } catch (e: any) {
       console.log({ error: e.response.data.message });
@@ -146,9 +147,6 @@ const Form = () => {
     }
   };
 
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   return (
     <Box
       sx={{
@@ -313,7 +311,7 @@ const Form = () => {
               >
                 {isLogin ? "LOGIN" : "REGISTER"}
               </Button>
-              <FlexBetween>
+              <FlexBetween sx={{mb:2}}>
                 <Typography
                   onClick={() => {
                     setPageType(isLogin ? "register" : "login");
@@ -343,6 +341,35 @@ const Form = () => {
           </form>
         )}
       </Formik>
+
+      <GoogleLogin
+        onSuccess={async (credentialResponse) => {
+          console.log(credentialResponse);
+          const response = await  OAuthSignIn({token:credentialResponse.credential || ""})
+          console.log({response})
+          dispatch(
+            setLogin({
+              user: response.user,
+              token: response.token,
+            })
+          );
+          localStorage.setItem(
+            "accessToken",
+            response.access_token
+          );
+          localStorage.setItem(
+            "refreshToken",
+            response.refresh_token
+          );
+          localStorage.setItem("userId", response.user.id);
+          navigate("/home");
+            toast.success( "login successfully"
+            );
+        }}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+      />
     </Box>
   );
 };

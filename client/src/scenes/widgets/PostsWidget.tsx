@@ -50,7 +50,7 @@ const PostsWidget = ({
 
   return (
     <>
-      {characters && initialLoading ? (
+      {characters > 0 && initialLoading ? (
         <>
           <SkeletonPost />
           <SkeletonPost />
@@ -60,7 +60,7 @@ const PostsWidget = ({
           next={async () => {
             setTimeout((_: any) => fetchNextPage(), 1500);
           }}
-          hasMore={hasNextPage ? !!hasNextPage : false}
+          hasMore={hasNextPage ? hasNextPage : false}
           loader={<SkeletonPost />}
           endMessage={
             <p style={{ textAlign: "center", marginTop: "20px" }}>
@@ -69,7 +69,7 @@ const PostsWidget = ({
           }
           dataLength={characters ? characters.items.length - 1 : 0}
         >
-          {status == "success" && (
+          {status === "success" && (
             <div>
               {posts.map((post: IPost) => (
                 <PostWidget key={post.id} {...post} />

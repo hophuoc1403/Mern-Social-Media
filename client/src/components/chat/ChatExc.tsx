@@ -41,7 +41,6 @@ const ChatExc = ({ isShow }: ChatExcProps) => {
     const handleGetMessages = async () => {
       const res = await getMessages({ members: [user.id, memberInfo!.id] });
       const chatRes: Chat = res.data;
-      console.log(res);
       setMessages(chatRes.messages);
       setRoom(res.data.room);
     };
@@ -189,7 +188,7 @@ const ChatContent = ({
       <UserImage image={senderInfo.picturePath} size={40} />
       <Box style={{ maxWidth: "60%" }}>
         <Box className={classes.box}>
-          <Typography fontSize={"15px"}>{message}</Typography>
+          <Typography className={classes.text} fontSize={"15px"}>{message}</Typography>
         </Box>
         <Typography fontSize={"12px"} color={"grey"}>
           {moment(createdAt).fromNow()}
@@ -246,19 +245,27 @@ const useChatContentStyles = makeStyles<{ isSender: boolean }>()(
       alignItems: "center",
       marginBottom: "15px",
       paddingInline: "5px",
+      gap:2,
     },
     box: {
       display: "flex",
-      alignItems: "center",
-      textAlign: "center",
-      borderRadius: "40px",
-      padding: "2px 10px",
+      alignItems: "right",
+      textAlign: "right",
+      // borderRadius: "40px",
+      // padding: "2px 10px",
       // overflow: "auto",
       // maxWidth: "60%",
-      backgroundColor: isSender ? "green" : "blue",
+      // width:"max-content",
+      justifyContent:isSender ? "flex-end" : "flex-start",
+      // backgroundColor: isSender ? "green" : "blue",
       "&::-webkit-scrollbar": {
         display: "none",
       },
     },
+    text:{
+      padding: "2px 10px",
+      borderRadius: "40px",
+      backgroundColor: isSender ? "green" : "blue",
+    }
   })
 );

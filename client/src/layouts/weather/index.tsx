@@ -10,13 +10,13 @@ const events = [
   {
     id: 23,
     title: "Go to the gym",
-    start: new Date(2023, 6, 8, 18, 30, 0),
-    end: new Date(2023, 6, 8, 20, 0, 0)
-  },{
-    id: 23,
-    title: "Go to the gym",
-    start: new Date(2023, 6, 8, 18, 30, 0),
-    end: new Date(2023, 3, 10, 20, 0, 0)
+    start: new Date(),
+    end: new Date()
+  }, {
+    id: 14,
+    title: "Today",
+    start: new Date(new Date().setHours(new Date().getHours() - 60)),
+    end: new Date(new Date().setHours(new Date().getHours() - 55))
   },{
     id: 23,
     title: "Go to the gym",
@@ -33,8 +33,6 @@ export default function ReactBigCalendar() {
   const [eventsData, setEventsData] = useState<any>(events);
 
   const handleSelect = ({ start, end }:{ start:any, end:any }) => {
-    console.log(start);
-    console.log(end);
     const title = window.prompt("New Event name");
     if (title)
       setEventsData([

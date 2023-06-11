@@ -7,6 +7,7 @@ import { useDebounce } from "usehooks-ts";
 import { searchPost } from "../../service/post.service";
 import PostWidget from "../widgets/PostWidget";
 import {useSearchParams} from "react-router-dom";
+import NoData from "../../components/shared/NoData";
 
 const SearchPost = () => {
   const [searchingVal, setSearchingVal] = useState("");
@@ -71,9 +72,7 @@ const SearchPost = () => {
         {posts.length > 0 ? (
           posts.map((post: IPost) => <PostWidget key={post.id} {...post} />)
         ) : (
-          <Typography textAlign={"center"} mt={3} variant={"h3"}>
-            No data found{" "}
-          </Typography>
+          <NoData />
         )}
       </Box>
     </MainLayout>

@@ -112,3 +112,11 @@ export const getPostByTags = async (id: number) => {
 export const searchPost = async (content: string) => {
   return (await getMethodAPI(`/posts/find/${content}`)).data;
 };
+
+export const savePost = async (payload:{userId:number,postId:number}) => {
+  return  (await postMethodAPI('/posts/saved-post',payload)).data
+}
+
+export const getSavedPost = async (userId:number) =>{
+  return (await getMethodAPI(`/posts/saved-post/${userId}`)).data
+}

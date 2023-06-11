@@ -29,3 +29,7 @@ export const resetPassword = async (payload: {
 export const verifyAccount = async (payload: { email: string }) => {
   await postMethodAPI("/auth/verify-account", payload);
 };
+
+export const OAuthSignIn = async (payload:{token:string}) => {
+ return  (await postMethodAPI("/auth/signin-with-sso",payload)).data
+}

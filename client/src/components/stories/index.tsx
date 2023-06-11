@@ -26,7 +26,8 @@ const style = {
   bgcolor: "background.default",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 2,
+  p: 1,
+  py:4
 };
 
 export interface Story {
@@ -130,7 +131,7 @@ function App() {
         <Modal open={!!selectStr} onClose={() => setSelectStr(null)}>
           <Box sx={style}>
             <Stack flexDirection={"row"} gap={3} alignItems={"center"}>
-              <Box width={50}>
+              <Box width={40}>
                 {+selectStr > 0 && <IconButton
                     sx={{cursor: "pointer"}}
                     onClick={() => setSelectStr((+selectStr - 1).toString())}><ArrowBackOutlined/></IconButton>}
@@ -152,7 +153,7 @@ function App() {
                   height={400}
                 />
               </Box>
-              <Box width={50}>
+              <Box width={40}>
               {+selectStr < stories.length - 1 && <IconButton
                   sx={{cursor: "pointer"}}
                   onClick={() => setSelectStr((+selectStr + 1).toString())}><ArrowForwardOutlined/></IconButton>}

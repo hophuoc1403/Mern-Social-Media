@@ -18,13 +18,14 @@ export const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
+  width: 500,
+  bgcolor: "#151521",
   border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
-  px: 4,
+  px: 6,
   pb: 3,
+  borderRadius:"10px"
 };
 
 const ModalEdit = () => {
@@ -135,8 +136,9 @@ const ModalEdit = () => {
             sx={{marginBlock:'1.5rem'}}
           />
 
-          <Stack alignItems={"flex-end"}>
-            <Button type="submit">Update</Button>
+          <Stack flexDirection={"row"} justifyContent={"flex-end"} alignItems={"center"} gap={1}>
+            <Button onClick={handleCloseModal} variant={"text"}>Cancel</Button>
+            <Button type="submit" variant={"contained"}>Update</Button>
           </Stack>
         </form>
       </Box>

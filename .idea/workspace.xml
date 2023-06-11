@@ -5,22 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca84bfdb-35cf-4f03-be1b-48838b1044bf" name="Changes" comment=":lipstick: update service edit post and name image">
+      <change afterPath="$PROJECT_DIR$/client/src/components/shared/NoData.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/scenes/savedPost/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/@types/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/@types/type.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Friend.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Friend.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/ChatExc.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/Comment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/comment/CommentBox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/comment/CommentBox.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ModalEdit.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/ProfileHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchHeader/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchHeader/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/sidebar/SideBarMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/sidebar/SideBarMenu.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/sidebar/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/sidebar/navigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/loginPage/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/postDetails/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/postDetails/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/profilePage/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/stories/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/stories/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/layouts/AccountLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/AccountLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/layouts/weather/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/layouts/weather/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/activities/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/activities/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/postWithTags/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/postWithTags/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/searchPost/intex.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/searchPost/intex.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/sharedPost/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/sharedPost/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/service/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/PostsWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/scenes/widgets/UserWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/AxiosInstance.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/AxiosInstance.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/service/post.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/service/post.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +151,8 @@
       <workItem from="1679622690611" duration="39000" />
       <workItem from="1685853623923" duration="1065000" />
       <workItem from="1685928438488" duration="213000" />
+      <workItem from="1686240424690" duration="64000" />
+      <workItem from="1686293891975" duration="113000" />
     </task>
     <task id="LOCAL-00001" summary="add modal post">
       <created>1676361930107</created>

@@ -262,3 +262,20 @@ body::-webkit-scrollbar-thumb {
 .rbc-today{
   background-color: #3e54ac !important;
 }
+
+ .rbc-selected-cell{
+  background-color: #111f2c !important;
+}
+
+ .rbc-toolbar-label{
+  color:#EFEFEF !important;
+}
+
+ .rbc-today{
+  background-color: #999999;
+}
+
+ .rbc-btn-group .rbc-active{
+  color:#000 !important;
+  background-color: #999999;
+}
